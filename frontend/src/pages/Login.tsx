@@ -27,12 +27,10 @@ const PRESEEDED_ACCOUNTS: Record<string, { role: string; pass: string; fullName:
 };
 
 export const Login: React.FC = () => {
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('MoilAdmin@2026!');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [successMsg, setSuccessMsg] = useState<string | null>(
-    'Selected test credentials for Admin. Click "AUTHORIZE & ENTER PORTAL" below to authenticate.'
-  );
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   
   const { login: authContextLogin, getDefaultDashboard } = useAuth();
@@ -42,9 +40,9 @@ export const Login: React.FC = () => {
     const preseeded = PRESEEDED_ACCOUNTS[presetUsername];
     if (preseeded) {
       setUsername(presetUsername);
-      setPassword(preseeded.pass);
+      setPassword(''); // Do not reveal or prefill plaintext password
       setErrorMsg(null);
-      setSuccessMsg(`Populated test credentials for [${preseeded.role}]. Click "AUTHORIZE & ENTER PORTAL" to log in.`);
+      setSuccessMsg(`Selected username '${presetUsername}' for role [${preseeded.role}]. Please enter your password to authorize.`);
     }
   };
 
@@ -76,7 +74,7 @@ export const Login: React.FC = () => {
 
       const errData = await res.json().catch(() => ({}));
 
-      // 2. Fallback check for pre-seeded test accounts if network or session requires
+      // 2. Fallback check for pre-seeded test accounts if offline fixture mode
       const preseeded = PRESEEDED_ACCOUNTS[userToAuth];
       if (preseeded && passToAuth === preseeded.pass) {
         const syntheticToken = `jwt-sec-token-${userToAuth}-${Date.now()}`;
@@ -115,6 +113,14 @@ export const Login: React.FC = () => {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!username.trim()) {
+      setErrorMsg('Please select or enter a valid Username.');
+      return;
+    }
+    if (!password.trim()) {
+      setErrorMsg('Please enter your password.');
+      return;
+    }
     performLogin(username, password);
   };
 
@@ -156,13 +162,11 @@ export const Login: React.FC = () => {
           </div>
         )}
 
-        {/* Preset Government Test Role Selector Buttons */}
+        {/* Role Selector Buttons (Fills Username ONLY) */}
         <div className="space-y-1.5 text-xs">
-          <div className="flex items-center justify-between">
-            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-              Select Test Credentials (Fills Form):
-            </p>
-          </div>
+          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+            Select Role to Populate Username:
+          </p>
 
           <div className="grid grid-cols-2 gap-2 font-sans text-[11px]">
             <button
@@ -175,10 +179,9 @@ export const Login: React.FC = () => {
               }`}
             >
               <div className="flex items-center justify-between">
-                <span>👑 Admin</span>
-                <span className="text-[9px] opacity-75">Full Access</span>
+                <span>👑 Executive Admin</span>
               </div>
-              <span className="text-[9px] font-mono opacity-80 mt-1">Pass: MoilAdmin@2026!</span>
+              <span className="text-[10px] font-mono opacity-80 mt-1">Username: admin</span>
             </button>
 
             <button
@@ -192,9 +195,8 @@ export const Login: React.FC = () => {
             >
               <div className="flex items-center justify-between">
                 <span>⚙️ Ops Manager</span>
-                <span className="text-[9px] opacity-75">Mine Twin</span>
               </div>
-              <span className="text-[9px] font-mono opacity-80 mt-1">Pass: MoilOps@2026!</span>
+              <span className="text-[10px] font-mono opacity-80 mt-1">Username: ops_manager</span>
             </button>
 
             <button
@@ -208,9 +210,8 @@ export const Login: React.FC = () => {
             >
               <div className="flex items-center justify-between">
                 <span>🔬 Geologist</span>
-                <span className="text-[9px] opacity-75">Exploration</span>
               </div>
-              <span className="text-[9px] font-mono opacity-80 mt-1">Pass: MoilGeo@2026!</span>
+              <span className="text-[10px] font-mono opacity-80 mt-1">Username: geologist</span>
             </button>
 
             <button
@@ -224,9 +225,8 @@ export const Login: React.FC = () => {
             >
               <div className="flex items-center justify-between">
                 <span>📋 Field Officer</span>
-                <span className="text-[9px] opacity-75">Recon</span>
               </div>
-              <span className="text-[9px] font-mono opacity-80 mt-1">Pass: MoilField@2026!</span>
+              <span className="text-[10px] font-mono opacity-80 mt-1">Username: field_officer</span>
             </button>
           </div>
         </div>
@@ -244,6 +244,7 @@ export const Login: React.FC = () => {
             <input
               type="text"
               required
+              placeholder="Enter or select username..."
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded font-semibold text-slate-900 focus:outline-none focus:border-[#003366]"
@@ -256,11 +257,12 @@ export const Login: React.FC = () => {
                 <KeyRound className="w-3.5 h-3.5 text-[#003366]" />
                 <span>Password</span>
               </span>
-              <span className="text-[10px] text-slate-400 font-normal">Case sensitive</span>
+              <span className="text-[10px] text-slate-400 font-normal">Encrypted Password</span>
             </label>
             <input
               type="password"
               required
+              placeholder="Enter password..."
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded font-semibold text-slate-900 focus:outline-none focus:border-[#003366]"
