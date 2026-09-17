@@ -36,8 +36,8 @@ const PROSPECT_TARGETS: ProspectTarget[] = [
     score: 0.92,
     area: 12.8,
     status: 'Very High',
-    lat: 21.71,
-    lng: 79.70,
+    lat: 21.84,
+    lng: 80.72,
     predictedGrade: '28.4% - 34.7% Mn',
     confidence: 86,
     applicability: 'HIGH',
@@ -54,8 +54,8 @@ const PROSPECT_TARGETS: ProspectTarget[] = [
     score: 0.76,
     area: 14.2,
     status: 'High',
-    lat: 21.67,
-    lng: 80.07,
+    lat: 21.66,
+    lng: 79.98,
     predictedGrade: '22.0% - 28.5% Mn',
     confidence: 79,
     applicability: 'HIGH',
@@ -72,8 +72,8 @@ const PROSPECT_TARGETS: ProspectTarget[] = [
     score: 0.87,
     area: 10.4,
     status: 'Very High',
-    lat: 21.72,
-    lng: 79.72,
+    lat: 21.83,
+    lng: 79.78,
     predictedGrade: '26.1% - 32.0% Mn',
     confidence: 84,
     applicability: 'HIGH',
@@ -90,8 +90,8 @@ const PROSPECT_TARGETS: ProspectTarget[] = [
     score: 0.69,
     area: 9.7,
     status: 'High',
-    lat: 21.62,
-    lng: 80.12,
+    lat: 21.56,
+    lng: 80.32,
     predictedGrade: '19.5% - 24.8% Mn',
     confidence: 74,
     applicability: 'MEDIUM',
@@ -124,9 +124,9 @@ export const ExplorationMap: React.FC = () => {
     setActiveLayers(prev => ({ ...prev, [layerKey]: !prev[layerKey] }));
   };
 
-  // Target Selection State (Default Target 2 as shown in screenshot)
-  const [selectedTargetId, setSelectedTargetId] = useState('Target-2');
-  const selectedTarget = PROSPECT_TARGETS.find(t => t.id === selectedTargetId) || PROSPECT_TARGETS[1];
+  // Target Selection State (Default Target 1 matching image)
+  const [selectedTargetId, setSelectedTargetId] = useState('Target-1');
+  const selectedTarget = PROSPECT_TARGETS.find(t => t.id === selectedTargetId) || PROSPECT_TARGETS[0];
 
   // Left Sidebar Accordion & Tab State
   const [sidebarTab, setSidebarTab] = useState<'layers' | 'tools'>('layers');
@@ -456,160 +456,150 @@ export const ExplorationMap: React.FC = () => {
         </div>
 
         {/* ================================================ */}
-        {/* COLUMN 3: RIGHT SIDEBAR (INSIGHTS/LEGEND)        */}
+        {/* COLUMN 3: RIGHT SIDEBAR (TARGET INSPECTOR CARD)  */}
+        {/* MATCHING media_1789639729431.png EXACTLY         */}
         {/* ================================================ */}
         <div className="lg:col-span-3 space-y-3">
 
-          {/* Card 1: Area Insights ^ (Collapsible Header matching Screenshot) */}
-          <div className="bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs space-y-3">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+          {/* TARGET INSPECTOR CARD */}
+          <div className="bg-[#091527] text-white rounded-2xl border border-slate-800 p-4 shadow-2xl space-y-4 font-sans relative">
+            {/* Target Selector Dropdown Header */}
+            <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-[#003366]" />
-                <h3 className="font-extrabold text-[#003366] text-xs font-serif">Area Insights</h3>
+                <span className={`w-3 h-3 rounded-full animate-pulse shadow-md ${
+                  selectedTarget.status === 'Very High' ? 'bg-red-600 shadow-red-600/50' : 'bg-orange-500 shadow-orange-500/50'
+                }`} />
+                <h3 className="text-base font-bold font-serif text-white tracking-tight flex items-center gap-1.5">
+                  <span>{selectedTarget.name}</span>
+                </h3>
               </div>
-              <button 
-                onClick={() => setAreaInsightsOpen(!areaInsightsOpen)}
-                className="text-slate-400 hover:text-slate-700"
+
+              <span className={`text-[10px] font-extrabold px-3 py-1 rounded-full border ${
+                selectedTarget.status === 'Very High'
+                  ? 'bg-red-950/80 border-red-800 text-red-300'
+                  : 'bg-orange-950/80 border-orange-800 text-orange-300'
+              }`}>
+                {selectedTarget.status} Priority
+              </span>
+            </div>
+
+            {/* Navigation Tabs (Overview active with blue underline) */}
+            <div className="flex items-center gap-4 text-xs font-semibold border-b border-slate-800/80 pb-2 text-slate-400">
+              <button className="text-blue-400 font-extrabold border-b-2 border-blue-500 pb-1.5 -mb-2.5">Overview</button>
+              <button className="hover:text-slate-200 transition">Satellite Indices</button>
+              <button className="hover:text-slate-200 transition">Geology</button>
+              <button className="hover:text-slate-200 transition">Drilling</button>
+            </div>
+
+            {/* Top Details Section: Satellite Thumbnail Image + Metrics List */}
+            <div className="grid grid-cols-12 gap-3 items-center pt-1">
+              {/* Left: Satellite Thumbnail image with red anomaly overlay */}
+              <div className="col-span-5 relative rounded-xl overflow-hidden border border-slate-700/80 shadow-lg aspect-square group">
+                <img
+                  src="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3561/5712"
+                  alt="Target Satellite View"
+                  className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                />
+                {/* Red Anomaly Contour Ring Overlay matching image */}
+                <svg className="absolute inset-0 w-full h-full p-2.5" viewBox="0 0 100 100">
+                  <ellipse cx="50" cy="50" rx="38" ry="24" fill="rgba(220, 38, 38, 0.40)" stroke="#EF4444" strokeWidth="2.5" strokeDasharray="3 2" transform="rotate(-25 50 50)" />
+                  <ellipse cx="50" cy="50" rx="20" ry="12" fill="rgba(239, 68, 68, 0.75)" stroke="#DC2626" strokeWidth="2" transform="rotate(-25 50 50)" />
+                </svg>
+              </div>
+
+              {/* Right: Key Metrics List matching image */}
+              <div className="col-span-7 space-y-1.5 text-xs">
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-400 text-[11px]">Location</span>
+                  <strong className="font-mono text-slate-100 text-[11px]">{selectedTarget.lat.toFixed(2)}° N, {selectedTarget.lng.toFixed(2)}° E</strong>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-400 text-[11px]">Area</span>
+                  <strong className="font-mono text-slate-100 text-[11px]">{selectedTarget.area} km²</strong>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-400 text-[11px]">Avg. Prospectivity Score</span>
+                  <strong className="font-mono text-slate-100 font-extrabold text-xs">{selectedTarget.score.toFixed(2)}</strong>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-400 text-[11px]">Predicted Grade (AI)</span>
+                  <strong className="font-mono text-slate-100 text-[11px]">{selectedTarget.predictedGrade}</strong>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-400 text-[11px]">Confidence</span>
+                  <strong className="font-mono text-slate-100 text-[11px]">{selectedTarget.confidence}%</strong>
+                </div>
+              </div>
+            </div>
+
+            {/* Key Indicators Grid (4 Cards matching image) */}
+            <div className="space-y-2 pt-1">
+              <span className="text-xs font-bold text-slate-200 flex items-center gap-1">
+                <span>Key Indicators</span>
+                <span className="text-slate-400 font-bold">→</span>
+              </span>
+
+              <div className="grid grid-cols-4 gap-1.5 text-center text-xs">
+                {/* Card 1: NDVI */}
+                <div className="bg-[#07182C] p-2 rounded-xl border border-slate-800 space-y-1 flex flex-col justify-between">
+                  <div className="flex items-center justify-center gap-1 text-[9px] text-slate-300">
+                    <span className="w-3 h-3 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[8px] font-black border border-emerald-500/50">✓</span>
+                    <span className="font-bold">NDVI</span>
+                  </div>
+                  <strong className="font-mono text-slate-100 font-extrabold text-xs block">{selectedTarget.ndvi}</strong>
+                </div>
+
+                {/* Card 2: Band Ratio */}
+                <div className="bg-[#07182C] p-2 rounded-xl border border-slate-800 space-y-1 flex flex-col justify-between">
+                  <div className="flex items-center justify-center gap-1 text-[8px] text-slate-300">
+                    <Mountain className="w-3 h-3 text-cyan-400" />
+                    <span className="font-bold leading-none">Band Ratio</span>
+                  </div>
+                  <strong className="font-mono text-slate-100 font-extrabold text-xs block">{selectedTarget.bandRatio}</strong>
+                </div>
+
+                {/* Card 3: DEM Slope */}
+                <div className="bg-[#07182C] p-2 rounded-xl border border-slate-800 space-y-1 flex flex-col justify-between">
+                  <div className="flex items-center justify-center gap-1 text-[8px] text-slate-300">
+                    <Activity className="w-3 h-3 text-amber-400" />
+                    <span className="font-bold leading-none">DEM Slope</span>
+                  </div>
+                  <strong className="font-mono text-slate-100 font-extrabold text-xs block">{selectedTarget.demSlope}°</strong>
+                </div>
+
+                {/* Card 4: Geology Match */}
+                <div className="bg-[#07182C] p-2 rounded-xl border border-slate-800 space-y-1 flex flex-col justify-between">
+                  <div className="flex items-center justify-center gap-1 text-[8px] text-slate-300">
+                    <ShieldCheck className="w-3 h-3 text-purple-400" />
+                    <span className="font-bold leading-none">Geology</span>
+                  </div>
+                  <strong className="font-sans text-slate-100 font-extrabold text-xs block truncate" title={selectedTarget.geologyMatch}>High</strong>
+                </div>
+              </div>
+            </div>
+
+            {/* Target Selection Switcher */}
+            <div className="flex items-center justify-between text-xs bg-[#07182C] p-2 rounded-xl border border-slate-800">
+              <span className="text-slate-400 text-[11px] font-semibold">Switch Target:</span>
+              <select
+                value={selectedTargetId}
+                onChange={(e) => setSelectedTargetId(e.target.value)}
+                className="bg-[#0B192C] border border-slate-700 rounded text-xs font-bold text-amber-400 px-2 py-1 outline-none cursor-pointer"
               >
-                {areaInsightsOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </button>
+                {PROSPECT_TARGETS.map(t => (
+                  <option key={t.id} value={t.id}>{t.name} ({t.status} Priority)</option>
+                ))}
+              </select>
             </div>
 
-            {areaInsightsOpen && (
-              <div className="space-y-2.5">
-                {/* Inspect Target Selector Dropdown (Target 2 High selected by default) */}
-                <div className="flex items-center justify-between text-xs bg-slate-50 p-2 rounded-lg border border-slate-200">
-                  <span className="font-semibold text-slate-600 text-[11px]">Inspect Target:</span>
-                  <select 
-                    value={selectedTargetId}
-                    onChange={(e) => setSelectedTargetId(e.target.value)}
-                    className="bg-white border border-slate-300 rounded text-xs font-extrabold text-[#003366] px-2 py-0.5 outline-none cursor-pointer"
-                  >
-                    {PROSPECT_TARGETS.map(t => (
-                      <option key={t.id} value={t.id}>{t.name} ({t.status})</option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* 2x2 Insights Grid */}
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
-                    <span className="text-[10px] text-slate-500 font-bold block">Avg. Prospectivity</span>
-                    <div className="flex items-center gap-1.5 mt-1">
-                      <strong className="text-slate-900 font-mono text-sm font-extrabold">
-                        {selectedTarget.score.toFixed(2)}
-                      </strong>
-                      <span className="bg-red-600 text-white font-bold text-[9px] px-1.5 py-0.2 rounded">
-                        {selectedTarget.status}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
-                    <span className="text-[10px] text-slate-500 font-bold block">Total Area</span>
-                    <strong className="text-slate-900 font-mono text-sm font-extrabold mt-1 block">
-                      {selectedTarget.area} km²
-                    </strong>
-                  </div>
-
-                  <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
-                    <span className="text-[10px] text-slate-500 font-bold block">Dominant Anomaly</span>
-                    <strong className="text-purple-700 text-xs font-bold mt-1 block flex items-center gap-1">
-                      <Sparkles className="w-3 h-3 text-purple-600" />
-                      <span>CEM Spectral</span>
-                    </strong>
-                  </div>
-
-                  <div className="bg-slate-50 p-2 rounded-lg border border-slate-200">
-                    <span className="text-[10px] text-slate-500 font-bold block">Confidence</span>
-                    <strong className="text-slate-900 text-sm font-mono font-extrabold mt-1 block">
-                      {selectedTarget.confidence}%
-                    </strong>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Card 2: Prospectivity Legend (PU Score) */}
-          <div className="bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs space-y-2.5 text-xs">
-            <h3 className="font-extrabold text-[#003366] text-xs font-serif border-b border-slate-100 pb-2">
-              Prospectivity Legend (PU Score)
-            </h3>
-
-            <div className="space-y-1.5 text-[11px] font-semibold text-slate-700">
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-xs bg-red-600 shrink-0" />
-                <span>Very High (0.8 – 1.0)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-xs bg-amber-500 shrink-0" />
-                <span>High (0.6 – 0.8)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-xs bg-yellow-400 shrink-0" />
-                <span>Medium (0.4 – 0.6)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-xs bg-emerald-500 shrink-0" />
-                <span>Low (0.2 – 0.4)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-xs bg-blue-600 shrink-0" />
-                <span>Very Low (0.0 – 0.2)</span>
-              </div>
-            </div>
-
-            <div className="pt-2 border-t border-slate-100 space-y-1.5 text-[10px] text-slate-600">
-              <div className="flex items-center gap-2">
-                <span className="w-3.5 h-2 border border-dashed border-slate-700 shrink-0" />
-                <span>Exploration AOI</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-3.5 border-t border-dashed border-amber-600 shrink-0" />
-                <span>Target Corridor</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 3: Recent Activity */}
-          <div className="bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs space-y-2.5 text-xs">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-              <h3 className="font-extrabold text-[#003366] text-xs font-serif">Recent Activity</h3>
-              <button className="text-[10px] font-bold text-[#003366] hover:underline">View All</button>
-            </div>
-
-            <div className="space-y-2 text-[11px]">
-              <div className="flex items-start justify-between gap-2 border-b border-slate-50 pb-1.5">
-                <div>
-                  <strong className="text-[#003366] block font-bold">Target 1 inspected</strong>
-                  <span className="text-slate-500 font-mono text-[10px]">PU Score: 0.92</span>
-                </div>
-                <span className="text-[9px] text-slate-400 font-mono shrink-0">2 hours ago</span>
-              </div>
-
-              <div className="flex items-start justify-between gap-2 border-b border-slate-50 pb-1.5">
-                <div>
-                  <strong className="text-slate-800 block font-semibold">Layer 'Mn Positives' enabled</strong>
-                </div>
-                <span className="text-[9px] text-slate-400 font-mono shrink-0">3 hours ago</span>
-              </div>
-
-              <div className="flex items-start justify-between gap-2 border-b border-slate-50 pb-1.5">
-                <div>
-                  <strong className="text-slate-800 block font-semibold">AOI boundary updated</strong>
-                </div>
-                <span className="text-[9px] text-slate-400 font-mono shrink-0">5 hours ago</span>
-              </div>
-
-              <div className="flex items-start justify-between gap-2">
-                <div>
-                  <strong className="text-slate-800 block font-semibold">Report generated</strong>
-                  <span className="text-slate-500 font-mono text-[10px]">Balaghat_AOI_Dec2024.pdf</span>
-                </div>
-                <span className="text-[9px] text-slate-400 font-mono shrink-0">1 day ago</span>
-              </div>
-            </div>
+            {/* Full Width Action Button */}
+            <button
+              onClick={() => navigate(`/exploration/${selectedTarget.id}`)}
+              className="w-full py-3 bg-[#1D4ED8] hover:bg-[#1E40AF] text-white font-bold text-xs rounded-xl transition shadow-xl flex items-center justify-center gap-2 border border-blue-400/30"
+            >
+              <span>View Detailed Analysis</span>
+              <span className="text-amber-400 font-extrabold">→</span>
+            </button>
           </div>
 
         </div>
