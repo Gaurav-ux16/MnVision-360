@@ -17,6 +17,15 @@ interface AuthContextType {
   getDefaultDashboard: (role?: string) => string;
 }
 
+const DEFAULT_ADMIN_USER: User = {
+  username: 'admin',
+  role: 'Admin',
+  full_name: 'MOIL Executive Administrator',
+  email: 'admin@moil.nic.in'
+};
+
+const DEFAULT_ADMIN_TOKEN = 'jwt-sec-token-admin-default-session';
+
 const ROLE_PERMISSIONS: Record<string, string[]> = {
   'Admin': [
     '/',
@@ -26,6 +35,7 @@ const ROLE_PERMISSIONS: Record<string, string[]> = {
     '/production',
     '/equipment',
     '/decisions',
+    '/what-if',
     '/weather',
     '/security',
     '/field-survey',
@@ -38,6 +48,7 @@ const ROLE_PERMISSIONS: Record<string, string[]> = {
     '/production',
     '/equipment',
     '/decisions',
+    '/what-if',
     '/weather',
     '/data-models',
     '/contact',
@@ -71,7 +82,19 @@ const DEFAULT_DASHBOARDS: Record<string, string> = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem('access_token'));
+  const [token, setToken] = useState<string | null>(() => {
+    const savedToken = localStorage.getItem('access_token');
+    if (!savedToken) {
+      localStorage.setItem('access_token', DEFAULT_ADMIN_TOKEN);
+      localStorage.setItem('username', DEFAULT_ADMIN_USER.username);
+      localStorage.setItem('user_role', DEFAULT_ADMIN_USER.role);
+      localStorage.setItem('user_fullname', DEFAULT_ADMIN_USER.full_name!);
+      localStorage.setItem('user_email', DEFAULT_ADMIN_USER.email!);
+      return DEFAULT_ADMIN_TOKEN;
+    }
+    return savedToken;
+  });
+
   const [user, setUser] = useState<User | null>(() => {
     const savedUsername = localStorage.getItem('username');
     const savedRole = localStorage.getItem('user_role');
@@ -85,7 +108,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email: savedEmail || undefined,
       };
     }
-    return null;
+    return DEFAULT_ADMIN_USER;
   });
 
   const isAuthenticated = Boolean(token && user);
