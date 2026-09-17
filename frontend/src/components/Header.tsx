@@ -41,7 +41,7 @@ export const Header: React.FC = () => {
     { path: '/decisions', label: 'DECISION CENTER' },
     { path: '/what-if', label: 'WHAT-IF SIMULATOR' },
     { path: '/field-survey', label: 'FIELD SURVEY' },
-    { path: '/data-models', label: 'DATA & MODELS' },
+    { path: '/data-models', label: 'DATA & MOD' },
     { path: '/security', label: 'SECURITY CENTER' },
     { path: '/contact', label: 'CONTACT' },
   ];

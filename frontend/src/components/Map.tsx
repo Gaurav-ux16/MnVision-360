@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { Plus, Minus, Layers as LayersIcon } from 'lucide-react';
+import { Plus, Minus, Layers as LayersIcon, Search, Compass, Target } from 'lucide-react';
 
 interface MapProps {
   initialCenter?: [number, number]; // [lng, lat]
@@ -13,53 +13,59 @@ interface MapProps {
 }
 
 const TARGET_COORDINATES: Record<string, [number, number]> = {
-  'Target-1': [80.72, 21.84],
-  'Target-3': [79.82, 21.91],
+  'Target-1': [79.82, 21.78],
   'Target-2': [79.92, 21.68],
-  'Target-4': [80.31, 21.62],
-  'Target-5': [80.12, 21.78],
+  'Target-3': [79.72, 21.72],
+  'Target-4': [80.12, 21.62],
+  'Target-5': [80.02, 21.75],
+};
+
+const MAP_TILES = {
+  Terrain: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+  Satellite: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+  Map: 'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
 };
 
 export const Map: React.FC<MapProps> = ({
-  initialCenter = [80.18, 21.83], // Balaghat, MP
-  initialZoom = 9.8,
+  initialCenter = [79.86, 21.70], // Centered around Bhandara / Nagpur Extension Belt
+  initialZoom = 9.6,
   height = '100%',
   activeLayers = {
-    sentinel2: true,
-    dem: true,
-    geology: true,
-    occurrences: true,
-    lineaments: false,
     cem: true,
+    sentinel2: false,
+    dem: false,
+    geology: false,
+    occurrences: false,
+    lineaments: false,
   },
-  selectedTarget = 'Target-1',
+  selectedTarget = 'Target-2',
   onMarkerClick
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const markersRef = useRef<maplibregl.Marker[]>([]);
 
+  const [mapType, setMapType] = useState<'Map' | 'Satellite' | 'Terrain'>('Terrain');
+  const [searchLocation, setSearchLocation] = useState('bhandara');
+
   useEffect(() => {
     if (map.current || !mapContainer.current) return;
 
-    // High-Resolution ESRI World Satellite Imagery Style matching Reference Screenshot
     const style: maplibregl.StyleSpecification = {
       version: 8,
       sources: {
-        'esri-satellite': {
+        'base-raster-tiles': {
           type: 'raster',
-          tiles: [
-            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-          ],
+          tiles: [MAP_TILES[mapType]],
           tileSize: 256,
-          attribution: 'Esri, Maxar, Earthstar Geographics'
+          attribution: 'Esri, USGS, CartoDB'
         }
       },
       layers: [
         {
-          id: 'esri-satellite-layer',
+          id: 'base-raster-layer',
           type: 'raster',
-          source: 'esri-satellite',
+          source: 'base-raster-tiles',
           minzoom: 0,
           maxzoom: 19
         }
@@ -77,7 +83,7 @@ export const Map: React.FC<MapProps> = ({
     map.current.on('load', () => {
       if (!map.current) return;
 
-      // 1. AOI Boundary Polygon (White/Dashed Line matching Screenshot)
+      // 1. Exploration AOI Outer Boundary (Dashed White Polygon as seen in Screenshot)
       map.current.addSource('aoi-boundary', {
         type: 'geojson',
         data: {
@@ -85,18 +91,16 @@ export const Map: React.FC<MapProps> = ({
           features: [
             {
               type: 'Feature',
-              properties: { name: 'Balaghat AOI Boundary' },
+              properties: { name: 'Exploration AOI' },
               geometry: {
                 type: 'Polygon',
                 coordinates: [[
-                  [79.62, 21.60],
-                  [79.75, 21.95],
-                  [80.15, 22.02],
-                  [80.78, 21.92],
-                  [80.75, 21.75],
-                  [80.40, 21.58],
-                  [79.90, 21.58],
-                  [79.62, 21.60]
+                  [79.62, 21.58],
+                  [79.80, 21.82],
+                  [80.18, 21.76],
+                  [80.12, 21.54],
+                  [79.88, 21.50],
+                  [79.62, 21.58]
                 ]]
               }
             }
@@ -111,39 +115,162 @@ export const Map: React.FC<MapProps> = ({
         paint: {
           'line-color': '#FFFFFF',
           'line-width': 2.5,
-          'line-dasharray': [4, 2]
+          'line-dasharray': [4, 3]
         }
       });
 
-      // 2. Manganese Belt Line
-      map.current.addSource('mn-belt-line', {
+      // 2. Target Corridor Polygon (Yellow Translucent Shaded Region)
+      map.current.addSource('target-corridor', {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
           features: [
             {
               type: 'Feature',
-              properties: { name: 'Manganese Belt Line' },
+              properties: { name: 'Target Corridor' },
               geometry: {
-                type: 'LineString',
-                coordinates: [[79.65, 21.63], [80.15, 21.83], [80.72, 21.87]]
+                type: 'Polygon',
+                coordinates: [[
+                  [79.66, 21.60],
+                  [80.14, 21.74],
+                  [80.08, 21.64],
+                  [79.68, 21.56],
+                  [79.66, 21.60]
+                ]]
               }
             }
           ]
         }
       });
+
       map.current.addLayer({
-        id: 'mn-belt-line-layer',
-        type: 'line',
-        source: 'mn-belt-line',
+        id: 'target-corridor-fill',
+        type: 'fill',
+        source: 'target-corridor',
         paint: {
-          'line-color': '#F59E0B',
-          'line-width': 2,
-          'line-dasharray': [3, 2]
+          'fill-color': '#EAB308',
+          'fill-opacity': 0.45
         }
       });
 
-      // 3. CEM Spectral Anomaly Layer (Cyan Cyan/Magenta FIR Filter Anomaly)
+      map.current.addLayer({
+        id: 'target-corridor-outline',
+        type: 'line',
+        source: 'target-corridor',
+        paint: {
+          'line-color': '#CA8A04',
+          'line-width': 1.5,
+          'line-dasharray': [2, 2]
+        }
+      });
+
+      // 3. Red Target Bounding Boxes (Target 1 & Target 2)
+      map.current.addSource('target-red-boxes', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              properties: { targetId: 'Target-1', name: 'Target 1' },
+              geometry: {
+                type: 'Polygon',
+                coordinates: [[
+                  [79.67, 21.69],
+                  [79.74, 21.69],
+                  [79.74, 21.74],
+                  [79.67, 21.74],
+                  [79.67, 21.69]
+                ]]
+              }
+            },
+            {
+              type: 'Feature',
+              properties: { targetId: 'Target-2', name: 'Target 2' },
+              geometry: {
+                type: 'Polygon',
+                coordinates: [[
+                  [80.04, 21.65],
+                  [80.11, 21.65],
+                  [80.11, 21.70],
+                  [80.04, 21.70],
+                  [80.04, 21.65]
+                ]]
+              }
+            }
+          ]
+        }
+      });
+
+      map.current.addLayer({
+        id: 'target-red-boxes-fill',
+        type: 'fill',
+        source: 'target-red-boxes',
+        paint: {
+          'fill-color': '#DC2626',
+          'fill-opacity': 0.75
+        }
+      });
+
+      map.current.addLayer({
+        id: 'target-red-boxes-line',
+        type: 'line',
+        source: 'target-red-boxes',
+        paint: {
+          'line-color': '#991B1B',
+          'line-width': 2
+        }
+      });
+
+      // 4. Orange Anomaly Squares (Positive / CEM Anomaly Points)
+      map.current.addSource('orange-anomaly-squares', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              properties: { name: 'Anomaly Zone A' },
+              geometry: {
+                type: 'Polygon',
+                coordinates: [[
+                  [79.78, 21.58],
+                  [79.83, 21.58],
+                  [79.83, 21.62],
+                  [79.78, 21.62],
+                  [79.78, 21.58]
+                ]]
+              }
+            },
+            {
+              type: 'Feature',
+              properties: { name: 'Anomaly Zone B' },
+              geometry: {
+                type: 'Polygon',
+                coordinates: [[
+                  [79.94, 21.55],
+                  [79.99, 21.55],
+                  [79.99, 21.59],
+                  [79.94, 21.59],
+                  [79.94, 21.55]
+                ]]
+              }
+            }
+          ]
+        }
+      });
+
+      map.current.addLayer({
+        id: 'orange-anomaly-fill',
+        type: 'fill',
+        source: 'orange-anomaly-squares',
+        paint: {
+          'fill-color': '#EA580C',
+          'fill-opacity': 0.85
+        }
+      });
+
+      // 5. CEM Spectral Anomaly Overlay
       map.current.addSource('cem-source', {
         type: 'geojson',
         data: {
@@ -151,18 +278,10 @@ export const Map: React.FC<MapProps> = ({
           features: [
             {
               type: 'Feature',
-              properties: { cem_score: 0.88, name: 'CEM Anomaly Hotspot' },
+              properties: { cem_score: 0.88 },
               geometry: {
                 type: 'Polygon',
-                coordinates: [[[80.68, 21.81], [80.76, 21.81], [80.76, 21.87], [80.68, 21.87], [80.68, 21.81]]]
-              }
-            },
-            {
-              type: 'Feature',
-              properties: { cem_score: 0.74, name: 'CEM Anomaly Target 3' },
-              geometry: {
-                type: 'Polygon',
-                coordinates: [[[79.78, 21.88], [79.86, 21.88], [79.86, 21.94], [79.78, 21.94], [79.78, 21.88]]]
+                coordinates: [[[79.75, 21.62], [80.05, 21.72], [79.95, 21.65], [79.75, 21.62]]]
               }
             }
           ]
@@ -174,108 +293,7 @@ export const Map: React.FC<MapProps> = ({
         source: 'cem-source',
         paint: {
           'fill-color': '#06B6D4',
-          'fill-opacity': 0.45
-        }
-      });
-
-      // 4. AI Prospectivity Heatmap Raster Polygons (Smooth Gradient: Red, Orange, Yellow, Green, Blue)
-      map.current.addSource('prospectivity-source', {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: [
-            // Target 1 - Very High Red Core
-            {
-              type: 'Feature',
-              properties: { prospectivity: 0.92, name: 'Target 1 (Very High)' },
-              geometry: {
-                type: 'Polygon',
-                coordinates: [[[80.65, 21.80], [80.78, 21.80], [80.78, 21.88], [80.65, 21.88], [80.65, 21.80]]]
-              }
-            },
-            // Target 3 - Very High Red Core
-            {
-              type: 'Feature',
-              properties: { prospectivity: 0.87, name: 'Target 3 (Very High)' },
-              geometry: {
-                type: 'Polygon',
-                coordinates: [[[79.76, 21.87], [79.88, 21.87], [79.88, 21.95], [79.76, 21.95], [79.76, 21.87]]]
-              }
-            },
-            // Target 2 - High Orange Zone
-            {
-              type: 'Feature',
-              properties: { prospectivity: 0.76, name: 'Target 2 (High)' },
-              geometry: {
-                type: 'Polygon',
-                coordinates: [[[79.86, 21.64], [79.98, 21.64], [79.98, 21.72], [79.86, 21.72], [79.86, 21.64]]]
-              }
-            },
-            // Target 4 - Medium Yellow Zone
-            {
-              type: 'Feature',
-              properties: { prospectivity: 0.69, name: 'Target 4 (Medium)' },
-              geometry: {
-                type: 'Polygon',
-                coordinates: [[[80.25, 21.58], [80.36, 21.58], [80.36, 21.66], [80.25, 21.66], [80.25, 21.58]]]
-              }
-            },
-            // General Ambient Heatmap Shell
-            {
-              type: 'Feature',
-              properties: { prospectivity: 0.45, name: 'Medium Shell' },
-              geometry: {
-                type: 'Polygon',
-                coordinates: [[[79.68, 21.62], [80.70, 21.75], [80.60, 21.95], [79.70, 21.85], [79.68, 21.62]]]
-              }
-            }
-          ]
-        }
-      });
-
-      map.current.addLayer({
-        id: 'prospectivity-fill',
-        type: 'fill',
-        source: 'prospectivity-source',
-        paint: {
-          'fill-color': [
-            'interpolate',
-            ['linear'],
-            ['get', 'prospectivity'],
-            0.1, '#2563EB',
-            0.3, '#10B981',
-            0.5, '#EAB308',
-            0.75, '#F97316',
-            0.9, '#DC2626'
-          ],
-          'fill-opacity': 0.65
-        }
-      });
-
-      // 5. GSI Sausar Group Geology Layer
-      map.current.addSource('geology-source', {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: [
-            {
-              type: 'Feature',
-              properties: { formation: 'Mansar Formation' },
-              geometry: {
-                type: 'Polygon',
-                coordinates: [[[79.70, 21.68], [80.10, 21.84], [80.72, 21.84], [80.45, 21.92], [79.72, 21.66], [79.70, 21.68]]]
-              }
-            }
-          ]
-        }
-      });
-      map.current.addLayer({
-        id: 'geology-fill',
-        type: 'fill',
-        source: 'geology-source',
-        paint: {
-          'fill-color': '#7C3AED',
-          'fill-opacity': 0.25
+          'fill-opacity': 0.35
         }
       });
     });
@@ -286,14 +304,24 @@ export const Map: React.FC<MapProps> = ({
     };
   }, [initialCenter, initialZoom]);
 
-  // Smoothly zoom and center map when selectedTarget prop changes
+  // Update tile layer when mapType state changes
+  useEffect(() => {
+    if (!map.current || !map.current.isStyleLoaded()) return;
+
+    const source = map.current.getSource('base-raster-tiles') as maplibregl.RasterTileSource;
+    if (source) {
+      source.setTiles([MAP_TILES[mapType]]);
+    }
+  }, [mapType]);
+
+  // Smooth fly to when selectedTarget changes
   useEffect(() => {
     if (!map.current) return;
     const targetCoords = TARGET_COORDINATES[selectedTarget];
     if (targetCoords) {
       map.current.flyTo({
         center: targetCoords,
-        zoom: 11.2,
+        zoom: 10.4,
         speed: 1.2,
         curve: 1.4,
         essential: true,
@@ -301,16 +329,12 @@ export const Map: React.FC<MapProps> = ({
     }
   }, [selectedTarget]);
 
-  // Toggle active layers
+  // Toggle layer visibility
   useEffect(() => {
     if (!map.current || !map.current.isStyleLoaded()) return;
 
     const layerMap: Record<string, string> = {
-      sentinel2: 'esri-satellite-layer',
-      geology: 'geology-fill',
-      prospectivity: 'prospectivity-fill',
-      lineaments: 'mn-belt-line-layer',
-      cem: 'cem-fill'
+      cem: 'cem-fill',
     };
 
     Object.entries(layerMap).forEach(([key, layerId]) => {
@@ -324,15 +348,13 @@ export const Map: React.FC<MapProps> = ({
       }
     });
 
-    // Re-render Map Markers
+    // Re-render markers for key targets
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
 
     const targetPins = [
-      { id: 'Target-1', name: 'Target 1', label: 'Very High Priority', coords: [80.72, 21.84], status: 'Very High', color: 'bg-red-600', dotColor: '#DC2626' },
-      { id: 'Target-3', name: 'Target 3', label: 'Very High Priority', coords: [79.82, 21.91], status: 'Very High', color: 'bg-red-600', dotColor: '#DC2626' },
-      { id: 'Target-2', name: 'Target 2', label: 'High Priority', coords: [79.92, 21.68], status: 'High', color: 'bg-amber-500', dotColor: '#F97316' },
-      { id: 'Target-4', name: 'Target 4', label: 'Medium Priority', coords: [80.31, 21.62], status: 'Medium', color: 'bg-amber-400', dotColor: '#EAB308' },
+      { id: 'Target-1', name: 'Target 1', label: 'Very High', coords: [79.70, 21.71] },
+      { id: 'Target-2', name: 'Target 2', label: 'High', coords: [80.07, 21.67] },
     ];
 
     targetPins.forEach((pin) => {
@@ -341,24 +363,17 @@ export const Map: React.FC<MapProps> = ({
       container.className = 'flex flex-col items-center cursor-pointer group z-30';
 
       const labelDiv = document.createElement('div');
-      labelDiv.className = `px-2.5 py-1 rounded-md shadow-2xl text-[10px] font-extrabold flex items-center gap-1.5 transition-all ${
+      labelDiv.className = `px-2 py-0.5 rounded shadow-lg text-[10px] font-extrabold flex items-center gap-1 transition-all ${
         isSelected
-          ? 'bg-slate-900 text-white ring-2 ring-amber-400 scale-110 shadow-amber-500/50'
-          : 'bg-[#0F172A]/90 text-white border border-slate-700 hover:scale-105'
+          ? 'bg-[#003366] text-white ring-2 ring-amber-400 scale-105'
+          : 'bg-slate-900/90 text-white hover:scale-105'
       }`;
       labelDiv.innerHTML = `
-        <span class="w-2 h-2 rounded-full ${pin.color}"></span>
+        <span class="w-2 h-2 rounded-full ${pin.id === 'Target-1' ? 'bg-red-600' : 'bg-amber-500'}"></span>
         <span class="font-bold">${pin.name}</span>
-        <span class="text-[9px] text-slate-300 font-normal">${pin.label}</span>
       `;
 
-      const dotDiv = document.createElement('div');
-      dotDiv.className = `w-4 h-4 rounded-full ${pin.color} border-2 border-white shadow-xl mt-1 ${
-        isSelected ? 'ring-4 ring-amber-400 scale-125' : ''
-      }`;
-
       container.appendChild(labelDiv);
-      container.appendChild(dotDiv);
 
       container.onclick = () => {
         if (onMarkerClick) onMarkerClick(pin.id);
@@ -371,83 +386,109 @@ export const Map: React.FC<MapProps> = ({
       markersRef.current.push(m);
     });
 
-    const placeNames = [
-      { name: 'Balaghat', coords: [80.18, 21.82] },
-      { name: 'Tirodi', coords: [79.71, 21.68] },
-      { name: 'Ukwa', coords: [80.46, 21.96] },
-    ];
-
-    placeNames.forEach((place) => {
-      const el = document.createElement('div');
-      el.className = 'text-white text-xs font-bold font-sans tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] flex items-center gap-1 z-10';
-      el.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-white"></span><span>${place.name}</span>`;
-
-      const m = new maplibregl.Marker({ element: el })
-        .setLngLat(place.coords as [number, number])
-        .addTo(map.current!);
-
-      markersRef.current.push(m);
-    });
-
   }, [activeLayers, selectedTarget, onMarkerClick]);
 
-  const handleZoomIn = () => {
-    if (map.current) map.current.zoomIn();
-  };
-
-  const handleZoomOut = () => {
-    if (map.current) map.current.zoomOut();
-  };
-
+  const handleZoomIn = () => map.current?.zoomIn();
+  const handleZoomOut = () => map.current?.zoomOut();
   const handleResetZoom = () => {
-    if (map.current) {
-      map.current.flyTo({ center: initialCenter, zoom: initialZoom });
-    }
+    map.current?.flyTo({ center: initialCenter, zoom: initialZoom });
   };
 
   return (
-    <div className="relative w-full h-full rounded-xl border border-slate-700 overflow-hidden shadow-inner min-h-[580px]" style={{ height }}>
-      <div ref={mapContainer} className="w-full h-full min-h-[580px] bg-[#0F172A]" />
+    <div className="relative w-full h-full rounded-xl border border-slate-300 overflow-hidden shadow-sm min-h-[500px]" style={{ height }}>
+      {/* Mapbox / Maplibre Container */}
+      <div ref={mapContainer} className="w-full h-full min-h-[500px] bg-slate-900" />
 
-      <div className="absolute bottom-6 right-6 flex flex-col items-center gap-1.5 z-20">
+      {/* Top Left Search Input Overlay: q bhandara */}
+      <div className="absolute top-4 left-4 z-20 w-64 md:w-72">
+        <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-md border border-slate-300 shadow-md text-xs text-slate-800">
+          <Search className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          <input
+            type="text"
+            placeholder="Search location..."
+            value={searchLocation}
+            onChange={(e) => setSearchLocation(e.target.value)}
+            className="w-full bg-transparent border-none outline-none text-xs text-slate-800 placeholder-slate-400 font-medium"
+          />
+        </div>
+      </div>
+
+      {/* Top Right Map Type Switcher Overlay (Map | Satellite | Terrain) */}
+      <div className="absolute top-4 right-4 z-20">
+        <div className="flex items-center bg-white p-0.5 rounded-md border border-slate-300 shadow-md text-xs font-bold">
+          {(['Map', 'Satellite', 'Terrain'] as const).map((type) => (
+            <button
+              key={type}
+              onClick={() => setMapType(type)}
+              className={`px-3 py-1 rounded transition text-xs ${
+                mapType === type
+                  ? 'bg-[#003366] text-white font-extrabold shadow-xs'
+                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+            >
+              {type}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Right Side Floating Map Controls (+ / - / Layers / Target) */}
+      <div className="absolute top-16 right-4 flex flex-col items-center gap-1 z-20">
         <button
           onClick={handleZoomIn}
-          className="w-8 h-8 bg-[#0F172A]/90 hover:bg-slate-800 text-white rounded-lg border border-slate-700 shadow-xl flex items-center justify-center transition active:scale-95"
-          title="Zoom In (+)"
+          className="w-7 h-7 bg-white hover:bg-slate-100 text-slate-800 rounded border border-slate-300 shadow-md flex items-center justify-center transition font-bold"
+          title="Zoom In"
         >
-          <Plus className="w-4 h-4 text-slate-200" />
+          <Plus className="w-3.5 h-3.5 text-slate-700" />
         </button>
 
         <button
           onClick={handleZoomOut}
-          className="w-8 h-8 bg-[#0F172A]/90 hover:bg-slate-800 text-white rounded-lg border border-slate-700 shadow-xl flex items-center justify-center transition active:scale-95"
-          title="Zoom Out (-)"
+          className="w-7 h-7 bg-white hover:bg-slate-100 text-slate-800 rounded border border-slate-300 shadow-md flex items-center justify-center transition font-bold"
+          title="Zoom Out"
         >
-          <Minus className="w-4 h-4 text-slate-200" />
+          <Minus className="w-3.5 h-3.5 text-slate-700" />
         </button>
 
         <button
           onClick={handleResetZoom}
-          className="w-8 h-8 bg-[#0F172A]/90 hover:bg-slate-800 text-white rounded-lg border border-slate-700 shadow-xl flex items-center justify-center transition active:scale-95 mt-1"
-          title="Reset Extent & Layers"
+          className="w-7 h-7 bg-white hover:bg-slate-100 text-slate-800 rounded border border-slate-300 shadow-md flex items-center justify-center transition"
+          title="Reset View"
         >
-          <LayersIcon className="w-4 h-4 text-blue-400" />
+          <Compass className="w-3.5 h-3.5 text-[#003366]" />
+        </button>
+
+        <button
+          onClick={handleResetZoom}
+          className="w-7 h-7 bg-white hover:bg-slate-100 text-slate-800 rounded border border-slate-300 shadow-md flex items-center justify-center transition"
+          title="Layers"
+        >
+          <LayersIcon className="w-3.5 h-3.5 text-[#003366]" />
         </button>
       </div>
 
-      <div className="absolute bottom-6 left-6 bg-[#0F172A]/90 px-3 py-1.5 rounded-md border border-slate-700 text-[10px] text-slate-300 font-mono flex items-center gap-3 z-20 shadow-lg">
-        <div className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-blue-400" />
-          <span className="font-bold text-white">Scale:</span>
+      {/* Bottom Left: North Arrow & Scale Bar */}
+      <div className="absolute bottom-3 left-3 flex items-center gap-2 z-20">
+        <div className="bg-white/95 p-1.5 rounded border border-slate-300 text-[#003366] flex flex-col items-center shadow-md">
+          <Compass className="w-4 h-4 text-[#003366]" />
+          <span className="text-[8px] font-black tracking-widest mt-0.5">N</span>
         </div>
-        <div className="flex items-center gap-2">
+
+        <div className="bg-white/95 px-2.5 py-1 rounded border border-slate-300 text-[10px] text-slate-800 font-mono flex items-center gap-2 shadow-md">
           <span>0</span>
-          <span className="w-8 border-b-2 border-white inline-block"></span>
+          <span className="w-4 border-b border-slate-700 inline-block"></span>
           <span>5</span>
-          <span className="w-8 border-b-2 border-white inline-block"></span>
+          <span className="w-4 border-b border-slate-700 inline-block"></span>
           <span>10</span>
-          <span className="w-12 border-b-2 border-white inline-block"></span>
+          <span className="w-6 border-b border-slate-700 inline-block"></span>
           <span>20 km</span>
+        </div>
+      </div>
+
+      {/* Bottom Right: Lat/Lng Coordinates Badge */}
+      <div className="absolute bottom-3 right-3 z-20">
+        <div className="bg-[#003366]/90 text-white px-2.5 py-1 rounded text-[10px] font-mono font-bold shadow-md">
+          21.48° N, 80.12° E
         </div>
       </div>
     </div>
