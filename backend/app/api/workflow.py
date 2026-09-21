@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel, Field
 from typing import List, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 
 router = APIRouter(prefix="/workflow", tags=["Workflow State"])
@@ -32,7 +32,7 @@ class WorkflowStateModel(BaseModel):
     currentStage: str = Field(default="home", description="Current active stage in end-to-end workflow")
     completedStages: List[str] = Field(default_factory=lambda: ["home"], description="List of completed stage keys")
     status: str = Field(default="ACTIVE", description="Workflow lifecycle status: ACTIVE, COMPLETED, PAUSED")
-    lastUpdated: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    lastUpdated: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 # Global in-memory workflow state store
 CURRENT_WORKFLOW_STATE = WorkflowStateModel()
@@ -70,16 +70,16 @@ def get_workflow_state():
     """Retrieve the current end-to-end workflow state and sequential stage tracking IDs."""
     return {
         "status": "success",
-        "workflow": CURRENT_WORKFLOW_STATE.dict()
+        "workflow": CURRENT_WORKFLOW_STATE.model_dump()
     }
 
 @router.post("/state", response_model=dict)
 def update_workflow_state(payload: UpdateWorkflowRequest):
     """Update workflow state parameters and advance completed stage trackers."""
     global CURRENT_WORKFLOW_STATE
-    data = payload.dict(exclude_unset=True)
+    data = payload.model_dump(exclude_unset=True)
     
-    current_data = CURRENT_WORKFLOW_STATE.dict()
+    current_data = CURRENT_WORKFLOW_STATE.model_dump()
     for key, val in data.items():
         if val is not None:
             current_data[key] = val
@@ -89,13 +89,13 @@ def update_workflow_state(payload: UpdateWorkflowRequest):
         if data["currentStage"] not in current_data["completedStages"]:
             current_data["completedStages"].append(data["currentStage"])
             
-    current_data["lastUpdated"] = datetime.utcnow().isoformat()
+    current_data["lastUpdated"] = datetime.now(timezone.utc).isoformat()
     CURRENT_WORKFLOW_STATE = WorkflowStateModel(**current_data)
     
     return {
         "status": "success",
         "message": "Workflow state updated successfully",
-        "workflow": CURRENT_WORKFLOW_STATE.dict()
+        "workflow": CURRENT_WORKFLOW_STATE.model_dump()
     }
 
 @router.post("/initialize", response_model=dict)
@@ -119,12 +119,12 @@ def initialize_workflow(payload: InitializeWorkflowRequest):
         currentStage="explore",
         completedStages=["home", "explore"],
         status="ACTIVE",
-        lastUpdated=datetime.utcnow().isoformat()
+        lastUpdated=datetime.now(timezone.utc).isoformat()
     )
     CURRENT_WORKFLOW_STATE = new_state
     
     return {
         "status": "success",
         "message": "Workflow initialized for exploration run",
-        "workflow": CURRENT_WORKFLOW_STATE.dict()
+        "workflow": CURRENT_WORKFLOW_STATE.model_dump()
     }

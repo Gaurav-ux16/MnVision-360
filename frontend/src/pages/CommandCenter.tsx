@@ -1,315 +1,387 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
-  ChevronLeft, 
-  ChevronRight, 
-  ChevronsRight, 
-  ShieldCheck, 
-  ArrowRight, 
-  Building2, 
-  Layers, 
-  MapPin, 
-  TrendingUp, 
-  Settings, 
-  Brain, 
-  Target, 
-  FileText, 
-  Info,
-  CheckCircle2,
-  Compass
+  Building2, Layers, MapPin, TrendingUp, Compass, 
+  HardHat, Cpu, AlertTriangle, ArrowRight, ShieldCheck, 
+  Activity, CheckCircle2, ChevronRight, Sliders, ExternalLink
 } from 'lucide-react';
-import { KPICard } from '../components/KPICard';
 import { PrototypeBadge } from '../components/PrototypeBadge';
-import { workflowApi } from '../services/api';
 
 export const CommandCenter: React.FC = () => {
   const navigate = useNavigate();
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const handleLaunchWorkflow = async (targetLink: string) => {
-    try {
-      await workflowApi.initialize({ mineId: 'MN-BAL-001', targetId: 'MN-TGT-001' });
-    } catch (err) {
-      console.warn('Failed to initialize workflow state on backend:', err);
-    }
-    const separator = targetLink.includes('?') ? '&' : '?';
-    navigate(`${targetLink}${separator}mine_id=MN-BAL-001&target_id=MN-TGT-001`);
-  };
-
-  const heroSlides = [
-    {
-      title: "MOIL MnVision 360 — Space-to-Mine Intelligence Platform",
-      subtitle: "Empowering India's Core Manganese Industry with Space-to-Mine Satellite & Geological Intelligence",
-      tagline: "A Miniratna Category-I PSU under Ministry of Steel, Govt. of India",
-      cta: "Explore GIS Prospectivity Map",
-      link: "/exploration",
-      // Custom SVG vector render matching MOIL Underground Miners (Screenshot 1)
-      renderGraphic: (
-        <div className="w-full h-full bg-gradient-to-r from-slate-950 via-[#002855] to-slate-950 flex flex-col justify-end p-8 md:p-12 relative overflow-hidden">
-          {/* Background Underground Mining Tunnel Grid */}
-          <div className="absolute inset-0 bg-[radial-gradient(#D4AF37_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-20" />
-          
-          {/* Underground Mining Tunnel Silhouette Renders */}
-          <div className="absolute right-6 bottom-4 opacity-30 flex items-end gap-3 pointer-events-none">
-            <div className="w-24 h-48 bg-amber-600/40 rounded-t-full border-t-2 border-amber-400" />
-            <div className="w-32 h-64 bg-blue-900/40 rounded-t-full border-t-2 border-blue-400" />
-          </div>
-
-          <div className="relative z-10 max-w-2xl space-y-3 text-white">
-            <div className="inline-flex items-center gap-2 bg-amber-400 text-slate-950 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
-              <ShieldCheck className="w-4 h-4 text-slate-950" />
-              <span>Adding Strength to Steel</span>
-            </div>
-            <h2 className="text-2xl md:text-4xl font-extrabold font-serif leading-tight text-white">
-              Underground & Opencast Manganese Exploration AI
-            </h2>
-            <p className="text-xs md:text-sm text-slate-200 leading-relaxed font-light">
-              Fusing Sentinel-2 multi-spectral indices, Sentinel-1 SAR backscatter, SRTM DEM morphometry, and GSI Sausar Group geology into explainable prospectivity models.
-            </p>
-          </div>
-        </div>
-      )
-    },
-    {
-      title: "Precision Diamond Core Drill Target Selection",
-      subtitle: "SpatialBlockCV XGBoost Prospectivity Mapping clipped to Balaghat Manganese Belt (EPSG:4326)",
-      tagline: "Balaghat Manganese Belt • Madhya Pradesh",
-      cta: "View Drill Targets Queue",
-      link: "/drill-planning",
-      renderGraphic: (
-        <div className="w-full h-full bg-gradient-to-r from-[#060D18] via-[#002855] to-[#060D18] flex flex-col justify-end p-8 md:p-12 relative overflow-hidden">
-          <div className="relative z-10 max-w-2xl space-y-3 text-white">
-            <div className="inline-flex items-center gap-2 bg-emerald-400 text-slate-950 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-              <Target className="w-4 h-4" />
-              <span>Watershed Target Extractor</span>
-            </div>
-            <h2 className="text-2xl md:text-4xl font-extrabold font-serif leading-tight text-white">
-              AI Candidate Target Polygon Extraction
-            </h2>
-            <p className="text-xs md:text-sm text-slate-200 leading-relaxed font-light">
-              Multi-criteria ranking combining probability scores, structural lineaments, and accessibility metrics for exploratory diamond core drilling.
-            </p>
-          </div>
-        </div>
-      )
-    },
-    {
-      title: "MineTwin 3D Block Model & ShortfallShield",
-      subtitle: "30-60-90 Day Production Output Forecasting & Machinery Telemetry Anomaly Detection",
-      tagline: "MOIL Balaghat, Ukwa & Bharweli Operations",
-      cta: "View Production Dashboard",
-      link: "/production",
-      renderGraphic: (
-        <div className="w-full h-full bg-gradient-to-r from-[#002855] via-[#0B192C] to-[#002855] flex flex-col justify-end p-8 md:p-12 relative overflow-hidden">
-          <div className="relative z-10 max-w-2xl space-y-3 text-white">
-            <div className="inline-flex items-center gap-2 bg-amber-400 text-slate-950 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-              <TrendingUp className="w-4 h-4" />
-              <span>ShortfallShield Early Warning</span>
-            </div>
-            <h2 className="text-2xl md:text-4xl font-extrabold font-serif leading-tight text-white">
-              Mine Operations & Machine Telemetry AI
-            </h2>
-            <p className="text-xs md:text-sm text-slate-200 leading-relaxed font-light">
-              Isolation Forest anomaly detection on heavy excavators, dump trucks, and crushers paired with Google OR-Tools multi-objective decision optimization.
-            </p>
-          </div>
-        </div>
-      )
-    }
-  ];
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1));
-  };
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-  };
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 7000);
-    return () => clearInterval(timer);
-  }, [heroSlides.length]);
 
   return (
-    <div className="w-full space-y-6 pb-8">
-      {/* 1. HERO CAROUSEL BANNER (Screenshot 1 & 2 Rounded Image Slider) */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-4">
-        <div className="relative rounded-[28px] border border-slate-300 shadow-xl overflow-hidden min-h-[340px] md:min-h-[380px] flex flex-col justify-between">
-          {/* Slide Graphic */}
-          <div className="absolute inset-0 w-full h-full">
-            {heroSlides[currentSlide].renderGraphic}
+    <div className="w-full max-w-7xl mx-auto px-4 md:px-8 py-6 space-y-6 font-sans">
+      {/* ── 1. OPERATIONAL CONTEXT BANNER ───────────────────────────────────── */}
+      <div className="bg-white border border-slate-200 p-5 rounded flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500">
+              OPERATIONAL TELEMETRY ACTIVE • BALAGHAT MINE
+            </span>
+            <span className="text-slate-300">|</span>
+            <span className="text-[11px] font-mono text-slate-600">
+              DATUM: -385m RL (UNDERGROUND LEVEL 5)
+            </span>
           </div>
+          <h1 className="text-2xl font-serif font-bold text-slate-950 tracking-tight">
+            Integrated Space-to-Mine Operations Deck
+          </h1>
+          <p className="text-xs text-slate-600 font-normal">
+            Continuous decision-support bridging satellite spectral evidence, stope block readiness, and 30-day production forecasting for MOIL Limited.
+          </p>
+        </div>
 
-          {/* Side Carousel Navigation Buttons (Matching Screenshot 1 Side Arrows) */}
+        <div className="flex items-center gap-3 shrink-0">
           <button
-            onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center shadow-lg transition-transform hover:scale-110 z-20"
-            aria-label="Previous Slide"
+            onClick={() => navigate('/app/decide')}
+            className="px-4 py-2 bg-[#C5A059] hover:bg-[#B38F46] text-slate-950 text-xs font-bold rounded transition shadow-xs flex items-center gap-1.5"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <Sliders className="w-3.5 h-3.5" />
+            <span>Prescriptive Optimizer</span>
           </button>
-
           <button
-            onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-slate-900 flex items-center justify-center shadow-lg transition-transform hover:scale-110 z-20"
-            aria-label="Next Slide"
+            onClick={() => navigate('/app/explore')}
+            className="px-4 py-2 bg-[#0A1128] hover:bg-[#131E3A] text-white text-xs font-semibold rounded transition flex items-center gap-1.5"
           >
-            <ChevronRight className="w-6 h-6" />
+            <Compass className="w-3.5 h-3.5 text-[#C5A059]" />
+            <span>Exploration Map</span>
           </button>
+        </div>
+      </div>
 
-          {/* Bottom Action Bar */}
-          <div className="relative z-20 p-6 md:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-auto">
-            <button
-              onClick={() => handleLaunchWorkflow(heroSlides[currentSlide].link)}
-              className="inline-flex items-center gap-2 px-6 py-2.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs rounded-full shadow-lg transition-all transform hover:-translate-y-0.5"
-            >
-              <span>{heroSlides[currentSlide].cta}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+      {/* ── 2. KEY OPERATIONAL METRICS STRIP ───────────────────────────────── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        {/* Metric 1: Stope Readiness */}
+        <div className="bg-white border border-slate-200 p-4 rounded shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-slate-500 text-xs font-semibold">
+            <span>Stope Readiness Index</span>
+            <HardHat className="w-4 h-4 text-slate-400" />
+          </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl font-mono font-bold text-slate-950">84.2%</span>
+            <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+              5 Gates Monitored
+            </span>
+          </div>
+          <p className="text-[11px] text-slate-500 leading-snug">
+            4 active stope faces at Balaghat underground datum.
+          </p>
+        </div>
 
-            {/* Slide Dots */}
-            <div className="flex items-center gap-2 bg-slate-950/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
-              {heroSlides.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentSlide(idx)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all ${
-                    idx === currentSlide ? 'bg-amber-400 w-7' : 'bg-white/50 hover:bg-white'
-                  }`}
-                />
-              ))}
+        {/* Metric 2: 30-Day Forecast */}
+        <div className="bg-white border border-slate-200 p-4 rounded shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-slate-500 text-xs font-semibold">
+            <span>30-Day Ore Forecast</span>
+            <TrendingUp className="w-4 h-4 text-slate-400" />
+          </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl font-mono font-bold text-slate-950">18,450 t</span>
+            <span className="text-[11px] font-mono text-slate-500">/ 21,200 t</span>
+          </div>
+          <p className="text-[11px] text-slate-500 leading-snug">
+            ShortfallShield XGBoost regression model v1.0.
+          </p>
+        </div>
+
+        {/* Metric 3: Projected Gap */}
+        <div className="bg-white border border-slate-200 p-4 rounded shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-slate-500 text-xs font-semibold">
+            <span>Projected Gap</span>
+            <AlertTriangle className="w-4 h-4 text-amber-500" />
+          </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl font-mono font-bold text-red-600">-2,750 t</span>
+            <span className="text-[11px] font-bold text-red-700 bg-red-50 px-1.5 py-0.5 rounded border border-red-200">
+              13.0% Deficit
+            </span>
+          </div>
+          <p className="text-[11px] text-slate-500 leading-snug">
+            Shortfall risk triggered against downstream delivery quota.
+          </p>
+        </div>
+
+        {/* Metric 4: Primary Root Cause */}
+        <div className="bg-white border border-slate-200 p-4 rounded shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-slate-500 text-xs font-semibold">
+            <span>Top Root Cause (Tree SHAP)</span>
+            <Cpu className="w-4 h-4 text-slate-400" />
+          </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl font-mono font-bold text-slate-950">42.0%</span>
+            <span className="text-[11px] font-medium text-slate-600">Equipment Outage</span>
+          </div>
+          <p className="text-[11px] text-slate-500 leading-snug">
+            LHD-02 hydraulic pump seal and dumper availability.
+          </p>
+        </div>
+
+        {/* Metric 5: Prospect Targets */}
+        <div className="bg-white border border-slate-200 p-4 rounded shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-slate-500 text-xs font-semibold">
+            <span>AI Exploration Targets</span>
+            <Compass className="w-4 h-4 text-slate-400" />
+          </div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl font-mono font-bold text-[#0A1128]">5 Zones</span>
+            <span className="text-[11px] font-mono font-bold text-[#C5A059]">Top: 0.92</span>
+          </div>
+          <p className="text-[11px] text-slate-500 leading-snug">
+            SpatialBlockCV multi-spectral PU model (Balaghat AOI).
+          </p>
+        </div>
+      </div>
+
+      {/* ── 3. SPACE-TO-MINE VALUE CHAIN PIPELINE ──────────────────────────── */}
+      <div className="bg-white border border-slate-200 rounded p-6 shadow-xs space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div className="space-y-0.5">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900 font-mono flex items-center gap-2">
+              <Layers className="w-4 h-4 text-[#C5A059]" />
+              <span>Space-to-Mine Integrated Operational Pipeline</span>
+            </h2>
+            <p className="text-xs text-slate-500">
+              End-to-end telemetry chain connecting planetary remote sensing to underground stope delivery.
+            </p>
+          </div>
+          <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+            5 CONNECTED WORKSPACES
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-3 pt-1">
+          {/* Station 1: Earth Observation */}
+          <div 
+            onClick={() => navigate('/app/explore')}
+            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0A1128] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Stage 01</span>
+              <Compass className="w-4 h-4 text-slate-500 group-hover:text-[#0A1128] transition" />
+            </div>
+            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0A1128]">
+              Earth Observation
+            </h3>
+            <p className="text-[11px] text-slate-600 leading-relaxed">
+              Sentinel-1 SAR polarimetry & Sentinel-2 SWIR ratios mapping Mansar Quartzite surface contacts.
+            </p>
+            <div className="pt-2 text-[10px] font-semibold text-[#C5A059] flex items-center gap-1">
+              <span>View Targets</span>
+              <ChevronRight className="w-3 h-3" />
+            </div>
+          </div>
+
+          {/* Station 2: Geological Validation */}
+          <div 
+            onClick={() => navigate('/app/explore')}
+            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0A1128] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Stage 02</span>
+              <MapPin className="w-4 h-4 text-slate-500 group-hover:text-[#0A1128] transition" />
+            </div>
+            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0A1128]">
+              Geological Assays
+            </h3>
+            <p className="text-[11px] text-slate-600 leading-relaxed">
+              160 stream sediment assays and diamond core recovery records validating 28.4% - 34.7% Mn grade.
+            </p>
+            <div className="pt-2 text-[10px] font-semibold text-[#C5A059] flex items-center gap-1">
+              <span>Check Assays</span>
+              <ChevronRight className="w-3 h-3" />
+            </div>
+          </div>
+
+          {/* Station 3: Mine Twin 360 */}
+          <div 
+            onClick={() => navigate('/app/mine')}
+            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0A1128] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Stage 03</span>
+              <HardHat className="w-4 h-4 text-slate-500 group-hover:text-[#0A1128] transition" />
+            </div>
+            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0A1128]">
+              Underground Mine Twin
+            </h3>
+            <p className="text-[11px] text-slate-600 leading-relaxed">
+              Real-time 5-gate readiness scoring across cable bolting, ventilation CFM, trackage, and ore chutes.
+            </p>
+            <div className="pt-2 text-[10px] font-semibold text-[#C5A059] flex items-center gap-1">
+              <span>Inspect Blocks</span>
+              <ChevronRight className="w-3 h-3" />
+            </div>
+          </div>
+
+          {/* Station 4: Shortfall Forecasting */}
+          <div 
+            onClick={() => navigate('/app/produce')}
+            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0A1128] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Stage 04</span>
+              <TrendingUp className="w-4 h-4 text-slate-500 group-hover:text-[#0A1128] transition" />
+            </div>
+            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0A1128]">
+              Shortfall Prediction
+            </h3>
+            <p className="text-[11px] text-slate-600 leading-relaxed">
+              30-day production curve projecting a 2,750 MT gap, decomposed via Tree SHAP feature attributions.
+            </p>
+            <div className="pt-2 text-[10px] font-semibold text-[#C5A059] flex items-center gap-1">
+              <span>View Forecast</span>
+              <ChevronRight className="w-3 h-3" />
+            </div>
+          </div>
+
+          {/* Station 5: Prescriptive Optimization */}
+          <div 
+            onClick={() => navigate('/app/decide')}
+            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0A1128] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Stage 05</span>
+              <Cpu className="w-4 h-4 text-slate-500 group-hover:text-[#0A1128] transition" />
+            </div>
+            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0A1128]">
+              Prescriptive Decision
+            </h3>
+            <p className="text-[11px] text-slate-600 leading-relaxed">
+              Mathematical solver deploying Plan A (+350 MT via Block B-17) and real-time sensitivity simulation.
+            </p>
+            <div className="pt-2 text-[10px] font-semibold text-[#C5A059] flex items-center gap-1">
+              <span>Optimize Output</span>
+              <ChevronRight className="w-3 h-3" />
             </div>
           </div>
         </div>
       </div>
 
-      {/* 2. DEEP ROYAL BLUE SCROLLING TICKER BAR (Matching Screenshot 1 & 2 Ticker) */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="bg-[#203480] text-white py-2.5 px-6 rounded-full flex items-center gap-3 text-xs font-semibold shadow-md overflow-hidden border border-blue-900">
-          <div className="flex items-center gap-1.5 font-bold text-amber-300 flex-shrink-0 uppercase text-[11px]">
-            <ChevronsRight className="w-4 h-4 text-amber-300" />
-            <span>ANNOUNCEMENTS</span>
+      {/* ── 4. ACTIVE OPERATIONAL ALERTS TABLE ──────────────────────────────── */}
+      <div className="bg-white border border-slate-200 rounded p-6 shadow-xs space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div className="space-y-0.5">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900 font-mono flex items-center gap-2">
+              <Activity className="w-4 h-4 text-red-600" />
+              <span>Real-Time Operational & Geotechnical Log</span>
+            </h2>
+            <p className="text-xs text-slate-500">Live operational exceptions requiring supervisory authorization.</p>
           </div>
-          <div className="truncate text-[11px] text-slate-100 font-sans tracking-wide">
-            <span className="text-amber-300">&gt;&gt;</span> Availability of Manganese Ore is available on MOIL's Customer Portal and has also been communicated to customers
-            <span className="mx-4 text-blue-300">|</span>
-            <span className="text-amber-300">&gt;&gt;</span> Recruitment Advertisement for the post of Chief General Manager (Personnel) (E-08)
-            <span className="mx-4 text-blue-300">|</span>
-            <span className="text-amber-300">&gt;&gt;</span> MOIL MnVision 360 Space-to-Mine Platform deployed for Balaghat Manganese Belt (2026)
-          </div>
+          <span className="text-xs font-mono font-bold text-slate-600">3 ACTIVE ITEMS</span>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 font-mono text-[11px]">
+                <th className="py-2.5 px-4 font-bold">SEVERITY</th>
+                <th className="py-2.5 px-4 font-bold">SUBSYSTEM</th>
+                <th className="py-2.5 px-4 font-bold">TELEMETRY / LOCATION</th>
+                <th className="py-2.5 px-4 font-bold">OBSERVED VALUE</th>
+                <th className="py-2.5 px-4 font-bold">EXPECTED BASELINE</th>
+                <th className="py-2.5 px-4 font-bold text-right">ACTION</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700 font-sans">
+              <tr className="hover:bg-slate-50 transition">
+                <td className="py-3 px-4">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-red-50 text-red-700 border border-red-200">
+                    CRITICAL
+                  </span>
+                </td>
+                <td className="py-3 px-4 font-mono font-bold text-slate-900">Shortfall Forecast</td>
+                <td className="py-3 px-4">Balaghat 30-Day Aggregate Horizon</td>
+                <td className="py-3 px-4 font-mono text-red-600 font-bold">18,450 t (-2,750 t)</td>
+                <td className="py-3 px-4 font-mono text-slate-600">21,200 t</td>
+                <td className="py-3 px-4 text-right">
+                  <button
+                    onClick={() => navigate('/app/decide')}
+                    className="px-3 py-1 bg-[#0A1128] hover:bg-[#131E3A] text-white text-[11px] font-semibold rounded transition"
+                  >
+                    Run Optimizer
+                  </button>
+                </td>
+              </tr>
+
+              <tr className="hover:bg-slate-50 transition">
+                <td className="py-3 px-4">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                    WARNING
+                  </span>
+                </td>
+                <td className="py-3 px-4 font-mono font-bold text-slate-900">Mine Twin Telematics</td>
+                <td className="py-3 px-4">Stope BLK-BAL-04 (Access Gate)</td>
+                <td className="py-3 px-4 font-mono text-amber-700 font-bold">68% Readiness</td>
+                <td className="py-3 px-4 font-mono text-slate-600">&ge; 80% Required</td>
+                <td className="py-3 px-4 text-right">
+                  <button
+                    onClick={() => navigate('/app/mine')}
+                    className="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-800 text-[11px] font-semibold rounded border border-slate-300 transition"
+                  >
+                    Inspect Block
+                  </button>
+                </td>
+              </tr>
+
+              <tr className="hover:bg-slate-50 transition">
+                <td className="py-3 px-4">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200">
+                    INFORMATIONAL
+                  </span>
+                </td>
+                <td className="py-3 px-4 font-mono font-bold text-slate-900">Exploration Target</td>
+                <td className="py-3 px-4">Target MN-TGT-001 (21.84°N, 80.72°E)</td>
+                <td className="py-3 px-4 font-mono text-emerald-700 font-bold">0.92 Prospectivity</td>
+                <td className="py-3 px-4 font-mono text-slate-600">86% Confidence</td>
+                <td className="py-3 px-4 text-right">
+                  <button
+                    onClick={() => navigate('/app/explore')}
+                    className="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-800 text-[11px] font-semibold rounded border border-slate-300 transition"
+                  >
+                    Inspect Target
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      {/* 3. EXECUTIVE KPI STATISTICS GRID */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 space-y-3 pt-2">
-        <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-          <h2 className="text-base font-bold text-[#003366] font-serif psu-section-title">
-            MOIL Balaghat Operational & Exploration Summary
-          </h2>
-          <PrototypeBadge type="badge" />
+      {/* ── 5. GEOLOGICAL & SITE PROVENANCE MATRIX ──────────────────────────── */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-white border border-slate-200 rounded p-5 shadow-xs space-y-2 text-xs">
+          <div className="font-mono text-[11px] font-bold text-slate-400 uppercase">
+            GEOLOGICAL PROVENANCE
+          </div>
+          <h3 className="font-bold text-slate-900 text-sm">
+            Sausar Group Stratigraphy • Mansar Formation
+          </h3>
+          <p className="text-slate-600 leading-relaxed">
+            The Balaghat deposit forms part of the world-class Sausar Mobile Belt. Manganese mineralization is hosted within the Mansar Formation, comprising braunite, hollandite, and bixbyite concordantly interbanded with quartzites and mica-schists.
+          </p>
+          <div className="pt-2 flex flex-wrap gap-2 text-[11px] font-mono text-slate-700">
+            <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Dip: 65°–75° NW</span>
+            <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Strike: ENE–WSW</span>
+            <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Target Grade: 32.4% Mn</span>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          <KPICard
-            title="Active MOIL Mines"
-            value={3}
-            unit="Mines"
-            subtitle="Balaghat, Ukwa, Bharweli"
-            icon={<Building2 className="w-5 h-5" />}
-            status="ok"
-          />
-          <KPICard
-            title="Total Ore Reserves"
-            value="12.4"
-            unit="Million Tonnes"
-            subtitle="Proven & Probable"
-            icon={<Layers className="w-5 h-5" />}
-            status="ok"
-          />
-          <KPICard
-            title="High Prospectivity Area"
-            value="142.8"
-            unit="sq km"
-            subtitle="Prob > 0.75 Target Zone"
-            icon={<MapPin className="w-5 h-5" />}
-            status="ok"
-          />
-          <KPICard
-            title="Daily Production Target"
-            value="1,420"
-            unit="TPD"
-            subtitle="Target: 1,500 TPD (94.6%)"
-            trend="up"
-            trendValue="+3.2%"
-            icon={<TrendingUp className="w-5 h-5" />}
-            status="ok"
-            isPrototype
-          />
-          <KPICard
-            title="Machinery Availability"
-            value="94.2%"
-            unit="Operational"
-            subtitle="Heavy Equipment Fleet"
-            trend="up"
-            trendValue="+1.8%"
-            icon={<Settings className="w-5 h-5" />}
-            status="ok"
-            isPrototype
-          />
-        </div>
-      </div>
-
-      {/* 4. FEATURED PLATFORM MODULES GRID */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 space-y-4 pt-2">
-        <h2 className="text-base font-bold text-[#003366] font-serif psu-section-title">
-          MnVision 360 Featured Modules
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Module 1: Exploration GIS */}
-          <NavLink to="/exploration" className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:border-[#003366] hover:shadow-md transition-all group space-y-3">
-            <div className="w-10 h-10 rounded-lg bg-blue-50 text-[#003366] flex items-center justify-center group-hover:bg-[#003366] group-hover:text-white transition-colors">
-              <MapPin className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-bold text-[#003366] group-hover:text-[#003366] flex items-center justify-between">
-              <span>Exploration GIS & Prospectivity</span>
-              <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-[#003366]" />
-            </h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Interactive MapLibre canvas displaying XGBoost prospectivity rasters, spatial uncertainty, lithology, lineaments, and known occurrences.
-            </p>
-          </NavLink>
-
-          {/* Module 2: Drill Target AI */}
-          <NavLink to="/drill-planning" className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:border-[#003366] hover:shadow-md transition-all group space-y-3">
-            <div className="w-10 h-10 rounded-lg bg-blue-50 text-[#003366] flex items-center justify-center group-hover:bg-[#003366] group-hover:text-white transition-colors">
-              <Target className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-bold text-[#003366] group-hover:text-[#003366] flex items-center justify-between">
-              <span>Drill Target AI Extractor</span>
-              <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-[#003366]" />
-            </h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Watershed spatial polygon extraction ranking top exploratory drill targets by probability, accessibility, and structural support.
-            </p>
-          </NavLink>
-
-          {/* Module 3: MineTwin */}
-          <NavLink to="/mine-twin" className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:border-[#003366] hover:shadow-md transition-all group space-y-3">
-            <div className="w-10 h-10 rounded-lg bg-blue-50 text-[#003366] flex items-center justify-center group-hover:bg-[#003366] group-hover:text-white transition-colors">
-              <Building2 className="w-5 h-5" />
-            </div>
-            <h3 className="text-base font-bold text-[#003366] group-hover:text-[#003366] flex items-center justify-between">
-              <span>MineTwin 3D Block Model</span>
-              <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-[#003366]" />
-            </h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              3D/2D Mine block model viewer with dynamic Block Readiness Matrix considering permits, rock quality (RQD), and geotechnical risk.
-            </p>
-          </NavLink>
+        <div className="bg-white border border-slate-200 rounded p-5 shadow-xs space-y-2 text-xs">
+          <div className="font-mono text-[11px] font-bold text-slate-400 uppercase">
+            SCIENTIFIC SAFETY ASSURANCE
+          </div>
+          <h3 className="font-bold text-slate-900 text-sm">
+            Remote Sensing & Field Verification Protocol
+          </h3>
+          <p className="text-slate-600 leading-relaxed">
+            Multi-source satellite remote sensing provides surface structural alignment, roughness polarimetry, and mineral spectral reflectance. In compliance with JORC/UNFC reporting standards, satellite signatures indicate surface prospectivity only; subterranean ore thickness requires diamond core drillholes.
+          </p>
+          <div className="pt-2 flex flex-wrap gap-2 text-[11px] font-mono text-slate-700">
+            <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">SpatialBlockCV: 5 Folds</span>
+            <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">EPSG:4326 Datum</span>
+            <span className="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Zero Hallucination AI</span>
+          </div>
         </div>
       </div>
     </div>

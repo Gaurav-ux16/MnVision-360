@@ -176,7 +176,7 @@ def signoff_decision(
     DECISIONS_STORE[decision_id] = snapshot
 
     # 6. Update global workflow state
-    wf_dict = CURRENT_WORKFLOW_STATE.dict()
+    wf_dict = CURRENT_WORKFLOW_STATE.model_dump()
     wf_dict["decisionId"] = decision_id
     wf_dict["currentStage"] = "decision"
     wf_dict["status"] = "COMPLETED" if requested_status in ["APPROVED", "DISPATCHED"] else "ACTIVE"

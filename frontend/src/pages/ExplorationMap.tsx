@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Map, calculateProspectivity } from '../components/Map';
 import { PrototypeBadge } from '../components/PrototypeBadge';
+import { TargetDrawer, TargetData } from '../components/TargetDrawer';
+import { GeoLayersSection } from '../components/GeoLayersSection';
+import { IndiaManganeseMapSection } from '../components/IndiaManganeseMapSection';
 import { workflowApi } from '../services/api';
 import { 
   RefreshCw, ChevronRight, Layers, MapPin, Target, ShieldAlert, 
-  CheckCircle2, X, Search, Activity, Sparkles, AlertTriangle, TrendingUp, Info
+  CheckCircle2, X, Search, Activity, Sparkles, AlertTriangle, TrendingUp, Info, Database, Compass, Globe
 } from 'lucide-react';
 
 interface ProspectTarget {
@@ -172,10 +175,17 @@ export const ExplorationMap: React.FC = () => {
   const [targets, setTargets] = useState<ProspectTarget[]>(DEFAULT_TARGETS);
   const [selectedTargetId, setSelectedTargetId] = useState<string>('Target-1');
 
+  // Dedicated Explore Sub-Navigation Tab State:
+  // Overview | Prospectivity | Geo Layers | India Manganese Map (NEW) | Evidence Fusion | DrillTarget AI
+  const [exploreSubTab, setExploreSubTab] = useState<'overview' | 'prospectivity' | 'geolayers' | 'indiamap' | 'evidence' | 'drilltarget'>('indiamap');
+
   // Manual Lat/Lng Form Inputs
   const [inputLat, setInputLat] = useState<string>('');
   const [inputLng, setInputLng] = useState<string>('');
   const [aoiErrorMsg, setAoiErrorMsg] = useState<string | null>(null);
+
+  // Contextual Target Drawer State
+  const [selectedDrawerTarget, setSelectedDrawerTarget] = useState<TargetData | null>(null);
 
   // Hover Tooltip State
   const [hoverState, setHoverState] = useState<{ lat: number; lng: number; score: number } | null>(null);
@@ -344,59 +354,150 @@ export const ExplorationMap: React.FC = () => {
       {/* ------------------------------------------------ */}
       {/* 1. PAGE HEADER                                   */}
       {/* ------------------------------------------------ */}
-      <div className="bg-gradient-to-r from-[#1B2170] via-[#313896] to-[#3B42A6] text-white p-6 rounded-2xl border border-[#2B308B] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#0A1128] text-white p-5 rounded border border-slate-800 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-xs font-bold text-amber-300 uppercase tracking-wider">
-            <Layers className="w-4 h-4 text-amber-300" />
-            <span>STAGE 1: MNEXPLORE</span>
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#C5A059] uppercase tracking-wider">
+            <Layers className="w-4 h-4 text-[#C5A059]" />
+            <span>STAGE 1: EARTH OBSERVATION PROSPECTIVITY</span>
           </div>
-          <h1 className="text-2xl font-bold font-serif text-white tracking-tight flex items-center gap-3">
-            <span>MNEXPLORE</span>
+          <h1 className="text-xl md:text-2xl font-serif font-bold text-white tracking-tight">
+            Balaghat Manganese Belt Prospectivity Analysis
           </h1>
-          <p className="text-xs text-blue-100/90 font-medium">
-            AI-Assisted Manganese Prospectivity Analysis
+          <p className="text-xs text-slate-400 font-normal">
+            Multi-source satellite evidence fusion (Sentinel-1 SAR, Sentinel-2 SWIR, SRTM DEM, GSI Mansar Quartzite Contacts).
           </p>
 
           {/* Analysis Context Bar */}
-          <div className="pt-2 flex flex-wrap items-center gap-2 text-[11px] font-mono text-blue-100">
-            <span className="bg-[#1B2170]/80 px-2.5 py-1 rounded-md border border-white/20 font-bold text-amber-300">
-              AOI: Balaghat
+          <div className="pt-2 flex flex-wrap items-center gap-2 text-[11px] font-mono text-slate-300">
+            <span className="bg-slate-900 px-2.5 py-1 rounded border border-slate-700 font-bold text-[#C5A059]">
+              AOI: Balaghat District (MP)
             </span>
-            <span className="text-white/40">•</span>
-            <span className="bg-[#1B2170]/80 px-2.5 py-1 rounded-md border border-white/20">
-              Coordinate Reference: EPSG:4326
+            <span className="text-slate-600">•</span>
+            <span className="bg-slate-900 px-2.5 py-1 rounded border border-slate-700">
+              Datum: EPSG:4326 / UTM 44N
             </span>
-            <span className="text-white/40">•</span>
-            <span className="bg-[#1B2170]/80 px-2.5 py-1 rounded-md border border-white/20">
-              Data Status: Prototype Data
+            <span className="text-slate-600">•</span>
+            <span className="bg-slate-900 px-2.5 py-1 rounded border border-slate-700">
+              SpatialBlockCV: 5 Folds
             </span>
-            <span className="text-white/40">•</span>
-            <span className="bg-emerald-900/60 text-emerald-300 px-2.5 py-1 rounded-md border border-emerald-500/40 font-bold">
-              Model Status: Available
+            <span className="text-slate-600">•</span>
+            <span className="bg-emerald-950/80 text-emerald-300 px-2.5 py-1 rounded border border-emerald-800 font-bold">
+              Model: Available
             </span>
           </div>
         </div>
 
-        {/* Compact Run Prospectivity Analysis Button */}
+        {/* Run Prospectivity Analysis Button */}
         <div className="flex flex-col items-end gap-2 shrink-0">
           <button
             onClick={handleRunAnalysis}
             disabled={runningAnalysis}
-            className="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs rounded-full shadow-md transition flex items-center gap-1.5 active:scale-95 border border-amber-300"
+            className="px-4 py-2 bg-[#C5A059] hover:bg-[#B38F46] text-slate-950 font-bold text-xs rounded transition flex items-center gap-1.5 active:scale-95 shadow-xs"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${runningAnalysis ? 'animate-spin' : ''}`} />
             <span>{runningAnalysis ? 'ANALYZING...' : 'RUN PROSPECTIVITY ANALYSIS'}</span>
           </button>
           {analysisMsg && (
-            <span className="text-[10px] font-mono text-amber-300 bg-[#1B2170]/90 px-2.5 py-1 rounded border border-white/20">
+            <span className="text-[10px] font-mono text-[#C5A059] bg-slate-900 px-2.5 py-1 rounded border border-slate-700">
               {analysisMsg}
             </span>
           )}
         </div>
       </div>
 
-      {/* ------------------------------------------------ */}
-      {/* MANUAL LATITUDE / LONGITUDE INPUT FORM CONTROL   */}
+      {/* ── EXPLORE SUB-NAVIGATION TABS (EXPLORE ARCHITECTURE) ───────────────── */}
+      <div className="bg-white rounded-xl border border-slate-200 p-1.5 shadow-sm flex flex-wrap items-center justify-between gap-2 text-xs font-semibold">
+        <div className="flex flex-wrap items-center gap-1">
+          <button
+            onClick={() => setExploreSubTab('overview')}
+            className={`px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 ${
+              exploreSubTab === 'overview'
+                ? 'bg-[#0A1128] text-[#C5A059] font-bold shadow-xs'
+                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+            }`}
+          >
+            <Compass className="w-3.5 h-3.5" />
+            <span>Exploration Overview</span>
+          </button>
+
+          <button
+            onClick={() => setExploreSubTab('prospectivity')}
+            className={`px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 ${
+              exploreSubTab === 'prospectivity'
+                ? 'bg-[#0A1128] text-[#C5A059] font-bold shadow-xs'
+                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>Prospectivity Map</span>
+          </button>
+
+          <button
+            onClick={() => setExploreSubTab('geolayers')}
+            className={`px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 relative ${
+              exploreSubTab === 'geolayers'
+                ? 'bg-[#0A1128] text-[#C5A059] font-bold shadow-xs border border-amber-500/40'
+                : 'bg-amber-50 text-amber-900 hover:bg-amber-100 font-bold border border-amber-300/80'
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5 text-amber-600" />
+            <span>Geo Layers</span>
+          </button>
+
+          <button
+            onClick={() => setExploreSubTab('indiamap')}
+            className={`px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 relative ${
+              exploreSubTab === 'indiamap'
+                ? 'bg-[#0A1128] text-[#C5A059] font-bold shadow-xs border border-amber-500/40'
+                : 'bg-[#0A1128]/10 text-slate-900 hover:bg-slate-100 font-bold border border-slate-300'
+            }`}
+          >
+            <Globe className="w-3.5 h-3.5 text-amber-500" />
+            <span>India Manganese Map</span>
+            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-extrabold uppercase bg-red-600 text-white">
+              NEW
+            </span>
+          </button>
+
+          <button
+            onClick={() => setExploreSubTab('evidence')}
+            className={`px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 ${
+              exploreSubTab === 'evidence'
+                ? 'bg-[#0A1128] text-[#C5A059] font-bold shadow-xs'
+                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+            }`}
+          >
+            <Database className="w-3.5 h-3.5" />
+            <span>Evidence Fusion</span>
+          </button>
+
+          <button
+            onClick={() => setExploreSubTab('drilltarget')}
+            className={`px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 ${
+              exploreSubTab === 'drilltarget'
+                ? 'bg-[#0A1128] text-[#C5A059] font-bold shadow-xs'
+                : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+            }`}
+          >
+            <Target className="w-3.5 h-3.5 text-red-500" />
+            <span>DrillTarget AI</span>
+          </button>
+        </div>
+
+        <div className="hidden sm:flex items-center gap-2 pr-2 text-[11px] font-mono text-slate-500">
+          <span>Active Perspective:</span>
+          <span className="font-bold text-slate-900 uppercase">{exploreSubTab}</span>
+        </div>
+      </div>
+
+      {/* ── GEO LAYERS & INDIA MAP DEDICATED WORKSPACE RENDER ────────────────── */}
+      {exploreSubTab === 'geolayers' ? (
+        <GeoLayersSection />
+      ) : exploreSubTab === 'indiamap' ? (
+        <IndiaManganeseMapSection />
+      ) : (
+        <>
+          {/* MANUAL LATITUDE / LONGITUDE INPUT FORM CONTROL   */}
       {/* ------------------------------------------------ */}
       <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2 font-bold text-[#313896] uppercase text-xs">
@@ -481,7 +582,10 @@ export const ExplorationMap: React.FC = () => {
                 const tgt = targets.find(
                   (t) => t.target_id === targetId || t.id === targetId || t.mn_target_code === targetId
                 );
-                if (tgt) openLocationAnalysis(tgt.latitude, tgt.longitude, tgt.prospectivity_score, tgt);
+                if (tgt) {
+                  setSelectedTargetId(tgt.id);
+                  setSelectedDrawerTarget(tgt as TargetData);
+                }
               }}
             />
 
@@ -741,13 +845,26 @@ export const ExplorationMap: React.FC = () => {
                     </span>
                   </td>
                   <td className="py-3.5 px-4 text-right">
-                    <button
-                      onClick={() => openLocationAnalysis(tgt.latitude, tgt.longitude, tgt.prospectivity_score, tgt)}
-                      className="px-4 py-1.5 bg-[#313896] hover:bg-[#282D7A] text-white text-[11px] font-bold rounded-full transition shadow-sm inline-flex items-center gap-1"
-                    >
-                      <span>[ VIEW ]</span>
-                      <ChevronRight className="w-3 h-3 text-amber-300" />
-                    </button>
+                    <div className="flex items-center justify-end gap-2">
+                      <button
+                        onClick={() => {
+                          setSelectedTargetId(tgt.id);
+                          setSelectedDrawerTarget(tgt as TargetData);
+                        }}
+                        className="px-3 py-1.5 bg-[#EBEFFA] hover:bg-[#D0DCF5] text-[#313896] text-[11px] font-bold rounded-full transition border border-[#D0DCF5] inline-flex items-center gap-1 shadow-sm"
+                        title="Open Slide-over Target Drawer"
+                      >
+                        <Layers className="w-3 h-3 text-[#313896]" />
+                        <span>DRAWER</span>
+                      </button>
+                      <button
+                        onClick={() => openLocationAnalysis(tgt.latitude, tgt.longitude, tgt.prospectivity_score, tgt)}
+                        className="px-3.5 py-1.5 bg-[#313896] hover:bg-[#282D7A] text-white text-[11px] font-bold rounded-full transition shadow-sm inline-flex items-center gap-1"
+                      >
+                        <span>[ VIEW ]</span>
+                        <ChevronRight className="w-3 h-3 text-amber-300" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -989,13 +1106,26 @@ export const ExplorationMap: React.FC = () => {
                     <Search className="w-3.5 h-3.5 text-amber-300" />
                     <span>{selectedAnalysisModal.isArbitrary ? '[ INVESTIGATE LOCATION ]' : '[ INVESTIGATE TARGET ]'}</span>
                   </button>
+                  </div>
                 </div>
               </div>
-
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </>
+    )}
+
+      {/* Contextual Target Evidence Drawer */}
+      <TargetDrawer
+        isOpen={Boolean(selectedDrawerTarget)}
+        onClose={() => setSelectedDrawerTarget(null)}
+        target={selectedDrawerTarget}
+        onPlanDrilling={(t) => {
+          setSelectedDrawerTarget(null);
+          navigate(`/exploration/${t.mn_target_code || t.target_id || t.id}?target_id=${t.mn_target_code || t.target_id || t.id}&lat=${t.latitude}&lng=${t.longitude}&score=${t.prospectivity_score}`);
+        }}
+      />
     </div>
   );
 };
+

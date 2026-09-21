@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from datetime import datetime
+from datetime import datetime, timezone
 
 from app.database import get_db, check_db_connection, check_postgis
 from app.core.config import settings
@@ -15,7 +15,7 @@ async def health_check():
     
     return {
         "status": "ok" if db_ok else "degraded",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "version": settings.app_version,
         "environment": settings.app_env,
         "services": {

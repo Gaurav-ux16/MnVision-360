@@ -78,7 +78,7 @@ def simulate_scenario(request: WhatIfRequest):
     - Prototype simulation disclosure label
     """
     try:
-        req_dict = request.dict()
+        req_dict = request.model_dump()
         result = simulator.simulate(req_dict)
         
         scenario_id = result.get('whatif_scenario_id')

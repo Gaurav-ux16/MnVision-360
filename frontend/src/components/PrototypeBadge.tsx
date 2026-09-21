@@ -5,13 +5,16 @@ interface PrototypeBadgeProps {
   type?: 'banner' | 'badge' | 'inline';
   isReal?: boolean;
   message?: string;
+  label?: string;
 }
 
 export const PrototypeBadge: React.FC<PrototypeBadgeProps> = ({
   type = 'badge',
   isReal = false,
-  message
+  message,
+  label
 }) => {
+  const activeMessage = message || label;
   if (isReal) {
     if (type === 'banner') {
       return (
@@ -19,7 +22,7 @@ export const PrototypeBadge: React.FC<PrototypeBadgeProps> = ({
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-600" />
             <span className="font-bold">
-              {message || 'REAL GEOSPATIAL ML MODEL INTEGRATED — Balaghat AOI (SRTM DEM, Sentinel-1 SAR, Sentinel-2 Optical, GSI Geology & Geochemistry)'}
+              {activeMessage || 'REAL GEOSPATIAL ML MODEL INTEGRATED — Balaghat AOI (SRTM DEM, Sentinel-1 SAR, Sentinel-2 Optical, GSI Geology & Geochemistry)'}
             </span>
           </div>
           <span className="text-[10px] text-emerald-900 bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded uppercase font-extrabold">
@@ -33,7 +36,7 @@ export const PrototypeBadge: React.FC<PrototypeBadgeProps> = ({
       return (
         <span className="text-[11px] text-emerald-800 font-semibold flex items-center gap-1">
           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-          <span>{message || 'REAL GEOSPATIAL DATA'}</span>
+          <span>{activeMessage || 'REAL GEOSPATIAL DATA'}</span>
         </span>
       );
     }
@@ -47,7 +50,7 @@ export const PrototypeBadge: React.FC<PrototypeBadgeProps> = ({
   }
 
   // Fallback for Prototype Simulation Data (Operational Modules)
-  const defaultMessage = message || 'PROTOTYPE SIMULATION DATA — Synthetic MOIL Operational Telemetry';
+  const defaultMessage = activeMessage || 'PROTOTYPE SIMULATION DATA — Synthetic MOIL Operational Telemetry';
 
   if (type === 'banner') {
     return (

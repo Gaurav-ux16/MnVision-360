@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Building2, Layers, CheckCircle2, ShieldAlert, ChevronRight, Activity, Zap, Check, AlertTriangle, X } from 'lucide-react';
 import { PrototypeBadge } from '../components/PrototypeBadge';
 import { WorkflowStepper } from '../components/WorkflowStepper';
+import { BlockDrawer, MineBlockData } from '../components/BlockDrawer';
 import { Link, useNavigate } from 'react-router-dom';
 import { workflowApi } from '../services/api';
 
@@ -22,6 +23,7 @@ export const MineTwin: React.FC = () => {
   const navigate = useNavigate();
   const [mineState, setMineState] = useState<any>(null);
   const [blocks, setBlocks] = useState<MineBlockState[]>([]);
+  const [selectedBlock, setSelectedBlock] = useState<MineBlockData | null>(null);
   const [loading, setLoading] = useState(true);
 
   const handleProceedToShortfall = async () => {
@@ -67,22 +69,22 @@ export const MineTwin: React.FC = () => {
       <WorkflowStepper activeStep={6} />
 
       {/* Page Title Header */}
-      <div className="bg-gradient-to-r from-[#1B2170] via-[#313896] to-[#3B42A6] text-white p-6 rounded-2xl border border-[#2B308B] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-amber-300 uppercase tracking-wider">
-            <Building2 className="w-4 h-4 text-amber-300" />
+      <div className="bg-[#0A1128] text-white p-5 rounded border border-slate-800 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#C5A059] uppercase tracking-wider">
+            <Building2 className="w-4 h-4 text-[#C5A059]" />
             <span>MOIL UNDERGROUND MINE DIGITAL TWIN</span>
           </div>
-          <h1 className="text-2xl font-bold font-serif text-white mt-1">
+          <h1 className="text-xl md:text-2xl font-serif font-bold text-white tracking-tight">
             MineTwin Operational State & Block Readiness Matrix
           </h1>
-          <p className="text-xs text-blue-100/90 mt-1">
-            Real-time block readiness scoring feeding directly into ShortfallShield production forecasting
+          <p className="text-xs text-slate-400 font-normal">
+            Real-time 5-gate block readiness scoring feeding directly into ShortfallShield production forecasting.
           </p>
         </div>
-        <div className="bg-[#1B2170]/80 backdrop-blur-sm p-3.5 rounded-xl border border-white/20 text-xs font-mono shadow-inner">
-          <p className="text-blue-200">Current Active Mine</p>
-          <p className="text-white font-bold text-sm">Balaghat Mn Mine (385m ASL)</p>
+        <div className="bg-slate-900 px-3.5 py-2.5 rounded border border-slate-700 text-xs font-mono">
+          <p className="text-slate-400 text-[10px]">CURRENT ACTIVE MINE</p>
+          <p className="text-white font-bold text-xs">Balaghat Mn Mine (-385m RL Datum)</p>
         </div>
       </div>
 
@@ -107,12 +109,32 @@ export const MineTwin: React.FC = () => {
                 <th className="py-3.5 px-4">Readiness Score</th>
                 <th className="py-3.5 px-4">Est. Ore Tonnes</th>
                 <th className="py-3.5 px-4">Mn Grade (%)</th>
-                <th className="py-3.5 px-4 text-right rounded-r-xl">Operational Status</th>
+                <th className="py-3.5 px-4">Operational Status</th>
+                <th className="py-3.5 px-4 text-right rounded-r-xl">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">
               {blocks.map((block) => (
-                <tr key={block.block_code} className="hover:bg-[#F8FAFC] transition">
+                <tr 
+                  key={block.block_code} 
+                  className="hover:bg-[#F8FAFC] transition cursor-pointer"
+                  onClick={() => setSelectedBlock({
+                    block_code: block.block_code,
+                    development_pct: block.development_pct,
+                    access_pct: block.access_pct,
+                    drilling_pct: block.drilling_pct,
+                    blasting_pct: block.blasting_pct,
+                    readiness_score: block.readiness_score,
+                    estimated_ore_tonnes: block.estimated_ore_tonnes,
+                    mn_grade_pct: block.mn_grade_pct,
+                    fe_grade_pct: block.fe_grade_pct || 6.2,
+                    status: block.status,
+                    level_m: 385,
+                    ventilation_status: 'NORMAL (18.4 m³/s)',
+                    water_risk: 'LOW (12 L/min seepage)',
+                    equipment_available: true
+                  })}
+                >
                   <td className="py-3.5 px-4 font-mono font-bold text-[#313896]">
                     {block.block_code}
                   </td>
@@ -127,8 +149,35 @@ export const MineTwin: React.FC = () => {
                   </td>
                   <td className="py-3.5 px-4 font-mono">{block.estimated_ore_tonnes.toLocaleString()} MT</td>
                   <td className="py-3.5 px-4 font-bold text-slate-900">{block.mn_grade_pct}% Mn</td>
-                  <td className="py-3.5 px-4 text-right font-mono font-semibold text-[#313896]">
+                  <td className="py-3.5 px-4 font-mono font-semibold text-[#313896]">
                     {block.status}
+                  </td>
+                  <td className="py-3.5 px-4 text-right">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedBlock({
+                          block_code: block.block_code,
+                          development_pct: block.development_pct,
+                          access_pct: block.access_pct,
+                          drilling_pct: block.drilling_pct,
+                          blasting_pct: block.blasting_pct,
+                          readiness_score: block.readiness_score,
+                          estimated_ore_tonnes: block.estimated_ore_tonnes,
+                          mn_grade_pct: block.mn_grade_pct,
+                          fe_grade_pct: block.fe_grade_pct || 6.2,
+                          status: block.status,
+                          level_m: 385,
+                          ventilation_status: 'NORMAL (18.4 m³/s)',
+                          water_risk: 'LOW (12 L/min seepage)',
+                          equipment_available: true
+                        });
+                      }}
+                      className="px-3.5 py-1.5 bg-[#EBEFFA] hover:bg-[#D0DCF5] text-[#313896] text-[11px] font-bold rounded-full transition border border-[#D0DCF5] inline-flex items-center gap-1 shadow-sm"
+                    >
+                      <Layers className="w-3 h-3 text-[#313896]" />
+                      <span>INSPECT</span>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -147,6 +196,17 @@ export const MineTwin: React.FC = () => {
           <ChevronRight className="w-4 h-4 text-amber-300" />
         </button>
       </div>
+
+      {/* Contextual Mine Block Drawer */}
+      <BlockDrawer
+        isOpen={Boolean(selectedBlock)}
+        onClose={() => setSelectedBlock(null)}
+        block={selectedBlock}
+        onSimulateWhatIf={(block) => {
+          setSelectedBlock(null);
+          navigate('/whatif');
+        }}
+      />
     </div>
   );
 };

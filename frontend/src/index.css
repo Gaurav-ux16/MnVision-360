@@ -4,20 +4,100 @@
 
 :root {
   color-scheme: light;
+  --font-serif: 'Newsreader', Georgia, Cambria, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Cinzel', 'Newsreader', serif;
 }
 
 body {
   margin: 0;
-  background-color: #F8FAFC;
+  background-color: #F8F9FA;
   color: #0F172A;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* MOIL Government Portal Clean Custom Scrollbar */
+/* Editorial Typography */
+.font-editorial {
+  font-family: var(--font-serif);
+}
+
+.font-display-title {
+  font-family: var(--font-display);
+}
+
+.font-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Anglo American Inspired Editorial Vertical Accent Line */
+.vline-accent {
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.vline-accent::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  width: 3px;
+  background-color: #C5A059; /* Refined ochre gold */
+}
+
+.vline-accent-navy::before {
+  background-color: #0F172A;
+}
+
+/* Industrial Border System */
+.border-industrial {
+  border: 1px solid #E2E8F0;
+}
+
+.industrial-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.industrial-panel {
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  border-radius: 2px;
+}
+
+/* Subtle Industrial Data Table */
+.table-industrial th {
+  background-color: #F1F5F9;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 14px;
+  border-bottom: 1px solid #CBD5E1;
+}
+
+.table-industrial td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #F1F5F9;
+  font-size: 12px;
+}
+
+.table-industrial tr:hover td {
+  background-color: #F8FAFC;
+}
+
+/* Clean Professional Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -30,46 +110,11 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #1E3A8A;
+  background: #475569;
 }
 
 /* Custom map container */
 .map-container {
   width: 100%;
   height: 100%;
-}
-
-/* PSU Information Card Styling */
-.psu-card {
-  background-color: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.15s ease-in-out;
-}
-
-.psu-card:hover {
-  border-color: #CBD5E1;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.psu-navy {
-  color: #1E3A8A;
-}
-
-
-/* Government Section Header Bar */
-.psu-section-title {
-  position: relative;
-  font-weight: 700;
-  color: #0B192C;
-  padding-left: 12px;
-  border-left: 4px solid #D4AF37;
-}
-
-/* Mega Menu Dropdown Transition */
-.group:hover .mega-menu {
-  display: block;
-  opacity: 1;
-  visibility: visible;
 }

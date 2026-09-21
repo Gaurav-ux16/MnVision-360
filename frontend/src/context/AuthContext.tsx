@@ -21,6 +21,15 @@ const ALL_SYSTEM_ROUTES = [
   '/',
   '/login',
   '/contact',
+  '/app',
+  '/app/command',
+  '/app/explore',
+  '/app/mine',
+  '/app/produce',
+  '/app/decide',
+  '/app/map',
+  '/app/security',
+  '/app/data-models',
   '/exploration',
   '/drill-planning',
   '/target-resource',
@@ -47,6 +56,11 @@ const ROLE_PERMISSIONS: Record<string, string[]> = {
     '/',
     '/login',
     '/contact',
+    '/app',
+    '/app/command',
+    '/app/explore',
+    '/app/map',
+    '/app/data-models',
     '/exploration',
     '/drill-planning',
     '/target-resource',
@@ -58,6 +72,10 @@ const ROLE_PERMISSIONS: Record<string, string[]> = {
     '/',
     '/login',
     '/contact',
+    '/app',
+    '/app/command',
+    '/app/explore',
+    '/app/map',
     '/field-survey',
     '/exploration',
     '/weather',
@@ -65,10 +83,10 @@ const ROLE_PERMISSIONS: Record<string, string[]> = {
 };
 
 const DEFAULT_DASHBOARDS: Record<string, string> = {
-  'Admin': '/',
-  'Operations Manager': '/',
-  'Geologist': '/exploration',
-  'Field Officer': '/field-survey'
+  'Admin': '/app/command',
+  'Operations Manager': '/app/command',
+  'Geologist': '/app/explore',
+  'Field Officer': '/app/command'
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
