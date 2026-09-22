@@ -4,6 +4,7 @@ import { Map, calculateProspectivity } from '../components/Map';
 import { PrototypeBadge } from '../components/PrototypeBadge';
 import { TargetDrawer, TargetData } from '../components/TargetDrawer';
 import { GeoLayersSection } from '../components/GeoLayersSection';
+import { SubsurfaceLayerIntelligence } from '../components/SubsurfaceLayerIntelligence';
 import { IndiaManganeseMapSection } from '../components/IndiaManganeseMapSection';
 import { workflowApi } from '../services/api';
 import { 
@@ -441,7 +442,10 @@ export const ExplorationMap: React.FC = () => {
             }`}
           >
             <Layers className="w-3.5 h-3.5 text-amber-600" />
-            <span>Geo Layers</span>
+            <span>Subsurface & Ore Layers</span>
+            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-extrabold uppercase bg-[#C5A059] text-slate-950">
+              PRO
+            </span>
           </button>
 
           <button
@@ -454,9 +458,6 @@ export const ExplorationMap: React.FC = () => {
           >
             <Globe className="w-3.5 h-3.5 text-amber-500" />
             <span>India Manganese Map</span>
-            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-extrabold uppercase bg-red-600 text-white">
-              NEW
-            </span>
           </button>
 
           <button
@@ -490,9 +491,9 @@ export const ExplorationMap: React.FC = () => {
         </div>
       </div>
 
-      {/* ── GEO LAYERS & INDIA MAP DEDICATED WORKSPACE RENDER ────────────────── */}
+      {/* ── SUBSURFACE & ORE LAYERS DEDICATED WORKSPACE RENDER ────────────────── */}
       {exploreSubTab === 'geolayers' ? (
-        <GeoLayersSection />
+        <SubsurfaceLayerIntelligence />
       ) : exploreSubTab === 'indiamap' ? (
         <IndiaManganeseMapSection />
       ) : (
