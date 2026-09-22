@@ -1,4 +1,4 @@
-from app.api import health, mines, exploration, targets, production, equipment, blocks, recommendations, field
+from app.api import health, mines, exploration, targets, production, equipment, blocks, recommendations, field, geospatial
 
 __all__ = [
     "health",
@@ -10,4 +10,5 @@ __all__ = [
     "blocks",
     "recommendations",
     "field",
+    "geospatial",
 ]

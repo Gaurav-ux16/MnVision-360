@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import { 
   Globe, MapPin, Layers, Target, Search, ChevronRight, ShieldCheck, 
   Sparkles, CheckCircle2, AlertTriangle, ArrowRight, BarChart3, Database, Compass, Info, RefreshCw, ZoomIn, ZoomOut
 } from 'lucide-react';
+import { MapInspectionDrawer, InspectionData } from './MapInspectionDrawer';
 
 export interface IndiaSite {
   id: string;
@@ -209,14 +212,24 @@ export const IndiaManganeseMapSection: React.FC = () => {
   const [selectedTargetId, setSelectedTargetId] = useState<string | null>(null);
   const [targetDetail, setTargetDetail] = useState<TargetDetail | null>(null);
 
-  // Search & Filters
+  // Map Click Inspection Drawer State
+  const [inspectionData, setInspectionData] = useState<InspectionData | null>(null);
+  const [isInspectLoading, setIsInspectLoading] = useState<boolean>(false);
+
+  // Search & Layer Filters
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [mapLayerFilters, setMapLayerFilters] = useState<Record<string, boolean>>({
     occurrences: true,
     prospectivity: true,
-    mines: true,
-    targets: true
+    targets: true,
+    boundaries: true
   });
+
+  // MapLibre Reference
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<maplibregl.Map | null>(null);
+  const markersRef = useRef<maplibregl.Marker[]>([]);
+  const clickPinRef = useRef<maplibregl.Marker | null>(null);
 
   // Fetch Sites from Backend
   useEffect(() => {
@@ -242,16 +255,317 @@ export const IndiaManganeseMapSection: React.FC = () => {
     }
   }, [selectedTargetId]);
 
-  // Handle Drilling Down
+  // ── INITIALIZE KEYLESS MAPLIBRE GL GIS ENGINE (NO CARTO / NO API KEYS) ─────
+  useEffect(() => {
+    if (mapInstanceRef.current || !mapContainerRef.current) return;
+
+    // 100% Keyless, reliable OpenStreetMap raster base with dark scientific styling
+    const keylessStyle: maplibregl.StyleSpecification = {
+      version: 8,
+      sources: {
+        'osm-tiles': {
+          type: 'raster',
+          tiles: [
+            'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+          ],
+          tileSize: 256,
+          attribution: '© OpenStreetMap contributors'
+        }
+      },
+      layers: [
+        {
+          id: 'background',
+          type: 'background',
+          paint: {
+            'background-color': '#060B19'
+          }
+        },
+        {
+          id: 'osm-layer',
+          type: 'raster',
+          source: 'osm-tiles',
+          minzoom: 0,
+          maxzoom: 19,
+          paint: {
+            'raster-opacity': 0.16,
+            'raster-saturation': -0.92,
+            'raster-contrast': 0.10
+          }
+        }
+      ]
+    };
+
+    const map = new maplibregl.Map({
+      container: mapContainerRef.current,
+      style: keylessStyle,
+      center: [78.5, 22.0], // Centered over India
+      zoom: 4.4,
+      attributionControl: false
+    });
+
+    mapInstanceRef.current = map;
+
+    map.on('load', async () => {
+      // 1. Add India & State Vector Boundaries Layer (BASE LAYER)
+      try {
+        const boundRes = await fetch('/api/geospatial/boundaries/india');
+        if (boundRes.ok) {
+          const boundGeoJson = await boundRes.json();
+          map.addSource('india-boundaries', { type: 'geojson', data: boundGeoJson });
+
+          // Land fill
+          map.addLayer({
+            id: 'india-boundaries-fill',
+            type: 'fill',
+            source: 'india-boundaries',
+            paint: {
+              'fill-color': '#0A132C',
+              'fill-opacity': 0.50
+            }
+          });
+        }
+      } catch (e) {
+        console.warn('Could not load boundaries GeoJSON:', e);
+      }
+
+      // 2. Add Continuous Manganese Prospectivity GeoTIFF Raster Tiles Layer (PROSPECTIVITY RASTER)
+      map.addSource('prospectivity-raster', {
+        type: 'raster',
+        tiles: [
+          '/api/geospatial/tiles/prospectivity/{z}/{x}/{y}.png'
+        ],
+        tileSize: 256,
+        bounds: [68.0, 8.0, 89.0, 35.0]
+      });
+
+      map.addLayer({
+        id: 'prospectivity-raster-layer',
+        type: 'raster',
+        source: 'prospectivity-raster',
+        paint: {
+          'raster-opacity': 0.74,
+          'raster-fade-duration': 0
+        }
+      });
+
+      // 3. Add Boundaries Line on Top of Heatmap
+      if (map.getSource('india-boundaries')) {
+        map.addLayer({
+          id: 'india-boundaries-line',
+          type: 'line',
+          source: 'india-boundaries',
+          paint: {
+            'line-color': '#94A3B8',
+            'line-width': 1.6
+          }
+        });
+      }
+
+      // 4. Add Known Manganese Occurrences Point Layer
+      try {
+        const occRes = await fetch('/api/geospatial/occurrences/geojson');
+        if (occRes.ok) {
+          const occGeoJson = await occRes.json();
+          map.addSource('manganese-occurrences', { type: 'geojson', data: occGeoJson });
+
+          map.addLayer({
+            id: 'manganese-occurrences-circle',
+            type: 'circle',
+            source: 'manganese-occurrences',
+            paint: {
+              'circle-radius': 5,
+              'circle-color': '#06B6D4',
+              'circle-stroke-width': 1.5,
+              'circle-stroke-color': '#FFFFFF'
+            }
+          });
+        }
+      } catch (e) {
+        console.warn('Could not load occurrences GeoJSON:', e);
+      }
+
+      // 5. MAP CLICK EVENT LISTENER FOR REAL GIS POINT INSPECTION
+      map.on('click', async (e) => {
+        const lng = e.lngLat.lng;
+        const lat = e.lngLat.lat;
+
+        // Place custom glowing location pin
+        if (clickPinRef.current) {
+          clickPinRef.current.remove();
+        }
+
+        const pinDiv = document.createElement('div');
+        pinDiv.className = 'flex flex-col items-center cursor-pointer z-40 animate-pulse';
+        pinDiv.innerHTML = `
+          <div class="bg-amber-400 text-slate-950 font-mono font-black px-2 py-0.5 rounded text-[10px] shadow-lg border border-amber-300">
+            📍 (${lat.toFixed(4)}°, ${lng.toFixed(4)}°)
+          </div>
+          <div class="w-4 h-4 rounded-full bg-amber-400 border-2 border-slate-950 shadow-2xl mt-0.5"></div>
+        `;
+
+        clickPinRef.current = new maplibregl.Marker({ element: pinDiv })
+          .setLngLat([lng, lat])
+          .addTo(map);
+
+        // Fetch backend point query result
+        setIsInspectLoading(true);
+        try {
+          const queryRes = await fetch(`/api/geospatial/query?lat=${lat}&lon=${lng}`);
+          if (queryRes.ok) {
+            const queryData = await queryRes.json();
+            setInspectionData(queryData);
+          }
+        } catch (err) {
+          console.error('Spatial point query error:', err);
+        } finally {
+          setIsInspectLoading(false);
+        }
+      });
+    });
+
+    return () => {
+      mapInstanceRef.current?.remove();
+      mapInstanceRef.current = null;
+    };
+  }, []);
+
+  // ── UPDATE TARGET & SITE MARKERS ON MAP ────────────────────────────────────
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    if (!map || !map.isStyleLoaded()) return;
+
+    // Clear existing markers
+    markersRef.current.forEach((m) => m.remove());
+    markersRef.current = [];
+
+    // Add Target Pins if targets layer active
+    if (mapLayerFilters.targets) {
+      const targetPins = [
+        { id: 'T001', code: 'MN-BAL-001', name: 'Target T001 (Balaghat)', coords: [80.72, 21.84], score: '92%', rank: '#1', color: 'bg-red-600' },
+        { id: 'T003', code: 'MN-UKW-003', name: 'Target T003 (Tirodi)', coords: [79.82, 21.91], score: '87%', rank: '#2', color: 'bg-red-600' },
+        { id: 'T002', code: 'MN-DNG-002', name: 'Target T002 (Dongri)', coords: [79.92, 21.68], score: '76%', rank: '#3', color: 'bg-amber-500' },
+        { id: 'T004', code: 'MN-KNJ-004', name: 'Target T004 (Keonjhar)', coords: [85.30, 21.80], score: '81%', rank: '#4', color: 'bg-red-500' },
+        { id: 'T005', code: 'MN-SND-005', name: 'Target T005 (Sandur)', coords: [76.55, 15.08], score: '76%', rank: '#5', color: 'bg-amber-400' },
+        { id: 'T006', code: 'MN-SGB-006', name: 'Target T006 (Singhbhum)', coords: [85.75, 22.35], score: '73%', rank: '#6', color: 'bg-emerald-500' }
+      ];
+
+      targetPins.forEach((pin) => {
+        const isSelected = selectedTargetId === pin.id;
+
+        const container = document.createElement('div');
+        container.className = 'flex flex-col items-center cursor-pointer group z-30 transition-all duration-200';
+
+        const badgeDiv = document.createElement('div');
+        badgeDiv.className = `px-2 py-1 rounded-md shadow-2xl text-[10px] font-mono font-bold flex items-center gap-1.5 transition-all ${
+          isSelected
+            ? 'bg-[#0A1128] text-white ring-2 ring-[#C5A059] scale-110 shadow-amber-500/50'
+            : 'bg-[#070D1E]/90 text-white border border-slate-700 hover:scale-105'
+        }`;
+        badgeDiv.innerHTML = `
+          <span class="w-2 h-2 rounded-full ${pin.color}"></span>
+          <span>${pin.code}</span>
+          <span class="text-amber-300 font-extrabold">${pin.score}</span>
+        `;
+
+        const pinDot = document.createElement('div');
+        pinDot.className = `w-4 h-4 rounded-full ${pin.color} border-2 border-white shadow-xl mt-0.5 ${
+          isSelected ? 'ring-4 ring-amber-400 scale-125' : ''
+        }`;
+
+        container.appendChild(badgeDiv);
+        container.appendChild(pinDot);
+
+        container.onclick = (e) => {
+          e.stopPropagation();
+          handleSelectTarget(pin.id);
+        };
+
+        const m = new maplibregl.Marker({ element: container })
+          .setLngLat(pin.coords as [number, number])
+          .addTo(map);
+
+        markersRef.current.push(m);
+      });
+    }
+
+    // Toggle visibility of map layers
+    if (map.getLayer('prospectivity-raster-layer')) {
+      map.setLayoutProperty('prospectivity-raster-layer', 'visibility', mapLayerFilters.prospectivity ? 'visible' : 'none');
+    }
+    if (map.getLayer('manganese-occurrences-circle')) {
+      map.setLayoutProperty('manganese-occurrences-circle', 'visibility', mapLayerFilters.occurrences ? 'visible' : 'none');
+    }
+    if (map.getLayer('india-boundaries-line')) {
+      map.setLayoutProperty('india-boundaries-line', 'visibility', mapLayerFilters.boundaries ? 'visible' : 'none');
+    }
+  }, [mapLayerFilters, selectedTargetId]);
+
+  // ── HANDLE MAP DRILL-DOWN & FLY-TO ─────────────────────────────────────────
   const handleSelectSite = (site: IndiaSite) => {
     setSelectedSite(site);
     setHierarchyLevel(2);
     setSelectedTargetId('T001');
+
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.flyTo({
+        center: [site.longitude, site.latitude],
+        zoom: 9.8,
+        speed: 1.2,
+        curve: 1.4,
+        essential: true
+      });
+    }
   };
 
   const handleSelectTarget = (targetId: string) => {
     setSelectedTargetId(targetId);
     setHierarchyLevel(3);
+
+    const targetCoordsMap: Record<string, [number, number]> = {
+      'T001': [80.72, 21.84],
+      'T002': [79.92, 21.68],
+      'T003': [79.82, 21.91],
+      'T004': [85.30, 21.80],
+      'T005': [76.55, 15.08],
+      'T006': [85.75, 22.35]
+    };
+
+    const coords = targetCoordsMap[targetId];
+    if (coords && mapInstanceRef.current) {
+      mapInstanceRef.current.flyTo({
+        center: coords,
+        zoom: 11.5,
+        speed: 1.2,
+        curve: 1.4,
+        essential: true
+      });
+    }
+
+    // Trigger point query for target location
+    if (coords) {
+      fetch(`/api/geospatial/query?lat=${coords[1]}&lon=${coords[0]}`)
+        .then((res) => res.ok ? res.json() : null)
+        .then((data) => {
+          if (data) setInspectionData(data);
+        })
+        .catch(() => {});
+    }
+  };
+
+  const handleFlyToIndiaLevel = () => {
+    setHierarchyLevel(1);
+    setSelectedSite(null);
+    setSelectedTargetId(null);
+    setInspectionData(null);
+
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.flyTo({
+        center: [78.5, 22.0],
+        zoom: 4.4,
+        speed: 1.2,
+        essential: true
+      });
+    }
   };
 
   const toggleFilter = (key: string) => {
@@ -277,12 +591,8 @@ export const IndiaManganeseMapSection: React.FC = () => {
           {/* Hierarchical Clickable Breadcrumbs */}
           <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#C5A059] uppercase tracking-wider">
             <button
-              onClick={() => {
-                setHierarchyLevel(1);
-                setSelectedSite(null);
-                setSelectedTargetId(null);
-              }}
-              className="hover:underline flex items-center gap-1"
+              onClick={handleFlyToIndiaLevel}
+              className="hover:underline flex items-center gap-1 text-[#C5A059]"
             >
               <Globe className="w-3.5 h-3.5 text-amber-500" />
               <span>INDIA NATIONAL MAP</span>
@@ -317,65 +627,77 @@ export const IndiaManganeseMapSection: React.FC = () => {
             India Manganese Intelligence Map
           </h2>
           <p className="text-xs text-slate-600 font-medium">
-            From national manganese geochemical distribution to drill-ready exploration targets.
+            Continuous manganese prospectivity surface generated from GeoTIFF rasterio tiles and GSI geochemical evidence.
           </p>
         </div>
 
-        {/* Global Search Bar */}
+        {/* Global Search & Zoom Controls */}
         <div className="flex items-center gap-3">
           <div className="relative">
             <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-slate-400" />
             <input
               type="text"
-              placeholder="Search site, district, state or Target ID (e.g. T001)..."
+              placeholder="Search site, district, state or Target ID..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 pr-4 py-1.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-[#0A1128] w-64 font-semibold"
             />
           </div>
+
+          <button
+            onClick={handleFlyToIndiaLevel}
+            className="px-3 py-1.5 rounded-lg bg-[#0A1128] hover:bg-slate-900 text-[#C5A059] font-mono text-xs font-bold transition shadow-sm flex items-center gap-1.5"
+          >
+            <Compass className="w-3.5 h-3.5" />
+            <span>Reset India Zoom</span>
+          </button>
         </div>
       </div>
 
       {/* ── MAP LAYER TOGGLE & PROVENANCE STRIP ───────────────────────────────── */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-[#0A1128] text-white p-3 rounded-lg border border-slate-800 text-xs font-mono">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-slate-400 font-bold uppercase mr-1">Display Layers:</span>
-          <button
-            onClick={() => toggleFilter('occurrences')}
-            className={`px-2.5 py-1 rounded text-[11px] font-bold transition ${
-              mapLayerFilters.occurrences ? 'bg-[#C5A059] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
-            }`}
-          >
-            ◆ Occurrences ({sites.reduce((acc, s) => acc + s.occurrences_count, 0)})
-          </button>
+          <span className="text-slate-400 font-bold uppercase mr-1">Interactive Layers:</span>
+          
           <button
             onClick={() => toggleFilter('prospectivity')}
             className={`px-2.5 py-1 rounded text-[11px] font-bold transition ${
               mapLayerFilters.prospectivity ? 'bg-[#C5A059] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
             }`}
           >
-            ░ AI Geochemical Heatmap
+            ░ Prospectivity Heatmap
           </button>
-          <button
-            onClick={() => toggleFilter('mines')}
-            className={`px-2.5 py-1 rounded text-[11px] font-bold transition ${
-              mapLayerFilters.mines ? 'bg-[#C5A059] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
-            }`}
-          >
-            ● Active MOIL Mines ({sites.filter(s => s.status === 'PRODUCING_MINE').length})
-          </button>
+
           <button
             onClick={() => toggleFilter('targets')}
             className={`px-2.5 py-1 rounded text-[11px] font-bold transition ${
               mapLayerFilters.targets ? 'bg-[#C5A059] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
             }`}
           >
-            △ Exploration Targets
+            △ Exploration Targets (6)
+          </button>
+
+          <button
+            onClick={() => toggleFilter('occurrences')}
+            className={`px-2.5 py-1 rounded text-[11px] font-bold transition ${
+              mapLayerFilters.occurrences ? 'bg-[#C5A059] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
+            }`}
+          >
+            ◆ Mn Occurrences & Assays
+          </button>
+
+          <button
+            onClick={() => toggleFilter('boundaries')}
+            className={`px-2.5 py-1 rounded text-[11px] font-bold transition ${
+              mapLayerFilters.boundaries ? 'bg-[#C5A059] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
+            }`}
+          >
+            ⬡ State & National Borders
           </button>
         </div>
 
         <div className="text-[10px] text-slate-400 italic">
-          Coverage based on GSI NGCM Geochemistry Assays & MOIL Mining Inventories
+          Dataset: India Modelled Prospectivity Surface • Source: GeoTIFF Rasterio & GSI NGCM Assays
         </div>
       </div>
 
@@ -388,7 +710,7 @@ export const IndiaManganeseMapSection: React.FC = () => {
             <div className="flex items-center gap-2 font-mono">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
               <span className="font-bold text-[#C5A059]">
-                {hierarchyLevel === 1 && 'LEVEL 1: NATIONAL MANGANESE DISTRIBUTION (INDIA GEOSPATIAL MAP)'}
+                {hierarchyLevel === 1 && 'LEVEL 1: NATIONAL MANGANESE DISTRIBUTION (GEOTIFF RASTER TILES)'}
                 {hierarchyLevel === 2 && `LEVEL 2: REGIONAL EXPLORATION AREA — ${selectedSite?.name}`}
                 {hierarchyLevel === 3 && `LEVEL 3: TARGET EXPLORATION ZONE — ${targetDetail?.mn_target_code || 'T001'}`}
               </span>
@@ -396,11 +718,7 @@ export const IndiaManganeseMapSection: React.FC = () => {
 
             {hierarchyLevel > 1 && (
               <button
-                onClick={() => {
-                  setHierarchyLevel(1);
-                  setSelectedSite(null);
-                  setSelectedTargetId(null);
-                }}
+                onClick={handleFlyToIndiaLevel}
                 className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[#C5A059] text-[10px] font-bold transition"
               >
                 ← Return to India Map
@@ -408,318 +726,73 @@ export const IndiaManganeseMapSection: React.FC = () => {
             )}
           </div>
 
-          {/* ── HIGH-FIDELITY GEOGRAPHIC SVG MAP ENGINE (MATCHING REFERENCE SPECIFICATION) ── */}
-          <div className="w-full h-[620px] relative bg-[#040814] overflow-hidden select-none">
-            <svg
-              viewBox="0 0 1000 900"
-              className="w-full h-full object-contain filter drop-shadow-2xl"
-              style={{ background: '#040814' }}
-            >
-              <defs>
-                {/* 1. HIGH-PRECISION INDIA LANDMASS BOUNDARY CLIP-PATH (NO OVERSPRAY INTO OCEAN) */}
-                <clipPath id="indiaLandClip">
-                  <path d="M 465,65 C 480,55 505,60 525,75 C 545,90 535,120 515,145 C 495,170 470,165 440,175 C 410,185 375,215 345,245 C 320,270 295,330 280,360 C 260,370 235,375 220,395 C 210,410 230,425 255,425 C 275,420 285,405 295,435 C 310,455 330,445 335,475 C 325,510 338,555 345,610 C 355,660 380,720 405,770 C 425,810 435,845 440,845 C 445,845 460,810 475,760 C 500,700 540,630 580,570 C 615,525 660,475 700,430 C 715,445 735,455 745,430 C 755,405 735,395 760,370 C 790,365 830,345 850,305 C 855,280 830,270 800,285 C 770,300 740,320 715,295 C 685,285 640,290 600,295 C 555,240 500,185 465,65 Z" />
-                </clipPath>
+          {/* ── LIVE MAPLIBRE GL JS GIS CANVAS ENGINE ──────────────────────────── */}
+          <div className="w-full h-[640px] relative bg-[#040814] overflow-hidden select-none">
+            <div ref={mapContainerRef} className="w-full h-full" />
 
-                {/* 2. CONTINUOUS INTERPOLATED GEOCHEMICAL FIELD GRADIENTS (GSI NGCM ASSAY PALETTE) */}
-                {/* Central Sausar Belt (MP/MH) High-Grade Heatmap Core */}
-                <radialGradient id="sausarHeatmap" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#DC2626" stopOpacity="0.95" />
-                  <stop offset="25%" stopColor="#EF4444" stopOpacity="0.9" />
-                  <stop offset="45%" stopColor="#F97316" stopOpacity="0.85" />
-                  <stop offset="65%" stopColor="#FACC15" stopOpacity="0.75" />
-                  <stop offset="82%" stopColor="#22C55E" stopOpacity="0.55" />
-                  <stop offset="95%" stopColor="#06B6D4" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#1E3A8A" stopOpacity="0.1" />
-                </radialGradient>
-
-                {/* Keonjhar-Bonai (Odisha) High-Grade Heatmap Core */}
-                <radialGradient id="keonjharHeatmap" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#DC2626" stopOpacity="0.92" />
-                  <stop offset="30%" stopColor="#F97316" stopOpacity="0.85" />
-                  <stop offset="55%" stopColor="#FACC15" stopOpacity="0.7" />
-                  <stop offset="78%" stopColor="#22C55E" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#06B6D4" stopOpacity="0" />
-                </radialGradient>
-
-                {/* Sandur Belt (Karnataka) Heatmap Core */}
-                <radialGradient id="sandurHeatmap" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#EA580C" stopOpacity="0.9" />
-                  <stop offset="35%" stopColor="#FACC15" stopOpacity="0.8" />
-                  <stop offset="65%" stopColor="#86EFAC" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#2563EB" stopOpacity="0" />
-                </radialGradient>
-
-                {/* Singhbhum/North-East Regional Gradient */}
-                <radialGradient id="singhbhumHeatmap" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#FACC15" stopOpacity="0.75" />
-                  <stop offset="50%" stopColor="#22C55E" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#2563EB" stopOpacity="0" />
-                </radialGradient>
-              </defs>
-
-              {/* Geographic Coordinate Graticule Grid Lines */}
-              <g stroke="#1E293B" strokeWidth="0.75" strokeDasharray="3 3">
-                {/* Latitude Lines */}
-                <line x1="50" y1="100" x2="950" y2="100" />
-                <line x1="50" y1="250" x2="950" y2="250" />
-                <line x1="50" y1="400" x2="950" y2="400" />
-                <line x1="50" y1="550" x2="950" y2="550" />
-                <line x1="50" y1="700" x2="950" y2="700" />
-                
-                {/* Longitude Lines */}
-                <line x1="150" y1="50" x2="150" y2="850" />
-                <line x1="350" y1="50" x2="350" y2="850" />
-                <line x1="550" y1="50" x2="550" y2="850" />
-                <line x1="750" y1="50" x2="750" y2="850" />
-
-                {/* Coordinate Grid Labels */}
-                <text x="20" y="105" fill="#64748B" fontSize="11" fontFamily="monospace">35°N</text>
-                <text x="20" y="255" fill="#64748B" fontSize="11" fontFamily="monospace">30°N</text>
-                <text x="20" y="405" fill="#64748B" fontSize="11" fontFamily="monospace">25°N</text>
-                <text x="20" y="555" fill="#64748B" fontSize="11" fontFamily="monospace">20°N</text>
-                <text x="20" y="705" fill="#64748B" fontSize="11" fontFamily="monospace">15°N</text>
-
-                <text x="145" y="40" fill="#64748B" fontSize="11" fontFamily="monospace">70°E</text>
-                <text x="345" y="40" fill="#64748B" fontSize="11" fontFamily="monospace">75°E</text>
-                <text x="545" y="40" fill="#64748B" fontSize="11" fontFamily="monospace">80°E</text>
-                <text x="745" y="40" fill="#64748B" fontSize="11" fontFamily="monospace">85°E</text>
-              </g>
-
-              {/* MAIN GEOGRAPHIC MAP GROUP WITH ZOOM TRANSFORM */}
-              <g transform={hierarchyLevel === 1 ? "scale(1)" : hierarchyLevel === 2 ? "translate(-300, -200) scale(1.8)" : "translate(-600, -400) scale(2.6)"} style={{ transition: 'all 0.6s ease-in-out' }}>
-                
-                {/* ── CLIPPED CONTINUOUS GEOCHEMICAL HEATMAP SURFACE (EDGE-TO-EDGE IN INDIA) ── */}
-                <g clipPath="url(#indiaLandClip)">
-                  {/* Base Land Fill (Low Concentration Blue Baseline < 243 ppm) */}
-                  <rect width="1000" height="900" fill="#0C1A3A" />
-
-                  {mapLayerFilters.prospectivity && (
-                    <g>
-                      {/* Regional Background Warm Ambient Glow */}
-                      <circle cx="530" cy="480" r="320" fill="#2563EB" opacity="0.3" />
-                      <circle cx="530" cy="480" r="260" fill="#06B6D4" opacity="0.3" />
-
-                      {/* Major Manganese Field Hotspots */}
-                      {/* 1. Sausar Belt Field (MP/MH) */}
-                      <circle cx="485" cy="470" r="190" fill="url(#sausarHeatmap)" />
-                      {/* 2. Keonjhar-Bonai Belt Field (Odisha) */}
-                      <circle cx="650" cy="450" r="160" fill="url(#keonjharHeatmap)" />
-                      {/* 3. Sandur Belt Field (Karnataka) */}
-                      <circle cx="405" cy="640" r="130" fill="url(#sandurHeatmap)" />
-                      {/* 4. Singhbhum Mineralized Field */}
-                      <circle cx="710" cy="390" r="140" fill="url(#singhbhumHeatmap)" />
-                    </g>
-                  )}
-                </g>
-
-                {/* ── INDIA LANDMASS BORDER & STATE BOUNDARY LINES OVERLAY ── */}
-                {/* High-Precision India Boundary Outline */}
-                <path
-                  d="M 465,65 C 480,55 505,60 525,75 C 545,90 535,120 515,145 C 495,170 470,165 440,175 C 410,185 375,215 345,245 C 320,270 295,330 280,360 C 260,370 235,375 220,395 C 210,410 230,425 255,425 C 275,420 285,405 295,435 C 310,455 330,445 335,475 C 325,510 338,555 345,610 C 355,660 380,720 405,770 C 425,810 435,845 440,845 C 445,845 460,810 475,760 C 500,700 540,630 580,570 C 615,525 660,475 700,430 C 715,445 735,455 745,430 C 755,405 735,395 760,370 C 790,365 830,345 850,305 C 855,280 830,270 800,285 C 770,300 740,320 715,295 C 685,285 640,290 600,295 C 555,240 500,185 465,65 Z"
-                  fill="none"
-                  stroke="#94A3B8"
-                  strokeWidth="2"
-                  filter="drop-shadow(0px 0px 4px rgba(0,0,0,0.8))"
-                />
-
-                {/* State Boundary Sub-Lines */}
-                <path d="M 345,245 C 410,250 490,240 550,230" stroke="#475569" strokeWidth="1" strokeDasharray="4 2" fill="none" opacity="0.7" />
-                <path d="M 345,430 C 440,400 560,400 660,430" stroke="#475569" strokeWidth="1" strokeDasharray="4 2" fill="none" opacity="0.7" />
-                <path d="M 335,475 C 440,520 540,520 640,490" stroke="#475569" strokeWidth="1" strokeDasharray="4 2" fill="none" opacity="0.7" />
-                <path d="M 345,610 C 430,620 500,600 580,570" stroke="#475569" strokeWidth="1" strokeDasharray="4 2" fill="none" opacity="0.7" />
-
-                {/* State Labels */}
-                <text x="460" y="425" fill="#E2E8F0" fontSize="10" fontWeight="bold" fontFamily="sans-serif" opacity="0.8" letterSpacing="1">MADHYA PRADESH</text>
-                <text x="390" y="525" fill="#E2E8F0" fontSize="10" fontWeight="bold" fontFamily="sans-serif" opacity="0.8" letterSpacing="1">MAHARASHTRA</text>
-                <text x="635" y="490" fill="#E2E8F0" fontSize="10" fontWeight="bold" fontFamily="sans-serif" opacity="0.8" letterSpacing="1">ODISHA</text>
-                <text x="360" y="675" fill="#E2E8F0" fontSize="10" fontWeight="bold" fontFamily="sans-serif" opacity="0.8" letterSpacing="1">KARNATAKA</text>
-
-                {/* ── INTERACTIVE SITE MARKERS & NON-OVERLAPPING LEADER CALLOUTS ── */}
-                {filteredSites.map((site) => {
-                  let px = 505; let py = 450; // default
-                  let lx1 = 505; let ly1 = 450;
-                  let lx2 = 550; let ly2 = 405;
-                  let lx3 = 575; let ly3 = 405;
-                  let bx = 575; let by = 390;
-                  let numberStr = "1";
-
-                  if (site.id === 'site-balaghat') {
-                    px = 505; py = 450;
-                    lx1 = 505; ly1 = 450; lx2 = 550; ly2 = 405; lx3 = 575; ly3 = 405;
-                    bx = 575; by = 390; numberStr = "①";
-                  } else if (site.id === 'site-ukwa') {
-                    px = 525; py = 435;
-                    lx1 = 525; ly1 = 435; lx2 = 560; ly2 = 355; lx3 = 585; ly3 = 355;
-                    bx = 585; by = 340; numberStr = "②";
-                  } else if (site.id === 'site-dongri') {
-                    px = 455; py = 480;
-                    lx1 = 455; ly1 = 480; lx2 = 380; ly2 = 440; lx3 = 355; ly3 = 440;
-                    bx = 155; by = 425; numberStr = "③";
-                  } else if (site.id === 'site-chikla') {
-                    px = 435; py = 495;
-                    lx1 = 435; ly1 = 495; lx2 = 360; ly2 = 510; lx3 = 335; ly3 = 510;
-                    bx = 135; by = 495; numberStr = "④";
-                  } else if (site.id === 'site-keonjhar') {
-                    px = 650; py = 450;
-                    lx1 = 650; ly1 = 450; lx2 = 710; ly2 = 480; lx3 = 730; ly3 = 480;
-                    bx = 730; by = 465; numberStr = "⑤";
-                  } else if (site.id === 'site-sandur') {
-                    px = 405; py = 640;
-                    lx1 = 405; ly1 = 640; lx2 = 330; ly2 = 670; lx3 = 305; ly3 = 670;
-                    bx = 105; by = 655; numberStr = "⑥";
-                  }
-
-                  const isSelected = selectedSite?.id === site.id;
-
-                  return (
-                    <g 
-                      key={site.id}
-                      className="cursor-pointer group"
-                      onClick={() => handleSelectSite(site)}
-                    >
-                      {/* Leader Callout Line */}
-                      {mapLayerFilters.mines && (
-                        <polyline
-                          points={`${lx1},${ly1} ${lx2},${ly2} ${lx3},${ly3}`}
-                          fill="none"
-                          stroke={isSelected ? '#C5A059' : '#94A3B8'}
-                          strokeWidth={isSelected ? '2' : '1.2'}
-                          strokeDasharray={isSelected ? 'none' : '2 2'}
-                          opacity={isSelected ? '1' : '0.8'}
-                        />
-                      )}
-
-                      {/* Map Pin Pulse & Core Dot */}
-                      <g transform={`translate(${px}, ${py})`}>
-                        <circle r="14" fill="#EF4444" opacity="0.35" className="animate-ping" />
-                        <circle r="8" fill={isSelected ? '#C5A059' : '#DC2626'} stroke="#FFFFFF" strokeWidth="2" />
-                        <circle r="3" fill="#FFFFFF" />
-                      </g>
-
-                      {/* Non-Overlapping Callout Badge */}
-                      {mapLayerFilters.mines && (
-                        <g transform={`translate(${bx}, ${by})`}>
-                          <rect
-                            x="0"
-                            y="0"
-                            width="195"
-                            height="30"
-                            rx="5"
-                            fill={isSelected ? '#0A1128' : '#070D1E'}
-                            stroke={isSelected ? '#C5A059' : '#334155'}
-                            strokeWidth={isSelected ? '2' : '1'}
-                            className="shadow-xl transition-all duration-200 group-hover:stroke-[#C5A059]"
-                          />
-                          <text x="8" y="19" fill="#FACC15" fontSize="12" fontWeight="bold" fontFamily="mono">
-                            {numberStr}
-                          </text>
-                          <text x="24" y="14" fill="#FFFFFF" fontSize="10" fontWeight="bold" fontFamily="sans-serif">
-                            {site.name}
-                          </text>
-                          <text x="24" y="24" fill={isSelected ? '#34D399' : '#94A3B8'} fontSize="8" fontFamily="monospace">
-                            {site.measured_mn_wt_pct}% Mn • {site.targets_count} Targets
-                          </text>
-                        </g>
-                      )}
-                    </g>
-                  );
-                })}
-
-                {/* TARGET PINS (IF AT LEVEL 2 OR 3) */}
-                {hierarchyLevel >= 2 && (
-                  <g transform="translate(505, 450)">
-                    {/* T001 Pin */}
-                    <g className="cursor-pointer" onClick={() => handleSelectTarget('T001')}>
-                      <polygon points="0,-14 11,8 -11,8" fill="#DC2626" stroke="#FFFFFF" strokeWidth="2" />
-                      <text x="15" y="4" fill="#FACC15" fontSize="11" fontWeight="bold" fontFamily="monospace">T001 (92%)</text>
-                    </g>
-                    {/* T002 Pin */}
-                    <g transform="translate(-40, 30)" className="cursor-pointer" onClick={() => handleSelectTarget('T002')}>
-                      <polygon points="0,-12 9,6 -9,6" fill="#F97316" stroke="#FFFFFF" strokeWidth="2" />
-                      <text x="13" y="4" fill="#FFFFFF" fontSize="10" fontWeight="bold" fontFamily="monospace">T002 (76%)</text>
-                    </g>
-                    {/* T003 Pin */}
-                    <g transform="translate(45, -25)" className="cursor-pointer" onClick={() => handleSelectTarget('T003')}>
-                      <polygon points="0,-12 9,6 -9,6" fill="#EF4444" stroke="#FFFFFF" strokeWidth="2" />
-                      <text x="13" y="4" fill="#FFFFFF" fontSize="10" fontWeight="bold" fontFamily="monospace">T003 (87%)</text>
-                    </g>
-                  </g>
-                )}
-              </g>
-            </svg>
-
-            {/* ── SCIENTIFIC CONCENTRATION LEGEND BOX (EXACT MATCH TO REFERENCE IMAGE 2) ── */}
-            <div className="absolute bottom-4 left-4 z-30 bg-[#090D16]/95 border-2 border-slate-700 p-3.5 rounded-lg text-white font-mono text-[10px] shadow-2xl space-y-2 max-w-[240px]">
+            {/* Scientific Heatmap Concentration Legend Box */}
+            <div className="absolute bottom-4 left-4 z-30 bg-[#090D16]/95 border-2 border-slate-700 p-3 rounded-lg text-white font-mono text-[10px] shadow-2xl space-y-2 max-w-[240px]">
               <div className="border-b border-slate-700 pb-1 font-sans">
                 <span className="font-bold text-[#C5A059] block uppercase text-[11px]">EXPLANATION</span>
-                <span className="text-slate-300 block text-[10px]">Mn Geochemistry (Top 0-to-5 cm)</span>
+                <span className="text-slate-300 block text-[10px]">Modelled Manganese Prospectivity Surface</span>
               </div>
 
               <div className="space-y-1">
                 <div className="flex items-center justify-between text-[9px]">
-                  <span className="font-bold text-slate-400">PERCENTILE</span>
-                  <span className="font-bold text-slate-400">mg/kg (ppm)</span>
+                  <span className="font-bold text-slate-400">PROBABILITY</span>
+                  <span className="font-bold text-slate-400">CLASSIFICATION</span>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <span className="w-4 h-3 bg-[#DC2626] border border-white/40" />
-                    <span>90 to 100</span>
+                    <span>0.85 to 1.00</span>
                   </div>
-                  <strong className="text-red-400">1180 to 7780</strong>
+                  <strong className="text-red-400">Very High</strong>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <span className="w-4 h-3 bg-[#EA580C] border border-white/40" />
-                    <span>80 to 90</span>
+                    <span>0.70 to 0.85</span>
                   </div>
-                  <span className="text-orange-300">881 to 1180</span>
+                  <span className="text-orange-300">High</span>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
-                    <span className="w-4 h-3 bg-[#FACC15] stroke-slate-900 border border-white/40" />
-                    <span>70 to 80</span>
+                    <span className="w-4 h-3 bg-[#FACC15] border border-white/40" />
+                    <span>0.55 to 0.70</span>
                   </div>
-                  <span className="text-yellow-300">713 to 881</span>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-4 h-3 bg-[#86EFAC] border border-white/40" />
-                    <span>60 to 70</span>
-                  </div>
-                  <span className="text-emerald-300">591 to 713</span>
+                  <span className="text-yellow-300">Moderate</span>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <span className="w-4 h-3 bg-[#22C55E] border border-white/40" />
-                    <span>40 to 60</span>
+                    <span>0.40 to 0.55</span>
                   </div>
-                  <span className="text-emerald-400">411 to 591</span>
+                  <span className="text-emerald-300">Low-Moderate</span>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <span className="w-4 h-3 bg-[#06B6D4] border border-white/40" />
-                    <span>20 to 40</span>
+                    <span>0.25 to 0.40</span>
                   </div>
-                  <span className="text-cyan-300">243 to 411</span>
+                  <span className="text-cyan-300">Low</span>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <span className="w-4 h-3 bg-[#2563EB] border border-white/40" />
-                    <span>&lt; 20</span>
+                    <span>&lt; 0.25</span>
                   </div>
-                  <span className="text-blue-400">&lt; 243</span>
+                  <span className="text-blue-400">Background</span>
                 </div>
               </div>
 
-              {/* Lambert Projection & Scale Bar */}
+              {/* Map Scale Bar */}
               <div className="pt-1.5 border-t border-slate-800 text-[9px] text-slate-400 font-mono space-y-0.5">
                 <div className="flex justify-between">
                   <span>0</span>
@@ -733,15 +806,21 @@ export const IndiaManganeseMapSection: React.FC = () => {
                   <div className="w-1/4 h-full bg-white" />
                   <div className="w-1/4 h-full bg-slate-900" />
                 </div>
-                <div className="text-[8px] text-slate-500 pt-0.5">GSI NGCM Data • Lambert Conformal Conic Projection</div>
+                <div className="text-[8px] text-slate-500 pt-0.5">Click map to inspect point values • GeoTIFF Rasterio WGS84</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ── RIGHT COLUMN: TARGET DETAIL & EVIDENCE PANEL (4 COLUMNS) ─────────── */}
+        {/* ── RIGHT COLUMN: MAP INSPECTION / TARGET DETAIL PANEL (4 COLUMNS) ───── */}
         <div className="lg:col-span-4 space-y-6">
-          {targetDetail ? (
+          {inspectionData ? (
+            <MapInspectionDrawer
+              data={inspectionData}
+              onClose={() => setInspectionData(null)}
+              onOpenTargetDetail={(tId) => handleSelectTarget(tId)}
+            />
+          ) : targetDetail ? (
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-6">
               {/* Target Header */}
               <div className="space-y-2 border-b border-slate-100 pb-4">
@@ -787,14 +866,9 @@ export const IndiaManganeseMapSection: React.FC = () => {
                     <strong className="text-cyan-300 text-sm">{targetDetail.confidence_pct}%</strong>
                   </div>
                 </div>
-
-                <div className="pt-2 text-[10px] text-slate-400 border-t border-slate-800 flex justify-between">
-                  <span>Applicability Domain: <strong className="text-emerald-400 font-bold">{targetDetail.applicability}</strong></span>
-                  <span>Assay: Certified XRF</span>
-                </div>
               </div>
 
-              {/* 2. WHY WAS THIS TARGET PREDICTED? (SHAP FEATURE ATTRIBUTION) */}
+              {/* 2. WHY WAS THIS TARGET PREDICTED? */}
               <div className="space-y-3 pt-2">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                   <span className="font-serif font-bold text-sm text-slate-900">Why did AI predict {targetDetail.target_id}?</span>
@@ -819,38 +893,7 @@ export const IndiaManganeseMapSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* 3. SUPPORTING EVIDENCE CARDS */}
-              <div className="space-y-3 pt-2 border-t border-slate-100">
-                <span className="font-serif font-bold text-sm text-slate-900 block">Supporting Evidence Cards</span>
-                <div className="space-y-2.5 max-h-56 overflow-y-auto">
-                  {targetDetail.evidence_cards.map((card) => (
-                    <div key={card.title} className="p-3 bg-slate-50 border border-slate-200 rounded text-xs space-y-1">
-                      <div className="flex items-center justify-between font-bold text-slate-900">
-                        <span>{card.title}</span>
-                        <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-slate-200 text-slate-700">
-                          {card.category}
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-slate-600 leading-relaxed">{card.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* 4. NEARBY BOREHOLES */}
-              {targetDetail.nearby_drillholes.length > 0 && (
-                <div className="space-y-2 pt-2 border-t border-slate-100 font-mono text-xs">
-                  <span className="font-bold text-slate-800 block">Nearby Certified Boreholes:</span>
-                  {targetDetail.nearby_drillholes.map((bh) => (
-                    <div key={bh.hole_id} className="p-2 rounded bg-slate-50 border border-slate-200 flex justify-between text-[11px]">
-                      <span className="font-bold text-slate-900">{bh.hole_id} ({bh.depth_m}m)</span>
-                      <span className="text-emerald-700 font-bold">{bh.mn_intercept_pct}% Mn Intercept</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* 5. ACTION BUTTONS */}
+              {/* 3. ACTION BUTTONS */}
               <div className="pt-4 border-t border-slate-200 space-y-2">
                 <button
                   onClick={() => navigate(`/app/explore/${targetDetail.target_id}`)}
@@ -862,10 +905,14 @@ export const IndiaManganeseMapSection: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="p-6 rounded-xl bg-slate-50 border border-dashed border-slate-300 text-center text-xs text-slate-500 space-y-2">
-              <Compass className="w-8 h-8 text-slate-400 mx-auto" />
-              <p className="font-bold text-slate-700">Select a Site or Target Zone</p>
-              <p className="text-[11px]">Click any site on the India map or choose Target T001 to view target-level evidence breakdowns.</p>
+            <div className="p-6 rounded-xl bg-slate-50 border border-dashed border-slate-300 text-center text-xs text-slate-500 space-y-3">
+              <Compass className="w-8 h-8 text-[#C5A059] mx-auto animate-spin" style={{ animationDuration: '10s' }} />
+              <div className="space-y-1">
+                <p className="font-bold text-slate-800 text-sm">Interactive GIS Point Inspector</p>
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  Click <strong>anywhere on the map of India</strong> to inspect exact longitude/latitude, continuous prospectivity score, Mn geochemistry ppm, confidence, and multi-source evidence breakdown.
+                </p>
+              </div>
             </div>
           )}
         </div>

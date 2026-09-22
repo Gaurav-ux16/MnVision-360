@@ -34,6 +34,7 @@ from app.api import (
     whatif,
     workflow,
     decisions,
+    geospatial,
 )
 from app.database import check_db_connection
 
@@ -125,3 +126,4 @@ app.include_router(recommendations.router, prefix="/api", tags=["Recommendations
 app.include_router(field.router, prefix="/api", tags=["Field Operations"])
 app.include_router(workflow.router, prefix="/api", tags=["Workflow State"])
 app.include_router(decisions.router, prefix="/api", tags=["Decision & Governance"])
+app.include_router(geospatial.router, prefix="/api", tags=["Geospatial GIS"])
