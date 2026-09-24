@@ -69,10 +69,10 @@ export const TargetResource: React.FC = () => {
       <WorkflowStepper activeStep={4} targetId={targetId} />
 
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-[#1B2170] via-[#313896] to-[#3B42A6] text-white p-6 rounded-2xl border border-[#2B308B] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-[#0B4F8A] via-[#1769AA] to-[#2A7BBE] text-white p-6 rounded-2xl border border-[#1769AA] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-amber-300 uppercase tracking-wider">
-            <Database className="w-4 h-4 text-amber-300" />
+          <div className="flex items-center gap-2 text-xs font-bold text-orange-300 uppercase tracking-wider">
+            <Database className="w-4 h-4 text-orange-300" />
             <span>STAGE 4: GEOLOGICAL RESOURCE ESTIMATION (Target: {res.target_id})</span>
           </div>
           <h1 className="text-2xl font-bold font-serif text-white mt-1 flex items-center gap-3">
@@ -86,10 +86,10 @@ export const TargetResource: React.FC = () => {
           </p>
         </div>
 
-        <div className="bg-[#1B2170]/80 backdrop-blur-sm p-4 rounded-xl border border-white/20 text-xs font-mono space-y-1.5 shadow-inner">
+        <div className="bg-[#0B4F8A]/80 backdrop-blur-sm p-4 rounded-xl border border-white/20 text-xs font-mono space-y-1.5 shadow-inner">
           <div className="flex justify-between gap-6">
             <span className="text-blue-200">Total Ore Volume:</span>
-            <strong className="text-amber-300 font-bold">{(res.gross_in_situ_tonnes / 1000000.0).toFixed(2)} Million MT</strong>
+            <strong className="text-orange-300 font-bold">{(res.gross_in_situ_tonnes / 1000000.0).toFixed(2)} Million MT</strong>
           </div>
           <div className="flex justify-between gap-6">
             <span className="text-blue-200">Avg Mn Grade:</span>
@@ -114,7 +114,7 @@ export const TargetResource: React.FC = () => {
 
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-1">
           <span className="text-[10px] font-bold uppercase text-slate-500 block">Indicated Resource</span>
-          <span className="text-lg font-bold text-[#313896] block font-mono">
+          <span className="text-lg font-bold text-[#1769AA] block font-mono">
             {(res.resource_hierarchy.indicated_resource_tonnes / 1000000.0).toFixed(2)} M MT
           </span>
           <span className="text-[10px] text-slate-500 block">P50 Core Validated</span>
@@ -136,12 +136,12 @@ export const TargetResource: React.FC = () => {
           <span className="text-[10px] text-slate-500 block">Gross In-Situ</span>
         </div>
 
-        <div className="bg-amber-50 p-4 rounded-xl border border-amber-200 shadow-sm space-y-1">
-          <span className="text-[10px] font-bold uppercase text-amber-800 block">Mineable Reserve</span>
-          <span className="text-lg font-bold text-amber-900 block font-mono">
+        <div className="bg-orange-50 p-4 rounded-xl border border-orange-200 shadow-sm space-y-1">
+          <span className="text-[10px] font-bold uppercase text-orange-800 block">Mineable Reserve</span>
+          <span className="text-lg font-bold text-orange-900 block font-mono">
             {(res.resource_hierarchy.mineable_reserve_tonnes / 1000000.0).toFixed(2)} M MT
           </span>
-          <span className="text-[10px] text-amber-700 block">85% Mining Recovery</span>
+          <span className="text-[10px] text-orange-700 block">85% Mining Recovery</span>
         </div>
 
         <div className="bg-emerald-50 p-4 rounded-xl border border-emerald-200 shadow-sm space-y-1">
@@ -154,11 +154,11 @@ export const TargetResource: React.FC = () => {
       </div>
 
       {/* Domain Distinction & Safety Banner */}
-      <div className="bg-[#FFF8F0] border border-amber-300 p-4 rounded-xl text-amber-950 text-xs flex items-start gap-3 shadow-sm">
-        <ShieldAlert className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+      <div className="bg-[#FFF8F0] border border-orange-300 p-4 rounded-xl text-orange-950 text-xs flex items-start gap-3 shadow-sm">
+        <ShieldAlert className="w-5 h-5 text-orange-600 shrink-0 mt-0.5" />
         <div>
-          <strong className="text-sm font-bold text-amber-950 block">Domain Distinction & Legal Compliance Mandate</strong>
-          <p className="mt-0.5 text-amber-900 leading-relaxed font-sans">
+          <strong className="text-sm font-bold text-orange-950 block">Domain Distinction & Legal Compliance Mandate</strong>
+          <p className="mt-0.5 text-orange-900 leading-relaxed font-sans">
             {res.resource_note} Geological resource estimates represent total in-situ mineral endowment. Mineable reserves account for mining recovery and dilution factors, whereas ready blocks represent stope volume developed for immediate extraction.
           </p>
         </div>
@@ -167,15 +167,15 @@ export const TargetResource: React.FC = () => {
       {/* Next Step Navigation CTA */}
       <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <h4 className="text-sm font-bold text-[#313896]">Proceed to Stage 5: Production Forecasting</h4>
+          <h4 className="text-sm font-bold text-[#1769AA]">Proceed to Stage 5: Production Forecasting</h4>
           <p className="text-xs text-slate-500">Connect mineral ready block inventory into ShortfallShield 7/15/30 day production forecast.</p>
         </div>
         <button
           onClick={handleProceedToProduction}
-          className="px-6 py-2.5 bg-[#313896] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full transition shadow-sm flex items-center gap-2"
+          className="px-6 py-2.5 bg-[#1769AA] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full transition shadow-sm flex items-center gap-2"
         >
           <span>Proceed to Stage 5: Production Forecast</span>
-          <ArrowRight className="w-4 h-4 text-amber-300" />
+          <ArrowRight className="w-4 h-4 text-orange-300" />
         </button>
       </div>
     </div>

@@ -133,12 +133,12 @@ export const Login: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-[#003366] flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans">
       {/* Background Radial Pattern Overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:24px_24px] opacity-15" />
+      <div className="absolute inset-0 bg-[radial-gradient(#F28C28_1px,transparent_1px)] [background-size:24px_24px] opacity-15" />
 
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl border-2 border-[#D4AF37] p-8 relative z-10 space-y-6">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl border-2 border-[#F28C28] p-8 relative z-10 space-y-6">
         {/* Branding Header */}
         <div className="text-center space-y-2">
-          <div className="w-16 h-16 rounded-full bg-[#003366] text-[#D4AF37] mx-auto flex flex-col items-center justify-center border-2 border-[#D4AF37] shadow-lg">
+          <div className="w-16 h-16 rounded-full bg-[#003366] text-[#F28C28] mx-auto flex flex-col items-center justify-center border-2 border-[#F28C28] shadow-lg">
             <span className="text-xs font-black tracking-widest leading-none">MOIL</span>
             <span className="text-[9px] font-bold text-white tracking-tighter">LIMITED</span>
           </div>
@@ -149,7 +149,7 @@ export const Login: React.FC = () => {
             MOIL Space-to-Mine Intelligence Platform
           </p>
           <div className="inline-flex items-center gap-1 bg-blue-50 text-[#003366] text-[10px] px-2.5 py-0.5 rounded font-bold border border-blue-200">
-            <ShieldCheck className="w-3 h-3 text-amber-600" />
+            <ShieldCheck className="w-3 h-3 text-orange-600" />
             <span>Secure Government JWT & Backend Derived RBAC</span>
           </div>
         </div>
@@ -163,7 +163,7 @@ export const Login: React.FC = () => {
 
         {successMsg && (
           <div className="bg-blue-50 border border-blue-200 text-[#003366] p-3 rounded-lg text-xs flex items-center gap-2 font-medium">
-            <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-orange-600 shrink-0" />
             <span>{successMsg}</span>
           </div>
         )}
@@ -182,7 +182,7 @@ export const Login: React.FC = () => {
               onClick={() => handleSelectPreset('admin')}
               className={`p-2.5 rounded-lg border text-left font-bold transition flex flex-col justify-between ${
                 username === 'admin' 
-                  ? 'bg-[#003366] text-white border-[#D4AF37] shadow-md' 
+                  ? 'bg-[#003366] text-white border-[#F28C28] shadow-md' 
                   : 'bg-slate-50 text-slate-700 hover:bg-blue-50 border-slate-200'
               }`}
             >
@@ -198,7 +198,7 @@ export const Login: React.FC = () => {
               onClick={() => handleSelectPreset('ops_manager')}
               className={`p-2.5 rounded-lg border text-left font-bold transition flex flex-col justify-between ${
                 username === 'ops_manager' 
-                  ? 'bg-[#003366] text-white border-[#D4AF37] shadow-md' 
+                  ? 'bg-[#003366] text-white border-[#F28C28] shadow-md' 
                   : 'bg-slate-50 text-slate-700 hover:bg-blue-50 border-slate-200'
               }`}
             >
@@ -214,7 +214,7 @@ export const Login: React.FC = () => {
               onClick={() => handleSelectPreset('geologist')}
               className={`p-2.5 rounded-lg border text-left font-bold transition flex flex-col justify-between ${
                 username === 'geologist' 
-                  ? 'bg-[#003366] text-white border-[#D4AF37] shadow-md' 
+                  ? 'bg-[#003366] text-white border-[#F28C28] shadow-md' 
                   : 'bg-slate-50 text-slate-700 hover:bg-blue-50 border-slate-200'
               }`}
             >
@@ -230,7 +230,7 @@ export const Login: React.FC = () => {
               onClick={() => handleSelectPreset('field_officer')}
               className={`p-2.5 rounded-lg border text-left font-bold transition flex flex-col justify-between ${
                 username === 'field_officer' 
-                  ? 'bg-[#003366] text-white border-[#D4AF37] shadow-md' 
+                  ? 'bg-[#003366] text-white border-[#F28C28] shadow-md' 
                   : 'bg-slate-50 text-slate-700 hover:bg-blue-50 border-slate-200'
               }`}
             >
@@ -282,11 +282,11 @@ export const Login: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-[#003366] hover:bg-[#002855] text-white font-bold rounded-lg text-xs tracking-wider uppercase shadow-lg transition-transform hover:scale-[1.01] flex items-center justify-center gap-2 border border-amber-400/50 mt-2 disabled:opacity-50"
+            className="w-full py-3 bg-[#003366] hover:bg-[#002855] text-white font-bold rounded-lg text-xs tracking-wider uppercase shadow-lg transition-transform hover:scale-[1.01] flex items-center justify-center gap-2 border border-orange-400/50 mt-2 disabled:opacity-50"
           >
-            <Lock className="w-4 h-4 text-amber-300" />
+            <Lock className="w-4 h-4 text-orange-300" />
             <span>{loading ? 'AUTHENTICATING WITH BACKEND...' : 'AUTHORIZE & ENTER PORTAL'}</span>
-            <ArrowRight className="w-4 h-4 text-amber-300" />
+            <ArrowRight className="w-4 h-4 text-orange-300" />
           </button>
         </form>
 

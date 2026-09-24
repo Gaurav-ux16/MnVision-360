@@ -254,7 +254,7 @@ export const FieldSurvey: React.FC = () => {
       case 'Synced':
         return <span className="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[11px]">Synced</span>;
       case 'Saved Offline':
-        return <span className="bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded text-[11px]">Saved Offline</span>;
+        return <span className="bg-orange-100 text-orange-800 font-bold px-2 py-0.5 rounded text-[11px]">Saved Offline</span>;
       case 'Sync Failed':
         return <span className="bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded text-[11px]">Sync Failed</span>;
       default:
@@ -270,10 +270,10 @@ export const FieldSurvey: React.FC = () => {
       <WorkflowStepper activeStep={3} targetId={surveyData.targetId} />
 
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-[#1B2170] via-[#313896] to-[#3B42A6] text-white p-6 rounded-2xl border border-[#2B308B] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-[#0B4F8A] via-[#1769AA] to-[#2A7BBE] text-white p-6 rounded-2xl border border-[#1769AA] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-amber-300 uppercase tracking-wider">
-            <MapPin className="w-4 h-4 text-amber-300" />
+          <div className="flex items-center gap-2 text-xs font-bold text-orange-300 uppercase tracking-wider">
+            <MapPin className="w-4 h-4 text-orange-300" />
             <span>FIELD GEOLOGY LOGGING & GROUND-TRUTH PWA</span>
           </div>
           <h1 className="text-2xl font-bold font-serif text-white mt-1">
@@ -287,10 +287,10 @@ export const FieldSurvey: React.FC = () => {
         {/* Sync Status Badge Indicator */}
         <div className="flex items-center gap-3">
           <div className={`p-3 rounded-xl border text-xs font-mono backdrop-blur-sm ${
-            isOnline ? 'bg-[#1B2170]/80 border-white/20 text-cyan-200' : 'bg-amber-950/80 border-amber-700 text-amber-300'
+            isOnline ? 'bg-[#0B4F8A]/80 border-white/20 text-cyan-200' : 'bg-orange-950/80 border-orange-700 text-orange-300'
           }`}>
             <div className="flex items-center gap-2 font-bold">
-              {isOnline ? <Wifi className="w-4 h-4 text-emerald-400" /> : <WifiOff className="w-4 h-4 text-amber-400" />}
+              {isOnline ? <Wifi className="w-4 h-4 text-emerald-400" /> : <WifiOff className="w-4 h-4 text-orange-400" />}
               <span>{isOnline ? 'Network Online' : 'Offline Mode (PWA)'}</span>
             </div>
             <p className="text-[10px] text-blue-200 mt-0.5">Status: {syncStatus}</p>
@@ -299,7 +299,7 @@ export const FieldSurvey: React.FC = () => {
           {offlineQueue.length > 0 && (
             <button
               onClick={handleBatchSync}
-              className="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold text-xs rounded-full transition flex items-center gap-1.5 shadow-sm"
+              className="px-4 py-2 bg-orange-400 hover:bg-orange-300 text-slate-900 font-bold text-xs rounded-full transition flex items-center gap-1.5 shadow-sm"
             >
               <RefreshCw className="w-4 h-4 animate-spin" />
               <span>Sync {offlineQueue.length} Records</span>
@@ -312,9 +312,9 @@ export const FieldSurvey: React.FC = () => {
         
         {/* LEFT COLUMN: FIELD LOGGING FORM */}
         <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4">
-          <h3 className="text-base font-bold text-[#313896] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
+          <h3 className="text-base font-bold text-[#1769AA] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
             <span>Record Outcrop / Core Observation</span>
-            <span className="text-xs font-mono text-[#313896] bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">Target ID: {surveyData.targetId}</span>
+            <span className="text-xs font-mono text-[#1769AA] bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">Target ID: {surveyData.targetId}</span>
           </h3>
 
           {submitted ? (
@@ -326,7 +326,7 @@ export const FieldSurvey: React.FC = () => {
               </p>
               <button 
                 onClick={() => setSubmitted(false)}
-                className="px-5 py-2.5 bg-[#313896] text-white text-xs font-bold rounded-full hover:bg-[#282D7A] transition shadow-sm"
+                className="px-5 py-2.5 bg-[#1769AA] text-white text-xs font-bold rounded-full hover:bg-[#282D7A] transition shadow-sm"
               >
                 Log Additional Sample
               </button>
@@ -437,9 +437,9 @@ export const FieldSurvey: React.FC = () => {
               <div className="pt-2 flex justify-end">
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-[#313896] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full transition shadow-sm flex items-center gap-2"
+                  className="px-6 py-2.5 bg-[#1769AA] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full transition shadow-sm flex items-center gap-2"
                 >
-                  <Upload className="w-4 h-4 text-amber-300" />
+                  <Upload className="w-4 h-4 text-orange-300" />
                   <span>Save & Sync Observation</span>
                 </button>
               </div>
@@ -450,9 +450,9 @@ export const FieldSurvey: React.FC = () => {
         {/* RIGHT COLUMN: CONTROLLED MODEL RETRAINING & GROUND TRUTH VALIDATION PANEL */}
         <div className="space-y-6">
           <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4">
-            <h3 className="text-base font-bold text-[#313896] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
+            <h3 className="text-base font-bold text-[#1769AA] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
               <span>Ground-Truth Validation Panel</span>
-              <Database className="w-4 h-4 text-[#313896]" />
+              <Database className="w-4 h-4 text-[#1769AA]" />
             </h3>
 
             <p className="text-xs text-slate-600">
@@ -463,13 +463,13 @@ export const FieldSurvey: React.FC = () => {
               {groundTruthList.map((gt) => (
                 <div key={gt.ground_truth_id} className="p-3.5 bg-[#F8FAFC] border border-slate-200/80 rounded-xl text-xs space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono font-bold text-[#313896]">{gt.ground_truth_id} ({gt.target_id})</span>
+                    <span className="font-mono font-bold text-[#1769AA]">{gt.ground_truth_id} ({gt.target_id})</span>
                     <span className={`font-bold px-2.5 py-0.5 rounded-full text-[10px] ${
                       gt.validation_status === 'Validated'
                         ? 'bg-emerald-100 text-emerald-800'
                         : gt.validation_status === 'Rejected'
                         ? 'bg-red-100 text-red-800'
-                        : 'bg-amber-100 text-amber-800'
+                        : 'bg-orange-100 text-orange-800'
                     }`}>
                       {gt.validation_status}
                     </span>
@@ -504,14 +504,14 @@ export const FieldSurvey: React.FC = () => {
             <div className="pt-2 border-t border-slate-100 space-y-2">
               <button
                 onClick={handleControlledRetrain}
-                className="w-full py-2.5 bg-[#313896] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full transition shadow-sm flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-[#1769AA] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full transition shadow-sm flex items-center justify-center gap-2"
               >
-                <Sparkles className="w-4 h-4 text-amber-300" />
+                <Sparkles className="w-4 h-4 text-orange-300" />
                 <span>Trigger Controlled Model Retraining</span>
               </button>
 
               {retrainMsg && (
-                <div className="p-3 bg-[#EBEFFA] border border-[#D0DCF5] rounded-xl text-[11px] text-[#313896] font-mono">
+                <div className="p-3 bg-[#EBEFFA] border border-[#D0DCF5] rounded-xl text-[11px] text-[#1769AA] font-mono">
                   {retrainMsg}
                 </div>
               )}
@@ -533,10 +533,10 @@ export const FieldSurvey: React.FC = () => {
 
         <button
           onClick={() => navigate(`/target-resource?target_id=${surveyData.targetId || 'MN-TGT-001'}`)}
-          className="w-full sm:w-auto px-7 py-2.5 bg-[#313896] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full transition shadow-md flex items-center justify-center gap-2"
+          className="w-full sm:w-auto px-7 py-2.5 bg-[#1769AA] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full transition shadow-md flex items-center justify-center gap-2"
         >
           <span>PROCEED TO STAGE 4: RESOURCE ESTIMATION</span>
-          <ArrowRight className="w-4 h-4 text-amber-300" />
+          <ArrowRight className="w-4 h-4 text-orange-300" />
         </button>
       </div>
     </div>

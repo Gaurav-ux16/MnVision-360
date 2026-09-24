@@ -145,10 +145,10 @@ export const ProductionShortfall: React.FC = () => {
         message="PAGE 3: PRODUCTION SHORTFALL — Production Target Assessment & Gap Analysis (Balaghat Belt)" 
       />
 
-      <div className="bg-gradient-to-r from-[#1B2170] via-[#313896] to-[#3B42A6] text-white p-6 rounded-2xl border border-[#2B308B] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-[#0B4F8A] via-[#1769AA] to-[#2A7BBE] text-white p-6 rounded-2xl border border-[#1769AA] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-xs font-bold text-amber-300 uppercase tracking-wider">
-            <BarChart2 className="w-4 h-4 text-amber-300" />
+          <div className="flex items-center gap-2 text-xs font-bold text-orange-300 uppercase tracking-wider">
+            <BarChart2 className="w-4 h-4 text-orange-300" />
             <span>PAGE 3: PRODUCTION SHORTFALL</span>
           </div>
           <h1 className="text-2xl font-bold font-serif text-white tracking-tight">
@@ -159,23 +159,23 @@ export const ProductionShortfall: React.FC = () => {
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-2 text-[11px] font-mono text-blue-100">
-            <span className="bg-[#1B2170]/80 px-2.5 py-1 rounded-md border border-white/20">
+            <span className="bg-[#0B4F8A]/80 px-2.5 py-1 rounded-md border border-white/20">
               Mine: {forecastContext?.mine_name || 'Balaghat Underground Mine'}
             </span>
             <span className="text-white/40">•</span>
-            <span className="bg-[#1B2170]/80 px-2.5 py-1 rounded-md border border-white/20">
+            <span className="bg-[#0B4F8A]/80 px-2.5 py-1 rounded-md border border-white/20">
               Mine Type: {forecastContext?.mine_type || 'UNDERGROUND'}
             </span>
             <span className="text-white/40">•</span>
-            <span className="bg-[#1B2170]/80 px-2.5 py-1 rounded-md border border-white/20">
+            <span className="bg-[#0B4F8A]/80 px-2.5 py-1 rounded-md border border-white/20">
               Target ID: {shortfallEval?.target_id || forecastContext?.target_id || 'MN-TGT-001'}
             </span>
             <span className="text-white/40">•</span>
-            <span className="bg-[#1B2170]/80 px-2.5 py-1 rounded-md border border-white/20 font-bold text-amber-300">
+            <span className="bg-[#0B4F8A]/80 px-2.5 py-1 rounded-md border border-white/20 font-bold text-orange-300">
               Forecast ID: {shortfallEval?.forecast_id || forecastContext?.forecast_id || 'FCST-2026-001'}
             </span>
             <span className="text-white/40">•</span>
-            <span className="bg-[#1B2170]/80 px-2.5 py-1 rounded-md border border-white/20">
+            <span className="bg-[#0B4F8A]/80 px-2.5 py-1 rounded-md border border-white/20">
               Forecast Period: {forecastContext?.forecast_result?.forecast_period || 'Next 7-Day Operational Horizon'}
             </span>
             <span className="text-white/40">•</span>
@@ -190,7 +190,7 @@ export const ProductionShortfall: React.FC = () => {
             onClick={handleBackToEstimateProduction}
             className="px-5 py-2 bg-white/10 hover:bg-white/20 text-white font-bold text-xs rounded-full border border-white/30 transition flex items-center gap-1.5 active:scale-95"
           >
-            <ArrowLeft className="w-4 h-4 text-amber-300" />
+            <ArrowLeft className="w-4 h-4 text-orange-300" />
             <span>[ BACK TO ESTIMATE PRODUCTION ]</span>
           </button>
         </div>
@@ -209,7 +209,7 @@ export const ProductionShortfall: React.FC = () => {
           </div>
           <button
             onClick={handleBackToEstimateProduction}
-            className="px-4 py-2 bg-[#313896] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full shadow"
+            className="px-4 py-2 bg-[#1769AA] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full shadow"
           >
             [ BACK TO ESTIMATE PRODUCTION ]
           </button>
@@ -220,8 +220,8 @@ export const ProductionShortfall: React.FC = () => {
         <>
           <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
             <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
-              <h2 className="text-base font-bold text-[#313896] font-serif uppercase tracking-wide flex items-center gap-2">
-                <BarChart2 className="w-4 h-4 text-[#313896]" />
+              <h2 className="text-base font-bold text-[#1769AA] font-serif uppercase tracking-wide flex items-center gap-2">
+                <BarChart2 className="w-4 h-4 text-[#1769AA]" />
                 <span>PRODUCTION ASSESSMENT</span>
               </h2>
               <span className="text-xs text-slate-500 font-mono">
@@ -238,8 +238,8 @@ export const ProductionShortfall: React.FC = () => {
               </div>
 
               <div className="p-5 bg-[#EBEFFA] border border-[#D0DCF5] rounded-xl space-y-1">
-                <span className="text-[#313896] font-sans font-semibold text-xs block">FORECAST PRODUCTION</span>
-                <strong className="text-2xl text-[#313896] font-extrabold block mt-1">
+                <span className="text-[#1769AA] font-sans font-semibold text-xs block">FORECAST PRODUCTION</span>
+                <strong className="text-2xl text-[#1769AA] font-extrabold block mt-1">
                   {shortfallEval.forecast_tonnes.toLocaleString()} tonnes
                 </strong>
               </div>
@@ -256,7 +256,7 @@ export const ProductionShortfall: React.FC = () => {
             </div>
 
             <div className="bg-[#F8FAFC] p-5 rounded-xl border border-slate-200 space-y-4">
-              <span className="font-bold text-xs text-[#313896] font-serif uppercase tracking-wider block border-b border-slate-200 pb-2">
+              <span className="font-bold text-xs text-[#1769AA] font-serif uppercase tracking-wider block border-b border-slate-200 pb-2">
                 TARGET vs FORECAST TONNAGE COMPARISON VISUAL
               </span>
 
@@ -273,18 +273,18 @@ export const ProductionShortfall: React.FC = () => {
                         <strong className="text-slate-900">{shortfallEval.target_tonnes.toLocaleString()} tonnes</strong>
                       </div>
                       <div className="w-full bg-slate-200 rounded-full h-4 overflow-hidden">
-                        <div className="bg-[#313896] h-full rounded-full transition-all duration-500" style={{ width: `${tgtPct}%` }} />
+                        <div className="bg-[#1769AA] h-full rounded-full transition-all duration-500" style={{ width: `${tgtPct}%` }} />
                       </div>
                     </div>
 
                     <div className="space-y-1">
                       <div className="flex justify-between font-sans">
-                        <span className="font-bold text-[#313896]">FORECAST PRODUCTION:</span>
-                        <strong className="text-[#313896]">{shortfallEval.forecast_tonnes.toLocaleString()} tonnes</strong>
+                        <span className="font-bold text-[#1769AA]">FORECAST PRODUCTION:</span>
+                        <strong className="text-[#1769AA]">{shortfallEval.forecast_tonnes.toLocaleString()} tonnes</strong>
                       </div>
                       <div className="w-full bg-slate-200 rounded-full h-4 overflow-hidden">
                         <div className={`h-full rounded-full transition-all duration-500 ${
-                          shortfallEval.has_shortfall ? 'bg-amber-500' : 'bg-emerald-600'
+                          shortfallEval.has_shortfall ? 'bg-orange-500' : 'bg-emerald-600'
                         }`} style={{ width: `${fcstPct}%` }} />
                       </div>
                     </div>
@@ -320,9 +320,9 @@ export const ProductionShortfall: React.FC = () => {
 
                   <button
                     onClick={handleAnalyzeWhy}
-                    className="px-6 py-2.5 bg-[#313896] hover:bg-[#282D7A] text-white font-extrabold text-xs rounded-full shadow transition flex items-center gap-2 shrink-0 active:scale-95"
+                    className="px-6 py-2.5 bg-[#1769AA] hover:bg-[#282D7A] text-white font-extrabold text-xs rounded-full shadow transition flex items-center gap-2 shrink-0 active:scale-95"
                   >
-                    <Zap className="w-4 h-4 text-amber-300 fill-amber-300" />
+                    <Zap className="w-4 h-4 text-orange-300 fill-orange-300" />
                     <span>[ ANALYZE WHY ]</span>
                   </button>
                 </div>
@@ -361,8 +361,8 @@ export const ProductionShortfall: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <div className="lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
               <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
-                <h3 className="text-base font-bold text-[#313896] font-serif uppercase tracking-wide flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-[#313896]" />
+                <h3 className="text-base font-bold text-[#1769AA] font-serif uppercase tracking-wide flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-[#1769AA]" />
                   <span>FORECAST DETAILS & PROVENANCE</span>
                 </h3>
                 <span className="text-xs text-slate-500 font-mono">Page 2 Audit Record</span>
@@ -371,7 +371,7 @@ export const ProductionShortfall: React.FC = () => {
               <div className="space-y-2.5 text-xs font-sans">
                 <div className="flex justify-between py-1 border-b border-slate-100">
                   <span className="text-slate-600 font-semibold">Forecast ID:</span>
-                  <strong className="font-mono text-[#313896] font-bold">{shortfallEval.forecast_id}</strong>
+                  <strong className="font-mono text-[#1769AA] font-bold">{shortfallEval.forecast_id}</strong>
                 </div>
 
                 <div className="flex justify-between py-1 border-b border-slate-100">
@@ -403,8 +403,8 @@ export const ProductionShortfall: React.FC = () => {
 
             <div className="lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
               <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
-                <h3 className="text-base font-bold text-[#313896] font-serif uppercase tracking-wide flex items-center gap-2">
-                  <Database className="w-4 h-4 text-[#313896]" />
+                <h3 className="text-base font-bold text-[#1769AA] font-serif uppercase tracking-wide flex items-center gap-2">
+                  <Database className="w-4 h-4 text-[#1769AA]" />
                   <span>RESOURCE & OPERATIONAL CONTEXT</span>
                 </h3>
                 <span className="text-xs text-slate-500 font-mono">Mine Context</span>
@@ -462,17 +462,17 @@ export const ProductionShortfall: React.FC = () => {
               onClick={handleBackToEstimateProduction}
               className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-full border border-slate-300 transition flex items-center gap-2"
             >
-              <ArrowLeft className="w-4 h-4 text-[#313896]" />
+              <ArrowLeft className="w-4 h-4 text-[#1769AA]" />
               <span>[ BACK TO ESTIMATE PRODUCTION ]</span>
             </button>
 
             {shortfallEval.has_shortfall && (
               <button
                 onClick={handleAnalyzeWhy}
-                className="px-6 py-2.5 bg-[#313896] hover:bg-[#282D7A] text-white font-extrabold text-xs rounded-full shadow transition flex items-center gap-2 active:scale-95"
+                className="px-6 py-2.5 bg-[#1769AA] hover:bg-[#282D7A] text-white font-extrabold text-xs rounded-full shadow transition flex items-center gap-2 active:scale-95"
               >
                 <span>[ ANALYZE WHY ]</span>
-                <ArrowRight className="w-4 h-4 text-amber-300" />
+                <ArrowRight className="w-4 h-4 text-orange-300" />
               </button>
             )}
           </div>

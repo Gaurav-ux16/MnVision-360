@@ -287,7 +287,7 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
       markerRef.current.setLngLat([lon, lat]);
     } else {
       const el = document.createElement('div');
-      el.className = 'w-7 h-7 rounded-full bg-gradient-to-tr from-amber-600 to-amber-400 border-2 border-white shadow-xl flex items-center justify-center text-xs animate-bounce cursor-pointer';
+      el.className = 'w-7 h-7 rounded-full bg-gradient-to-tr from-orange-600 to-orange-400 border-2 border-white shadow-xl flex items-center justify-center text-xs animate-bounce cursor-pointer';
       el.innerHTML = '📍';
 
       markerRef.current = new maplibregl.Marker({ element: el })
@@ -386,17 +386,17 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* ── TOP WORKSPACE HEADER & COORDINATE CONTROL BAR ───────────────────── */}
-      <div className="bg-[#0A1128] rounded-2xl border border-slate-800 p-4 shadow-xl text-white space-y-3">
+      <div className="bg-[#0B4F8A] rounded-2xl border border-slate-800 p-4 shadow-xl text-white space-y-3">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
           <div>
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-lg bg-[#C5A059]/10 border border-[#C5A059]/30 text-[#C5A059]">
+              <div className="p-1.5 rounded-lg bg-[#F28C28]/10 border border-[#F28C28]/30 text-[#F28C28]">
                 <Layers className="w-5 h-5" />
               </div>
               <h2 className="text-lg font-bold font-serif tracking-wide text-white">
                 SUBSURFACE & ORE INTELLIGENCE
               </h2>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-[#C5A059]/20 text-[#C5A059] border border-[#C5A059]/40">
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-[#F28C28]/20 text-[#F28C28] border border-[#F28C28]/40">
                 PRO LAYER STACK
               </span>
             </div>
@@ -414,7 +414,7 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
                 onClick={() => handleJumpToPreset(preset)}
                 className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition border ${
                   locationMeta?.sector === preset.name
-                    ? 'bg-[#C5A059] text-slate-950 font-bold border-[#C5A059]'
+                    ? 'bg-[#F28C28] text-slate-950 font-bold border-[#F28C28]'
                     : 'bg-slate-900/80 text-slate-300 border-slate-800 hover:border-slate-700 hover:text-white'
                 }`}
               >
@@ -428,7 +428,7 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           <form onSubmit={handleManualCoordSubmit} className="flex items-center flex-wrap gap-2 w-full sm:w-auto">
             <div className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-[#C5A059]" />
+              <MapPin className="w-3.5 h-3.5 text-[#F28C28]" />
               <span className="text-slate-400 font-mono text-[11px]">Pin Coordinates:</span>
             </div>
 
@@ -439,7 +439,7 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
                 value={inputLat}
                 onChange={(e) => setInputLat(e.target.value)}
                 placeholder="Lat °N"
-                className="w-24 px-2.5 py-1 bg-slate-900 border border-slate-700 rounded font-mono text-xs text-white focus:outline-none focus:border-[#C5A059]"
+                className="w-24 px-2.5 py-1 bg-slate-900 border border-slate-700 rounded font-mono text-xs text-white focus:outline-none focus:border-[#F28C28]"
               />
               <span className="text-slate-500">°N</span>
             </div>
@@ -451,14 +451,14 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
                 value={inputLon}
                 onChange={(e) => setInputLon(e.target.value)}
                 placeholder="Lon °E"
-                className="w-24 px-2.5 py-1 bg-slate-900 border border-slate-700 rounded font-mono text-xs text-white focus:outline-none focus:border-[#C5A059]"
+                className="w-24 px-2.5 py-1 bg-slate-900 border border-slate-700 rounded font-mono text-xs text-white focus:outline-none focus:border-[#F28C28]"
               />
               <span className="text-slate-500">°E</span>
             </div>
 
             <button
               type="submit"
-              className="px-3 py-1 rounded bg-[#0A1128] hover:bg-[#111A38] border border-[#C5A059]/60 text-[#C5A059] font-bold text-xs transition"
+              className="px-3 py-1 rounded bg-[#0B4F8A] hover:bg-[#111A38] border border-[#F28C28]/60 text-[#F28C28] font-bold text-xs transition"
             >
               Resolve Point
             </button>
@@ -474,11 +474,11 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
       {/* ── MAIN 3-COLUMN EXPLORATION WORKSPACE ─────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
         {/* ── LEFT COLUMN: GROUPED SPATIAL LAYER CONTROL (4 COLUMNS) ─────────── */}
-        <div className="lg:col-span-4 bg-[#0A1128] border border-slate-800 rounded-2xl shadow-xl overflow-hidden flex flex-col max-h-[820px]">
+        <div className="lg:col-span-4 bg-[#0B4F8A] border border-slate-800 rounded-2xl shadow-xl overflow-hidden flex flex-col max-h-[820px]">
           {/* Layer Control Header */}
-          <div className="p-3 border-b border-slate-800 bg-[#070D1E] flex items-center justify-between">
+          <div className="p-3 border-b border-slate-800 bg-[#083B67] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-[#C5A059]" />
+              <Filter className="w-4 h-4 text-[#F28C28]" />
               <span className="text-xs font-serif font-bold text-white uppercase tracking-wide">
                 Spatial Layer Control
               </span>
@@ -528,7 +528,7 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
                               <button
                                 onClick={() => toggleLayerVisibility(layer.id)}
                                 className={`p-1 rounded transition ${
-                                  layer.visible ? 'text-[#C5A059] bg-[#C5A059]/10' : 'text-slate-600 hover:text-slate-400'
+                                  layer.visible ? 'text-[#F28C28] bg-[#F28C28]/10' : 'text-slate-600 hover:text-slate-400'
                                 }`}
                               >
                                 {layer.visible ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
@@ -566,9 +566,9 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
                                 step="0.05"
                                 value={layer.opacity}
                                 onChange={(e) => handleOpacityChange(layer.id, parseFloat(e.target.value))}
-                                className="w-full accent-[#C5A059] cursor-pointer h-1 bg-slate-800 rounded"
+                                className="w-full accent-[#F28C28] cursor-pointer h-1 bg-slate-800 rounded"
                               />
-                              <span className="w-8 text-right font-bold text-[#C5A059]">
+                              <span className="w-8 text-right font-bold text-[#F28C28]">
                                 {Math.round(layer.opacity * 100)}%
                               </span>
                             </div>
@@ -584,11 +584,11 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
         </div>
 
         {/* ── CENTER COLUMN: INTERACTIVE MAPLIBRE GIS MAP (4 COLUMNS) ─────────── */}
-        <div className="lg:col-span-4 bg-[#0A1128] border border-slate-800 rounded-2xl shadow-xl overflow-hidden relative">
+        <div className="lg:col-span-4 bg-[#0B4F8A] border border-slate-800 rounded-2xl shadow-xl overflow-hidden relative">
           {/* Map Top Bar */}
-          <div className="p-3 border-b border-slate-800 bg-[#070D1E] flex items-center justify-between text-xs text-white">
+          <div className="p-3 border-b border-slate-800 bg-[#083B67] flex items-center justify-between text-xs text-white">
             <div className="flex items-center gap-2 font-mono">
-              <MapPin className="w-4 h-4 text-[#C5A059]" />
+              <MapPin className="w-4 h-4 text-[#F28C28]" />
               <span className="font-bold text-white truncate max-w-[200px]">
                 {locationMeta ? locationMeta.sector : 'National Map'}
               </span>
@@ -623,7 +623,7 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
                     mapInstanceRef.current.flyTo({ center: [78.5, 22.0], zoom: 4.5 });
                   }
                 }}
-                className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-[#C5A059]"
+                className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-[#F28C28]"
                 title="Reset View"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -640,14 +640,14 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
           {/* In-Map Floating Coordinates HUD */}
           <div className="absolute top-14 left-3 z-10 bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl shadow-lg text-[11px] font-mono text-slate-300 pointer-events-none">
             <div className="text-white font-bold flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-amber-400" />
+              <span className="w-2 h-2 rounded-full bg-orange-400" />
               <span>ACTIVE PIN</span>
             </div>
             <div className="text-slate-400 mt-1">
               Lat: {selectedCoord[1].toFixed(4)}° N • Lon: {selectedCoord[0].toFixed(4)}° E
             </div>
             {locationMeta && (
-              <div className="text-[#C5A059] font-bold text-[10px] mt-0.5">
+              <div className="text-[#F28C28] font-bold text-[10px] mt-0.5">
                 {locationMeta.district}, {locationMeta.state}
               </div>
             )}
@@ -663,7 +663,7 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
                 <span className="w-2.5 h-2.5 rounded-full bg-[#06B6D4]" /> Occurrences
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-2.5 h-2.5 rounded-sm bg-amber-500/80" /> Heatmap
+                <span className="w-2.5 h-2.5 rounded-sm bg-orange-500/80" /> Heatmap
               </span>
             </div>
             <span>EPSG:4326</span>
@@ -671,15 +671,15 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
         </div>
 
         {/* ── RIGHT COLUMN: EVIDENCE PANEL & VERTICAL LAYER STACK (4 COLUMNS) ── */}
-        <div className="lg:col-span-4 bg-[#0A1128] border border-slate-800 rounded-2xl shadow-xl overflow-hidden flex flex-col max-h-[820px]">
+        <div className="lg:col-span-4 bg-[#0B4F8A] border border-slate-800 rounded-2xl shadow-xl overflow-hidden flex flex-col max-h-[820px]">
           {/* Sub-Tab Navigation Header */}
-          <div className="p-2 border-b border-slate-800 bg-[#070D1E] flex items-center justify-between">
+          <div className="p-2 border-b border-slate-800 bg-[#083B67] flex items-center justify-between">
             <div className="flex items-center gap-1 w-full">
               <button
                 onClick={() => setRightPanelTab('stack')}
                 className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 ${
                   rightPanelTab === 'stack'
-                    ? 'bg-[#0A1128] text-[#C5A059] shadow border border-[#C5A059]/40'
+                    ? 'bg-[#0B4F8A] text-[#F28C28] shadow border border-[#F28C28]/40'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -691,7 +691,7 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
                 onClick={() => setRightPanelTab('evidence')}
                 className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 ${
                   rightPanelTab === 'evidence'
-                    ? 'bg-[#0A1128] text-[#C5A059] shadow border border-[#C5A059]/40'
+                    ? 'bg-[#0B4F8A] text-[#F28C28] shadow border border-[#F28C28]/40'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -733,10 +733,10 @@ export const SubsurfaceLayerIntelligence: React.FC = () => {
       {/* ── MODAL: LAYER METADATA INSPECTOR ─────────────────────────────────── */}
       {selectedLayerInfo && (
         <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#0A1128] border border-slate-700 rounded-2xl max-w-md w-full p-5 space-y-4 shadow-2xl text-white">
+          <div className="bg-[#0B4F8A] border border-slate-700 rounded-2xl max-w-md w-full p-5 space-y-4 shadow-2xl text-white">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2">
-                <Info className="w-4 h-4 text-[#C5A059]" />
+                <Info className="w-4 h-4 text-[#F28C28]" />
                 <h3 className="font-bold text-sm font-serif">{selectedLayerInfo.name}</h3>
               </div>
               <button

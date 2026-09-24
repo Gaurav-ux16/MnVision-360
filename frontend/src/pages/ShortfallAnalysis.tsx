@@ -131,7 +131,7 @@ export const ShortfallAnalysis: React.FC = () => {
     return (
       <div className="min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center p-6">
         <div className="bg-white p-8 rounded-lg border border-slate-200 shadow-sm text-center max-w-md">
-          <RefreshCw className="w-10 h-10 text-[#1B2170] animate-spin mx-auto mb-4" />
+          <RefreshCw className="w-10 h-10 text-[#0B4F8A] animate-spin mx-auto mb-4" />
           <h3 className="text-lg font-bold text-slate-800">Calculating Model Feature Attributions</h3>
           <p className="text-xs text-slate-500 mt-2">
             Evaluating Tree SHAP values on operations_regression_model.joblib for input forecast context...
@@ -153,23 +153,23 @@ export const ShortfallAnalysis: React.FC = () => {
           <span>Home</span> <span className="mx-1 text-slate-400">&gt;</span>
           <span>Estimate Production</span> <span className="mx-1 text-slate-400">&gt;</span>
           <span>Production Shortfall</span> <span className="mx-1 text-slate-400">&gt;</span>
-          <span className="font-semibold text-[#1B2170]">Analyze Why</span>
+          <span className="font-semibold text-[#0B4F8A]">Analyze Why</span>
         </div>
 
         <div className="max-w-7xl mx-auto w-full p-6">
           <div className="bg-white rounded-lg border border-red-200 shadow-sm p-8 text-center max-w-2xl mx-auto my-12">
-            <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
+            <AlertTriangle className="w-12 h-12 text-orange-500 mx-auto mb-4" />
             <h2 className="text-xl font-bold text-slate-900 tracking-wide uppercase">
               {statusType === 'MODEL_EXPLANATION_UNAVAILABLE' ? 'MODEL EXPLANATION UNAVAILABLE' : 'INSUFFICIENT DATA FOR EXPLANATION'}
             </h2>
-            <p className="text-sm text-slate-600 mt-3 bg-amber-50 p-4 rounded border border-amber-200 text-left">
+            <p className="text-sm text-slate-600 mt-3 bg-orange-50 p-4 rounded border border-orange-200 text-left">
               {statusMsg}
             </p>
 
             <div className="mt-6 flex justify-center gap-4">
               <button
                 onClick={handleBackToShortfall}
-                className="flex items-center gap-2 px-5 py-2.5 bg-[#1B2170] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors"
+                className="flex items-center gap-2 px-5 py-2.5 bg-[#0B4F8A] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 RETURN TO PRODUCTION SHORTFALL
@@ -201,7 +201,7 @@ export const ShortfallAnalysis: React.FC = () => {
           <span>Home</span> <span className="text-slate-400">&gt;</span>
           <span>Estimate Production</span> <span className="text-slate-400">&gt;</span>
           <span>Production Shortfall</span> <span className="text-slate-400">&gt;</span>
-          <span className="font-bold text-[#1B2170]">Analyze Why</span>
+          <span className="font-bold text-[#0B4F8A]">Analyze Why</span>
         </div>
         <PrototypeBadge type="inline" message={data_honesty_label || "PROTOTYPE SIMULATION DATA — MOIL Sensor Calibration Pending"} />
       </div>
@@ -212,14 +212,14 @@ export const ShortfallAnalysis: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-lg border border-slate-200 shadow-sm">
           <div>
             <div className="flex items-center gap-2">
-              <span className="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded border border-amber-300 uppercase tracking-wider">
+              <span className="bg-orange-100 text-orange-800 text-[10px] font-bold px-2 py-0.5 rounded border border-orange-300 uppercase tracking-wider">
                 PAGE 4 — MODEL EXPLAINABILITY LAYER
               </span>
               <span className="text-xs text-slate-500 font-mono">
                 Model: {model_used} ({model_version})
               </span>
             </div>
-            <h1 className="text-2xl font-black text-[#1B2170] tracking-tight uppercase mt-1">
+            <h1 className="text-2xl font-black text-[#0B4F8A] tracking-tight uppercase mt-1">
               ANALYZE WHY — PRODUCTION SHORTFALL DIAGNOSTICS
             </h1>
             <p className="text-xs text-slate-500 font-medium mt-0.5">
@@ -237,7 +237,7 @@ export const ShortfallAnalysis: React.FC = () => {
             </button>
             <button
               onClick={handleContinueToCorrectiveActions}
-              className="flex items-center gap-2 px-4 py-2 bg-[#1B2170] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-[#0B4F8A] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors shadow-sm"
             >
               CONTINUE TO CORRECTIVE ACTIONS
               <ArrowRight className="w-4 h-4" />
@@ -249,7 +249,7 @@ export const ShortfallAnalysis: React.FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 text-xs bg-slate-800 text-slate-200 p-3.5 rounded-lg border border-slate-700 shadow-sm font-mono">
           <div>
             <span className="text-slate-400 block text-[10px] uppercase font-sans">Active Mine</span>
-            <span className="font-bold text-amber-400">{mine_id}</span>
+            <span className="font-bold text-orange-400">{mine_id}</span>
           </div>
           <div>
             <span className="text-slate-400 block text-[10px] uppercase font-sans">Target ID</span>
@@ -284,10 +284,10 @@ export const ShortfallAnalysis: React.FC = () => {
             <span className="text-[11px] text-slate-400 mt-1 block">Ex-ante required output</span>
           </div>
 
-          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm border-l-4 border-l-amber-500">
+          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm border-l-4 border-l-orange-500">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Forecast Production</span>
             <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-2xl font-black text-amber-700">{forecast_tonnes.toLocaleString('en-IN')}</span>
+              <span className="text-2xl font-black text-orange-700">{forecast_tonnes.toLocaleString('en-IN')}</span>
               <span className="text-xs font-bold text-slate-500">tonnes</span>
             </div>
             <span className="text-[11px] text-slate-400 mt-1 block">Tonnage regression model forecast</span>
@@ -302,10 +302,10 @@ export const ShortfallAnalysis: React.FC = () => {
             <span className="text-[11px] text-red-600 font-semibold mt-1 block">Shortfall: {shortfall_percent}% below target</span>
           </div>
 
-          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm border-l-4 border-l-[#1B2170]">
+          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm border-l-4 border-l-[#0B4F8A]">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Model Baseline</span>
             <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-2xl font-black text-[#1B2170]">{base_expected_tonnes.toLocaleString('en-IN')}</span>
+              <span className="text-2xl font-black text-[#0B4F8A]">{base_expected_tonnes.toLocaleString('en-IN')}</span>
               <span className="text-xs font-bold text-slate-500">tonnes</span>
             </div>
             <span className="text-[11px] text-slate-400 mt-1 block">Base expected value ($E[f(x)]$)</span>
@@ -316,8 +316,8 @@ export const ShortfallAnalysis: React.FC = () => {
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
           <div className="bg-slate-50 px-6 py-4 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div>
-              <h2 className="text-base font-bold text-[#1B2170] uppercase tracking-wide flex items-center gap-2">
-                <BarChart2 className="w-5 h-5 text-[#1B2170]" />
+              <h2 className="text-base font-bold text-[#0B4F8A] uppercase tracking-wide flex items-center gap-2">
+                <BarChart2 className="w-5 h-5 text-[#0B4F8A]" />
                 MODEL CONTRIBUTING FACTORS (TREE SHAP ATTRIBUTION)
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
@@ -329,19 +329,19 @@ export const ShortfallAnalysis: React.FC = () => {
             <div className="flex bg-slate-200 p-0.5 rounded text-xs font-medium">
               <button
                 onClick={() => setActiveTab('all')}
-                className={`px-3 py-1.5 rounded transition-all ${activeTab === 'all' ? 'bg-[#1B2170] text-white font-bold shadow-sm' : 'text-slate-700 hover:text-slate-900'}`}
+                className={`px-3 py-1.5 rounded transition-all ${activeTab === 'all' ? 'bg-[#0B4F8A] text-white font-bold shadow-sm' : 'text-slate-700 hover:text-slate-900'}`}
               >
                 All 28 Features
               </button>
               <button
                 onClick={() => setActiveTab('top5')}
-                className={`px-3 py-1.5 rounded transition-all ${activeTab === 'top5' ? 'bg-[#1B2170] text-white font-bold shadow-sm' : 'text-slate-700 hover:text-slate-900'}`}
+                className={`px-3 py-1.5 rounded transition-all ${activeTab === 'top5' ? 'bg-[#0B4F8A] text-white font-bold shadow-sm' : 'text-slate-700 hover:text-slate-900'}`}
               >
                 Top 5 Drivers
               </button>
               <button
                 onClick={() => setActiveTab('categories')}
-                className={`px-3 py-1.5 rounded transition-all ${activeTab === 'categories' ? 'bg-[#1B2170] text-white font-bold shadow-sm' : 'text-slate-700 hover:text-slate-900'}`}
+                className={`px-3 py-1.5 rounded transition-all ${activeTab === 'categories' ? 'bg-[#0B4F8A] text-white font-bold shadow-sm' : 'text-slate-700 hover:text-slate-900'}`}
               >
                 Category Summary
               </button>
@@ -351,8 +351,8 @@ export const ShortfallAnalysis: React.FC = () => {
           <div className="p-6 space-y-6">
 
             {/* Disclaimer & Terminology Alert */}
-            <div className="bg-amber-50 border border-amber-200 text-amber-900 p-3.5 rounded text-xs flex items-start gap-2.5">
-              <Info className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+            <div className="bg-orange-50 border border-orange-200 text-orange-900 p-3.5 rounded text-xs flex items-start gap-2.5">
+              <Info className="w-4 h-4 text-orange-700 shrink-0 mt-0.5" />
               <div>
                 <span className="font-bold">Interpretation Guidance:</span> SHAP values reflect statistical contributions to the model's numerical forecast. Negative values (<span className="text-red-700 font-bold">red</span>) indicate features associated with lower predicted tonnage, while positive values (<span className="text-emerald-700 font-bold">green</span>) supported higher predicted tonnage. Terminology reflects model feature influence, not verified physical causality.
               </div>
@@ -437,7 +437,7 @@ export const ShortfallAnalysis: React.FC = () => {
                 {category_breakdown.map((cat, idx) => (
                   <div key={idx} className="bg-slate-50 border border-slate-200 p-4 rounded-lg shadow-sm space-y-3">
                     <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                      <span className="font-bold text-xs text-[#1B2170] uppercase">{cat.category}</span>
+                      <span className="font-bold text-xs text-[#0B4F8A] uppercase">{cat.category}</span>
                       <span className="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-mono font-bold">
                         {cat.feature_count} features
                       </span>
@@ -468,8 +468,8 @@ export const ShortfallAnalysis: React.FC = () => {
         {/* 6. Top 5 Contributing Factors Operational Table */}
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
           <div className="bg-slate-50 px-6 py-4 border-b border-slate-200">
-            <h2 className="text-base font-bold text-[#1B2170] uppercase tracking-wide flex items-center gap-2">
-              <Cpu className="w-5 h-5 text-[#1B2170]" />
+            <h2 className="text-base font-bold text-[#0B4F8A] uppercase tracking-wide flex items-center gap-2">
+              <Cpu className="w-5 h-5 text-[#0B4F8A]" />
               TOP 5 MODEL CONTRIBUTING FACTORS
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
@@ -533,8 +533,8 @@ export const ShortfallAnalysis: React.FC = () => {
 
         {/* 7. Actionable Diagnostic Synthesis */}
         <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-sm space-y-3">
-          <h3 className="text-sm font-bold text-[#1B2170] uppercase tracking-wider flex items-center gap-2">
-            <Activity className="w-4 h-4 text-[#1B2170]" />
+          <h3 className="text-sm font-bold text-[#0B4F8A] uppercase tracking-wider flex items-center gap-2">
+            <Activity className="w-4 h-4 text-[#0B4F8A]" />
             MODEL DIAGNOSTIC SYNTHESIS
           </h3>
           <p className="text-xs text-slate-700 leading-relaxed bg-slate-50 p-4 rounded border border-slate-200">
@@ -554,7 +554,7 @@ export const ShortfallAnalysis: React.FC = () => {
 
           <button
             onClick={handleContinueToCorrectiveActions}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 bg-[#1B2170] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors shadow-sm"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 bg-[#0B4F8A] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors shadow-sm"
           >
             CONTINUE TO CORRECTIVE ACTIONS
             <ArrowRight className="w-4 h-4" />

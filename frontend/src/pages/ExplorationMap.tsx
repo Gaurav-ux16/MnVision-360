@@ -355,10 +355,10 @@ export const ExplorationMap: React.FC = () => {
       {/* ------------------------------------------------ */}
       {/* 1. PAGE HEADER                                   */}
       {/* ------------------------------------------------ */}
-      <div className="bg-[#0A1128] text-white p-5 rounded border border-slate-800 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#0B4F8A] text-white p-5 rounded border border-slate-800 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#C5A059] uppercase tracking-wider">
-            <Layers className="w-4 h-4 text-[#C5A059]" />
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#F28C28] uppercase tracking-wider">
+            <Layers className="w-4 h-4 text-[#F28C28]" />
             <span>STAGE 1: EARTH OBSERVATION PROSPECTIVITY</span>
           </div>
           <h1 className="text-xl md:text-2xl font-serif font-bold text-white tracking-tight">
@@ -370,7 +370,7 @@ export const ExplorationMap: React.FC = () => {
 
           {/* Analysis Context Bar */}
           <div className="pt-2 flex flex-wrap items-center gap-2 text-[11px] font-mono text-slate-300">
-            <span className="bg-slate-900 px-2.5 py-1 rounded border border-slate-700 font-bold text-[#C5A059]">
+            <span className="bg-slate-900 px-2.5 py-1 rounded border border-slate-700 font-bold text-[#F28C28]">
               AOI: Balaghat District (MP)
             </span>
             <span className="text-slate-600">•</span>
@@ -393,13 +393,13 @@ export const ExplorationMap: React.FC = () => {
           <button
             onClick={handleRunAnalysis}
             disabled={runningAnalysis}
-            className="px-4 py-2 bg-[#C5A059] hover:bg-[#B38F46] text-slate-950 font-bold text-xs rounded transition flex items-center gap-1.5 active:scale-95 shadow-xs"
+            className="px-4 py-2 bg-[#F28C28] hover:bg-[#D97706] text-slate-950 font-bold text-xs rounded transition flex items-center gap-1.5 active:scale-95 shadow-xs"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${runningAnalysis ? 'animate-spin' : ''}`} />
             <span>{runningAnalysis ? 'ANALYZING...' : 'RUN PROSPECTIVITY ANALYSIS'}</span>
           </button>
           {analysisMsg && (
-            <span className="text-[10px] font-mono text-[#C5A059] bg-slate-900 px-2.5 py-1 rounded border border-slate-700">
+            <span className="text-[10px] font-mono text-[#F28C28] bg-slate-900 px-2.5 py-1 rounded border border-slate-700">
               {analysisMsg}
             </span>
           )}
@@ -413,7 +413,7 @@ export const ExplorationMap: React.FC = () => {
             onClick={() => setExploreSubTab('overview')}
             className={`px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 ${
               exploreSubTab === 'overview'
-                ? 'bg-[#0A1128] text-[#C5A059] font-bold shadow-xs'
+                ? 'bg-[#0B4F8A] text-[#F28C28] font-bold shadow-xs'
                 : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
             }`}
           >
@@ -425,11 +425,11 @@ export const ExplorationMap: React.FC = () => {
             onClick={() => setExploreSubTab('prospectivity')}
             className={`px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 ${
               exploreSubTab === 'prospectivity'
-                ? 'bg-[#0A1128] text-[#C5A059] font-bold shadow-xs'
+                ? 'bg-[#0B4F8A] text-[#F28C28] font-bold shadow-xs'
                 : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <Sparkles className="w-3.5 h-3.5 text-orange-400" />
             <span>Prospectivity Map</span>
           </button>
 
@@ -437,13 +437,13 @@ export const ExplorationMap: React.FC = () => {
             onClick={() => setExploreSubTab('geolayers')}
             className={`px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 relative ${
               exploreSubTab === 'geolayers'
-                ? 'bg-[#0A1128] text-[#C5A059] font-bold shadow-xs border border-amber-500/40'
-                : 'bg-amber-50 text-amber-900 hover:bg-amber-100 font-bold border border-amber-300/80'
+                ? 'bg-[#0B4F8A] text-[#F28C28] font-bold shadow-xs border border-orange-500/40'
+                : 'bg-orange-50 text-orange-900 hover:bg-orange-100 font-bold border border-orange-300/80'
             }`}
           >
-            <Layers className="w-3.5 h-3.5 text-amber-600" />
+            <Layers className="w-3.5 h-3.5 text-orange-600" />
             <span>Subsurface & Ore Layers</span>
-            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-extrabold uppercase bg-[#C5A059] text-slate-950">
+            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-extrabold uppercase bg-[#F28C28] text-slate-950">
               PRO
             </span>
           </button>
@@ -452,11 +452,11 @@ export const ExplorationMap: React.FC = () => {
             onClick={() => setExploreSubTab('indiamap')}
             className={`px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 relative ${
               exploreSubTab === 'indiamap'
-                ? 'bg-[#0A1128] text-[#C5A059] font-bold shadow-xs border border-amber-500/40'
-                : 'bg-[#0A1128]/10 text-slate-900 hover:bg-slate-100 font-bold border border-slate-300'
+                ? 'bg-[#0B4F8A] text-[#F28C28] font-bold shadow-xs border border-orange-500/40'
+                : 'bg-[#0B4F8A]/10 text-slate-900 hover:bg-slate-100 font-bold border border-slate-300'
             }`}
           >
-            <Globe className="w-3.5 h-3.5 text-amber-500" />
+            <Globe className="w-3.5 h-3.5 text-orange-500" />
             <span>India Manganese Map</span>
           </button>
 
@@ -464,7 +464,7 @@ export const ExplorationMap: React.FC = () => {
             onClick={() => setExploreSubTab('evidence')}
             className={`px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 ${
               exploreSubTab === 'evidence'
-                ? 'bg-[#0A1128] text-[#C5A059] font-bold shadow-xs'
+                ? 'bg-[#0B4F8A] text-[#F28C28] font-bold shadow-xs'
                 : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
             }`}
           >
@@ -476,7 +476,7 @@ export const ExplorationMap: React.FC = () => {
             onClick={() => setExploreSubTab('drilltarget')}
             className={`px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 ${
               exploreSubTab === 'drilltarget'
-                ? 'bg-[#0A1128] text-[#C5A059] font-bold shadow-xs'
+                ? 'bg-[#0B4F8A] text-[#F28C28] font-bold shadow-xs'
                 : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
             }`}
           >
@@ -501,8 +501,8 @@ export const ExplorationMap: React.FC = () => {
           {/* MANUAL LATITUDE / LONGITUDE INPUT FORM CONTROL   */}
       {/* ------------------------------------------------ */}
       <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2 font-bold text-[#313896] uppercase text-xs">
-          <MapPin className="w-4 h-4 text-amber-500" />
+        <div className="flex items-center gap-2 font-bold text-[#1769AA] uppercase text-xs">
+          <MapPin className="w-4 h-4 text-orange-500" />
           <span>SELECT LOCATION MANUALLY:</span>
         </div>
 
@@ -515,7 +515,7 @@ export const ExplorationMap: React.FC = () => {
               placeholder="e.g. 21.8400"
               value={inputLat}
               onChange={(e) => setInputLat(e.target.value)}
-              className="px-3 py-1.5 bg-[#F8FAFC] border border-slate-300 rounded-lg font-mono text-slate-900 w-32 text-xs font-bold focus:outline-none focus:border-[#313896]"
+              className="px-3 py-1.5 bg-[#F8FAFC] border border-slate-300 rounded-lg font-mono text-slate-900 w-32 text-xs font-bold focus:outline-none focus:border-[#1769AA]"
             />
           </div>
 
@@ -527,15 +527,15 @@ export const ExplorationMap: React.FC = () => {
               placeholder="e.g. 80.7200"
               value={inputLng}
               onChange={(e) => setInputLng(e.target.value)}
-              className="px-3 py-1.5 bg-[#F8FAFC] border border-slate-300 rounded-lg font-mono text-slate-900 w-32 text-xs font-bold focus:outline-none focus:border-[#313896]"
+              className="px-3 py-1.5 bg-[#F8FAFC] border border-slate-300 rounded-lg font-mono text-slate-900 w-32 text-xs font-bold focus:outline-none focus:border-[#1769AA]"
             />
           </div>
 
           <button
             type="submit"
-            className="px-5 py-2 bg-[#313896] hover:bg-[#282D7A] text-white text-xs font-bold rounded-full transition shadow-sm flex items-center gap-1.5 shrink-0"
+            className="px-5 py-2 bg-[#1769AA] hover:bg-[#282D7A] text-white text-xs font-bold rounded-full transition shadow-sm flex items-center gap-1.5 shrink-0"
           >
-            <Search className="w-3.5 h-3.5 text-amber-300" />
+            <Search className="w-3.5 h-3.5 text-orange-300" />
             <span>ANALYZE LOCATION</span>
           </button>
         </form>
@@ -593,7 +593,7 @@ export const ExplorationMap: React.FC = () => {
             {/* HOVER TOOLTIP OVERLAY (TOP LEFT) */}
             {hoverState && (
               <div className="absolute top-4 left-4 bg-[#0F172A]/90 text-white backdrop-blur-md px-3.5 py-2 rounded-xl border border-slate-700 text-xs font-mono shadow-2xl z-30 pointer-events-none space-y-1">
-                <div className="text-[10px] font-bold text-amber-300 uppercase tracking-wider">LOCATION INSPECTION</div>
+                <div className="text-[10px] font-bold text-orange-300 uppercase tracking-wider">LOCATION INSPECTION</div>
                 <div className="flex justify-between gap-4">
                   <span className="text-slate-300">Lat / Lng:</span>
                   <strong className="text-white">{hoverState.lat.toFixed(4)}° N, {hoverState.lng.toFixed(4)}° E</strong>
@@ -613,18 +613,18 @@ export const ExplorationMap: React.FC = () => {
 
             {/* COMPACT MAP LAYER CONTROL BOX (TOP RIGHT OVERLAY) */}
             <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md p-3 rounded-xl border border-slate-300 text-xs text-slate-800 shadow-xl space-y-2 max-w-xs z-20 font-sans">
-              <div className="font-bold text-[#313896] text-xs border-b border-slate-200 pb-1 flex items-center justify-between">
+              <div className="font-bold text-[#1769AA] text-xs border-b border-slate-200 pb-1 flex items-center justify-between">
                 <span>Layers</span>
                 <span className="text-[9px] font-mono text-slate-500">Interactive Toggles</span>
               </div>
               
               <div className="space-y-1.5 text-[11px]">
-                <label className="flex items-center gap-2 cursor-pointer font-bold text-[#313896]">
+                <label className="flex items-center gap-2 cursor-pointer font-bold text-[#1769AA]">
                   <input
                     type="checkbox"
                     checked={Boolean(activeLayers.prospectivity)}
                     onChange={() => toggleLayer('prospectivity')}
-                    className="rounded accent-[#313896]"
+                    className="rounded accent-[#1769AA]"
                   />
                   <span>Prospectivity Heatmap</span>
                 </label>
@@ -633,7 +633,7 @@ export const ExplorationMap: React.FC = () => {
                     type="checkbox"
                     checked={Boolean(activeLayers.geology)}
                     onChange={() => toggleLayer('geology')}
-                    className="rounded accent-[#313896]"
+                    className="rounded accent-[#1769AA]"
                   />
                   <span>Geology (GSI Sausar Group)</span>
                 </label>
@@ -642,7 +642,7 @@ export const ExplorationMap: React.FC = () => {
                     type="checkbox"
                     checked={Boolean(activeLayers.lineaments)}
                     onChange={() => toggleLayer('lineaments')}
-                    className="rounded accent-[#313896]"
+                    className="rounded accent-[#1769AA]"
                   />
                   <span>Lineaments & Fault Systems</span>
                 </label>
@@ -651,7 +651,7 @@ export const ExplorationMap: React.FC = () => {
                     type="checkbox"
                     checked={Boolean(activeLayers.dem)}
                     onChange={() => toggleLayer('dem')}
-                    className="rounded accent-[#313896]"
+                    className="rounded accent-[#1769AA]"
                   />
                   <span>DEM Terrain Slope</span>
                 </label>
@@ -660,7 +660,7 @@ export const ExplorationMap: React.FC = () => {
                     type="checkbox"
                     checked={Boolean(activeLayers.sentinel2)}
                     onChange={() => toggleLayer('sentinel2')}
-                    className="rounded accent-[#313896]"
+                    className="rounded accent-[#1769AA]"
                   />
                   <span>Sentinel-2 Imagery</span>
                 </label>
@@ -669,7 +669,7 @@ export const ExplorationMap: React.FC = () => {
                     type="checkbox"
                     checked={Boolean(activeLayers.occurrences)}
                     onChange={() => toggleLayer('occurrences')}
-                    className="rounded accent-[#313896]"
+                    className="rounded accent-[#1769AA]"
                   />
                   <span>Known Mineral Occurrences</span>
                 </label>
@@ -678,7 +678,7 @@ export const ExplorationMap: React.FC = () => {
 
             {/* COMPACT MAP LEGEND BOX (BOTTOM LEFT OVERLAY) */}
             <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md p-3 rounded-xl border border-slate-300 text-xs text-slate-800 shadow-xl space-y-1.5 max-w-[210px] z-20 font-sans">
-              <div className="font-bold text-[#313896] text-[10px] uppercase border-b border-slate-200 pb-1">
+              <div className="font-bold text-[#1769AA] text-[10px] uppercase border-b border-slate-200 pb-1">
                 PROSPECTIVITY SCORE LEGEND
               </div>
               <div className="flex items-center justify-between text-[11px]">
@@ -689,7 +689,7 @@ export const ExplorationMap: React.FC = () => {
               </div>
               <div className="flex items-center justify-between text-[11px]">
                 <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded bg-amber-500 border border-amber-600 inline-block"></span> Moderate
+                  <span className="w-3 h-3 rounded bg-orange-500 border border-orange-600 inline-block"></span> Moderate
                 </span>
                 <span className="font-mono font-bold text-slate-600">0.30 – 0.60</span>
               </div>
@@ -708,10 +708,10 @@ export const ExplorationMap: React.FC = () => {
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
             <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
-              <h2 className="text-base font-bold text-[#313896] font-serif uppercase tracking-wide">
+              <h2 className="text-base font-bold text-[#1769AA] font-serif uppercase tracking-wide">
                 EXPLORATION SUMMARY
               </h2>
-              <span className="text-[10px] font-mono text-[#313896] bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5] font-bold">
+              <span className="text-[10px] font-mono text-[#1769AA] bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5] font-bold">
                 EPSG:4326
               </span>
             </div>
@@ -719,7 +719,7 @@ export const ExplorationMap: React.FC = () => {
             <div className="space-y-3 text-xs font-sans">
               <div className="flex justify-between items-center py-1.5 border-b border-slate-100">
                 <span className="text-slate-600 font-semibold">AOI:</span>
-                <strong className="text-[#313896] font-mono text-sm font-bold">Balaghat</strong>
+                <strong className="text-[#1769AA] font-mono text-sm font-bold">Balaghat</strong>
               </div>
 
               <div className="flex justify-between items-center py-1.5 border-b border-slate-100">
@@ -745,8 +745,8 @@ export const ExplorationMap: React.FC = () => {
               </div>
             </div>
 
-            <div className="p-3 bg-[#FFF8F0] rounded-xl border border-amber-300/80 text-[11px] text-amber-900 leading-relaxed font-sans flex items-start gap-2">
-              <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+            <div className="p-3 bg-[#FFF8F0] rounded-xl border border-orange-300/80 text-[11px] text-orange-900 leading-relaxed font-sans flex items-start gap-2">
+              <ShieldAlert className="w-4 h-4 text-orange-600 shrink-0 mt-0.5" />
               <span>
                 <strong>SCIENTIFIC SAFETY NOTE:</strong> Multi-source Earth observation indicates surface prospectivity only. Confirmation of manganese mineralization requires field mapping & diamond core drilling.
               </span>
@@ -761,8 +761,8 @@ export const ExplorationMap: React.FC = () => {
       {/* ------------------------------------------------ */}
       <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
         <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
-          <h3 className="text-base font-bold text-[#313896] font-serif uppercase tracking-wide flex items-center gap-2">
-            <Layers className="w-4 h-4 text-[#313896]" />
+          <h3 className="text-base font-bold text-[#1769AA] font-serif uppercase tracking-wide flex items-center gap-2">
+            <Layers className="w-4 h-4 text-[#1769AA]" />
             <span>DATA EVIDENCE</span>
           </h3>
           <span className="text-xs text-slate-500 font-mono">Multi-Source Earth Observation & Geological Integration</span>
@@ -777,7 +777,7 @@ export const ExplorationMap: React.FC = () => {
             { name: 'Geology (GSI)', detail: 'Sausar Group Quartzite Contacts', status: 'Available', statusClass: 'bg-blue-100 text-blue-800 border border-blue-300' },
             { name: 'Structural Lineaments', detail: 'Fault Systems & Shear Zones', status: 'Available', statusClass: 'bg-blue-100 text-blue-800 border border-blue-300' },
             { name: 'Geochemistry Assays', detail: '160 Stream Sediment Mn Samples', status: 'Available', statusClass: 'bg-blue-100 text-blue-800 border border-blue-300' },
-            { name: 'Soil Moisture & Rain', detail: 'Environmental Surface Telemetry', status: 'Prototype', statusClass: 'bg-amber-100 text-amber-900 border border-amber-300' },
+            { name: 'Soil Moisture & Rain', detail: 'Environmental Surface Telemetry', status: 'Prototype', statusClass: 'bg-orange-100 text-orange-900 border border-orange-300' },
           ].map((item, idx) => (
             <div key={idx} className="p-3.5 bg-[#F8FAFC] border border-slate-200/80 rounded-xl space-y-1.5 shadow-sm">
               <div className="flex items-center justify-between font-bold text-slate-900">
@@ -797,11 +797,11 @@ export const ExplorationMap: React.FC = () => {
       {/* ------------------------------------------------ */}
       <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
         <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
-          <h3 className="text-base font-bold text-[#313896] font-serif uppercase tracking-wide flex items-center gap-2">
-            <Target className="w-4 h-4 text-[#313896]" />
+          <h3 className="text-base font-bold text-[#1769AA] font-serif uppercase tracking-wide flex items-center gap-2">
+            <Target className="w-4 h-4 text-[#1769AA]" />
             <span>HIGH-PROSPECTIVITY TARGETS</span>
           </h3>
-          <span className="text-xs text-[#313896] font-mono bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">
+          <span className="text-xs text-[#1769AA] font-mono bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">
             {targets.length} Identified Candidates
           </span>
         </div>
@@ -809,7 +809,7 @@ export const ExplorationMap: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-[#EBEFFA] border-b border-[#D0DCF5] text-[#313896] font-bold uppercase tracking-wider text-[11px]">
+              <tr className="bg-[#EBEFFA] border-b border-[#D0DCF5] text-[#1769AA] font-bold uppercase tracking-wider text-[11px]">
                 <th className="py-3.5 px-4 rounded-l-xl">Target ID</th>
                 <th className="py-3.5 px-4">Prospectivity Score</th>
                 <th className="py-3.5 px-4">Confidence</th>
@@ -822,8 +822,8 @@ export const ExplorationMap: React.FC = () => {
             <tbody className="divide-y divide-slate-100 text-slate-700 font-sans">
               {targets.map((tgt) => (
                 <tr key={tgt.target_id} className="hover:bg-[#F8FAFC] transition">
-                  <td className="py-3.5 px-4 font-mono font-bold text-[#313896] flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+                  <td className="py-3.5 px-4 font-mono font-bold text-[#1769AA] flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-orange-400"></span>
                     <span>{tgt.mn_target_code || tgt.target_id}</span>
                   </td>
                   <td className="py-3.5 px-4 font-mono font-bold text-emerald-700 text-sm">
@@ -839,7 +839,7 @@ export const ExplorationMap: React.FC = () => {
                       tgt.priority_level === 'Very High'
                         ? 'bg-red-600 text-white'
                         : tgt.priority_level === 'High'
-                        ? 'bg-amber-500 text-white'
+                        ? 'bg-orange-500 text-white'
                         : 'bg-yellow-500 text-slate-900'
                     }`}>
                       {tgt.priority_level} Candidate
@@ -852,18 +852,18 @@ export const ExplorationMap: React.FC = () => {
                           setSelectedTargetId(tgt.id);
                           setSelectedDrawerTarget(tgt as TargetData);
                         }}
-                        className="px-3 py-1.5 bg-[#EBEFFA] hover:bg-[#D0DCF5] text-[#313896] text-[11px] font-bold rounded-full transition border border-[#D0DCF5] inline-flex items-center gap-1 shadow-sm"
+                        className="px-3 py-1.5 bg-[#EBEFFA] hover:bg-[#D0DCF5] text-[#1769AA] text-[11px] font-bold rounded-full transition border border-[#D0DCF5] inline-flex items-center gap-1 shadow-sm"
                         title="Open Slide-over Target Drawer"
                       >
-                        <Layers className="w-3 h-3 text-[#313896]" />
+                        <Layers className="w-3 h-3 text-[#1769AA]" />
                         <span>DRAWER</span>
                       </button>
                       <button
                         onClick={() => openLocationAnalysis(tgt.latitude, tgt.longitude, tgt.prospectivity_score, tgt)}
-                        className="px-3.5 py-1.5 bg-[#313896] hover:bg-[#282D7A] text-white text-[11px] font-bold rounded-full transition shadow-sm inline-flex items-center gap-1"
+                        className="px-3.5 py-1.5 bg-[#1769AA] hover:bg-[#282D7A] text-white text-[11px] font-bold rounded-full transition shadow-sm inline-flex items-center gap-1"
                       >
                         <span>[ VIEW ]</span>
-                        <ChevronRight className="w-3 h-3 text-amber-300" />
+                        <ChevronRight className="w-3 h-3 text-orange-300" />
                       </button>
                     </div>
                   </td>
@@ -880,9 +880,9 @@ export const ExplorationMap: React.FC = () => {
       {selectedAnalysisModal && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl border border-slate-300 w-full max-w-xl overflow-hidden animate-scaleIn font-sans">
-            <div className="bg-gradient-to-r from-[#1B2170] via-[#313896] to-[#3B42A6] text-white p-5 flex items-center justify-between border-b border-[#2B308B]">
+            <div className="bg-gradient-to-r from-[#0B4F8A] via-[#1769AA] to-[#2A7BBE] text-white p-5 flex items-center justify-between border-b border-[#1769AA]">
               <div className="flex items-center gap-2">
-                <Target className="w-5 h-5 text-amber-300" />
+                <Target className="w-5 h-5 text-orange-300" />
                 <h3 className="font-bold text-base font-serif">
                   SELECTED LOCATION ANALYSIS — {selectedAnalysisModal.targetCode}
                 </h3>
@@ -900,7 +900,7 @@ export const ExplorationMap: React.FC = () => {
               <button
                 onClick={() => setModalTab('overview')}
                 className={`px-3 py-1.5 rounded-full transition ${
-                  modalTab === 'overview' ? 'bg-[#313896] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                  modalTab === 'overview' ? 'bg-[#1769AA] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Overview
@@ -908,7 +908,7 @@ export const ExplorationMap: React.FC = () => {
               <button
                 onClick={() => setModalTab('prospectivity')}
                 className={`px-3.5 py-1.5 rounded-full transition flex items-center gap-1 ${
-                  modalTab === 'prospectivity' ? 'bg-[#313896] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                  modalTab === 'prospectivity' ? 'bg-[#1769AA] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 <span>[ VIEW PROSPECTIVITY ]</span>
@@ -916,10 +916,10 @@ export const ExplorationMap: React.FC = () => {
               <button
                 onClick={() => setModalTab('production')}
                 className={`px-3.5 py-1.5 rounded-full transition flex items-center gap-1 ${
-                  modalTab === 'production' ? 'bg-[#313896] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                  modalTab === 'production' ? 'bg-[#1769AA] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                <TrendingUp className="w-3.5 h-3.5 text-amber-300" />
+                <TrendingUp className="w-3.5 h-3.5 text-orange-300" />
                 <span>[ ESTIMATE PRODUCTION ]</span>
               </button>
             </div>
@@ -932,7 +932,7 @@ export const ExplorationMap: React.FC = () => {
                   <div className="grid grid-cols-2 gap-4 bg-[#F8FAFC] p-4 rounded-xl border border-slate-200">
                     <div>
                       <span className="text-slate-500 font-semibold block">Target / Location Code:</span>
-                      <strong className="font-mono text-sm text-[#313896] font-bold">
+                      <strong className="font-mono text-sm text-[#1769AA] font-bold">
                         {selectedAnalysisModal.targetCode}
                       </strong>
                     </div>
@@ -983,7 +983,7 @@ export const ExplorationMap: React.FC = () => {
               {/* TAB 2: VIEW PROSPECTIVITY EVIDENCE */}
               {modalTab === 'prospectivity' && (
                 <div className="space-y-3 font-mono">
-                  <div className="p-3.5 bg-[#EBEFFA] border border-[#D0DCF5] rounded-xl text-xs text-[#313896] space-y-1 font-sans">
+                  <div className="p-3.5 bg-[#EBEFFA] border border-[#D0DCF5] rounded-xl text-xs text-[#1769AA] space-y-1 font-sans">
                     <strong className="block font-bold">Prospectivity Evidence Breakdown:</strong>
                     <p className="text-[11px] text-slate-700">
                       Calculated from SpatialBlockCV multi-spectral PU model for {selectedAnalysisModal.targetCode}.
@@ -997,7 +997,7 @@ export const ExplorationMap: React.FC = () => {
                     </div>
                     <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-lg flex justify-between">
                       <span className="text-slate-600">Lineament Density:</span>
-                      <strong className="text-amber-700">{selectedAnalysisModal.evidence?.structural_lineament_density || 0.81}</strong>
+                      <strong className="text-orange-700">{selectedAnalysisModal.evidence?.structural_lineament_density || 0.81}</strong>
                     </div>
                     <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-lg flex justify-between">
                       <span className="text-slate-600">Gravity Anomaly:</span>
@@ -1016,8 +1016,8 @@ export const ExplorationMap: React.FC = () => {
                 <div className="space-y-4">
                   {selectedAnalysisModal.hasProductionData ? (
                     <div className="space-y-3">
-                      <div className="bg-[#1B2170] text-white p-4 rounded-xl border border-[#2B308B] space-y-2 font-mono">
-                        <div className="flex items-center gap-1.5 text-xs text-amber-300 font-bold uppercase">
+                      <div className="bg-[#0B4F8A] text-white p-4 rounded-xl border border-[#1769AA] space-y-2 font-mono">
+                        <div className="flex items-center gap-1.5 text-xs text-orange-300 font-bold uppercase">
                           <TrendingUp className="w-4 h-4" />
                           <span>ESTIMATED PRODUCTION OUTPUT</span>
                         </div>
@@ -1033,7 +1033,7 @@ export const ExplorationMap: React.FC = () => {
                           </div>
                           <div className="flex justify-between">
                             <span className="text-blue-200">Production Target:</span>
-                            <strong className="text-amber-300">2,800 tonnes</strong>
+                            <strong className="text-orange-300">2,800 tonnes</strong>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-blue-200">Expected Gap:</span>
@@ -1048,12 +1048,12 @@ export const ExplorationMap: React.FC = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className="bg-amber-50 border border-amber-300 p-4 rounded-xl text-amber-900 text-xs space-y-3 font-sans">
+                    <div className="bg-orange-50 border border-orange-300 p-4 rounded-xl text-orange-900 text-xs space-y-3 font-sans">
                       <div className="flex items-start gap-2">
-                        <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                        <AlertTriangle className="w-5 h-5 text-orange-600 shrink-0 mt-0.5" />
                         <div>
                           <strong className="font-bold text-sm block">Production Estimation Data Requirement:</strong>
-                          <p className="mt-1 leading-relaxed text-amber-900">
+                          <p className="mt-1 leading-relaxed text-orange-900">
                             Production estimation requires validated resource and operational data for this location. Prospectivity scores indicate geological potential, but valid production forecasting requires core assays, stope development, and machinery availability.
                           </p>
                         </div>
@@ -1067,7 +1067,7 @@ export const ExplorationMap: React.FC = () => {
                             selectedAnalysisModal.lng,
                             selectedAnalysisModal.prospectivityScore
                           )}
-                          className="px-4 py-2 bg-[#313896] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full transition shadow"
+                          className="px-4 py-2 bg-[#1769AA] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full transition shadow"
                         >
                           [ CONTINUE TO INVESTIGATION ]
                         </button>
@@ -1089,9 +1089,9 @@ export const ExplorationMap: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setModalTab('production')}
-                    className="px-4 py-2 bg-[#EBEFFA] hover:bg-[#D0DCF5] text-[#313896] font-bold rounded-full transition text-xs border border-[#D0DCF5] flex items-center gap-1"
+                    className="px-4 py-2 bg-[#EBEFFA] hover:bg-[#D0DCF5] text-[#1769AA] font-bold rounded-full transition text-xs border border-[#D0DCF5] flex items-center gap-1"
                   >
-                    <TrendingUp className="w-3.5 h-3.5 text-amber-600" />
+                    <TrendingUp className="w-3.5 h-3.5 text-orange-600" />
                     <span>[ ESTIMATE PRODUCTION ]</span>
                   </button>
 
@@ -1102,9 +1102,9 @@ export const ExplorationMap: React.FC = () => {
                       selectedAnalysisModal.lng,
                       selectedAnalysisModal.prospectivityScore
                     )}
-                    className="px-5 py-2 bg-[#313896] hover:bg-[#282D7A] text-white font-bold rounded-full transition shadow-sm flex items-center gap-1.5"
+                    className="px-5 py-2 bg-[#1769AA] hover:bg-[#282D7A] text-white font-bold rounded-full transition shadow-sm flex items-center gap-1.5"
                   >
-                    <Search className="w-3.5 h-3.5 text-amber-300" />
+                    <Search className="w-3.5 h-3.5 text-orange-300" />
                     <span>{selectedAnalysisModal.isArbitrary ? '[ INVESTIGATE LOCATION ]' : '[ INVESTIGATE TARGET ]'}</span>
                   </button>
                   </div>

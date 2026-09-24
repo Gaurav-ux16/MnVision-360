@@ -53,7 +53,7 @@ export const MineTwin: React.FC = () => {
 
   const getReadinessBadge = (score: number) => {
     if (score >= 85) return 'bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-xs';
-    if (score >= 75) return 'bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded text-xs';
+    if (score >= 75) return 'bg-orange-100 text-orange-800 font-bold px-2 py-0.5 rounded text-xs';
     return 'bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded text-xs';
   };
 
@@ -69,10 +69,10 @@ export const MineTwin: React.FC = () => {
       <WorkflowStepper activeStep={6} />
 
       {/* Page Title Header */}
-      <div className="bg-[#0A1128] text-white p-5 rounded border border-slate-800 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#0B4F8A] text-white p-5 rounded border border-slate-800 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#C5A059] uppercase tracking-wider">
-            <Building2 className="w-4 h-4 text-[#C5A059]" />
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#F28C28] uppercase tracking-wider">
+            <Building2 className="w-4 h-4 text-[#F28C28]" />
             <span>MOIL UNDERGROUND MINE DIGITAL TWIN</span>
           </div>
           <h1 className="text-xl md:text-2xl font-serif font-bold text-white tracking-tight">
@@ -91,16 +91,16 @@ export const MineTwin: React.FC = () => {
       {/* Mine Block Model Grid Table */}
       <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h2 className="text-base font-bold text-[#313896] font-serif flex items-center gap-2">
+          <h2 className="text-base font-bold text-[#1769AA] font-serif flex items-center gap-2">
             <span>Operational Block Readiness Matrix (Balaghat Pit / Underground Levels)</span>
           </h2>
-          <span className="text-xs text-[#313896] font-mono bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">4 Active Face Blocks</span>
+          <span className="text-xs text-[#1769AA] font-mono bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">4 Active Face Blocks</span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-[#EBEFFA] border-b border-[#D0DCF5] text-[#313896] font-bold uppercase tracking-wider text-[11px]">
+              <tr className="bg-[#EBEFFA] border-b border-[#D0DCF5] text-[#1769AA] font-bold uppercase tracking-wider text-[11px]">
                 <th className="py-3.5 px-4 rounded-l-xl">Block Code</th>
                 <th className="py-3.5 px-4">Development</th>
                 <th className="py-3.5 px-4">Access</th>
@@ -135,7 +135,7 @@ export const MineTwin: React.FC = () => {
                     equipment_available: true
                   })}
                 >
-                  <td className="py-3.5 px-4 font-mono font-bold text-[#313896]">
+                  <td className="py-3.5 px-4 font-mono font-bold text-[#1769AA]">
                     {block.block_code}
                   </td>
                   <td className="py-3.5 px-4 font-mono font-semibold">{block.development_pct}%</td>
@@ -149,7 +149,7 @@ export const MineTwin: React.FC = () => {
                   </td>
                   <td className="py-3.5 px-4 font-mono">{block.estimated_ore_tonnes.toLocaleString()} MT</td>
                   <td className="py-3.5 px-4 font-bold text-slate-900">{block.mn_grade_pct}% Mn</td>
-                  <td className="py-3.5 px-4 font-mono font-semibold text-[#313896]">
+                  <td className="py-3.5 px-4 font-mono font-semibold text-[#1769AA]">
                     {block.status}
                   </td>
                   <td className="py-3.5 px-4 text-right">
@@ -173,9 +173,9 @@ export const MineTwin: React.FC = () => {
                           equipment_available: true
                         });
                       }}
-                      className="px-3.5 py-1.5 bg-[#EBEFFA] hover:bg-[#D0DCF5] text-[#313896] text-[11px] font-bold rounded-full transition border border-[#D0DCF5] inline-flex items-center gap-1 shadow-sm"
+                      className="px-3.5 py-1.5 bg-[#EBEFFA] hover:bg-[#D0DCF5] text-[#1769AA] text-[11px] font-bold rounded-full transition border border-[#D0DCF5] inline-flex items-center gap-1 shadow-sm"
                     >
-                      <Layers className="w-3 h-3 text-[#313896]" />
+                      <Layers className="w-3 h-3 text-[#1769AA]" />
                       <span>INSPECT</span>
                     </button>
                   </td>
@@ -190,10 +190,10 @@ export const MineTwin: React.FC = () => {
       <div className="pt-2 text-right">
         <button
           onClick={handleProceedToShortfall}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#313896] hover:bg-[#282D7A] text-white text-xs font-bold rounded-full transition shadow-sm"
+          className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#1769AA] hover:bg-[#282D7A] text-white text-xs font-bold rounded-full transition shadow-sm"
         >
           <span>View ShortfallShield Production Forecasts & SHAP Analysis</span>
-          <ChevronRight className="w-4 h-4 text-amber-300" />
+          <ChevronRight className="w-4 h-4 text-orange-300" />
         </button>
       </div>
 

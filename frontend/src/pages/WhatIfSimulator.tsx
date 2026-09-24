@@ -235,21 +235,21 @@ export const WhatIfSimulator: React.FC = () => {
       <WorkflowStepper activeStep={10} targetId={targetId} />
 
       {/* Mandatory Prototype Simulation Disclosure Banner */}
-      <div className="bg-amber-50 border-l-4 border-amber-600 p-4 rounded-xl shadow-sm text-xs text-amber-900 space-y-1">
-        <div className="flex items-center gap-2 font-bold text-amber-900">
-          <Info className="w-4 h-4 text-amber-700 shrink-0" />
+      <div className="bg-orange-50 border-l-4 border-orange-600 p-4 rounded-xl shadow-sm text-xs text-orange-900 space-y-1">
+        <div className="flex items-center gap-2 font-bold text-orange-900">
+          <Info className="w-4 h-4 text-orange-700 shrink-0" />
           <span>PROTOTYPE OPERATIONAL SIMULATION ESTIMATES (DOMAIN RULE ASSUMPTIONS)</span>
         </div>
-        <p className="text-amber-800 text-[11px] leading-relaxed">
+        <p className="text-orange-800 text-[11px] leading-relaxed">
           Simulation results are model-based rule estimates for interactive decision support and do not replace field validation, engineering review, safety procedures, or operational authorization.
         </p>
       </div>
 
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-[#1B2170] via-[#2B308B] to-[#1B2170] text-white p-6 rounded-2xl border border-[#2B308B] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-[#0B4F8A] via-[#1769AA] to-[#0B4F8A] text-white p-6 rounded-2xl border border-[#1769AA] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-amber-300 uppercase tracking-wider">
-            <Sliders className="w-4 h-4 text-amber-300" />
+          <div className="flex items-center gap-2 text-xs font-bold text-orange-300 uppercase tracking-wider">
+            <Sliders className="w-4 h-4 text-orange-300" />
             <span>STAGE 10 — INTERACTIVE WHAT-IF SCENARIO SIMULATION</span>
           </div>
           <h1 className="text-2xl font-bold font-serif text-white mt-1">
@@ -262,7 +262,7 @@ export const WhatIfSimulator: React.FC = () => {
 
         {/* Context Strip Badge */}
         <div className="bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/15 text-xs font-mono space-y-1 shrink-0">
-          <div className="text-amber-300 font-bold">Mine: {mineId} ({mineType})</div>
+          <div className="text-orange-300 font-bold">Mine: {mineId} ({mineType})</div>
           <div className="text-blue-100 text-[11px]">Forecast ID: {forecastId}</div>
           <div className="text-blue-100 text-[11px]">Parent Scenario: {parentScenarioId}</div>
         </div>
@@ -271,8 +271,8 @@ export const WhatIfSimulator: React.FC = () => {
       {/* QUICK PRESETS BAR */}
       <div className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm space-y-2 font-sans">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-[#1B2170] uppercase tracking-wider flex items-center gap-1.5">
-            <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
+          <span className="text-xs font-bold text-[#0B4F8A] uppercase tracking-wider flex items-center gap-1.5">
+            <Zap className="w-4 h-4 text-orange-500 fill-orange-500" />
             <span>Scenario Presets:</span>
           </span>
           <span className="text-[11px] font-mono text-slate-500">Horizon: {horizonDays} Days</span>
@@ -303,7 +303,7 @@ export const WhatIfSimulator: React.FC = () => {
       {/* SCENARIO INPUT CONTROLS PANEL */}
       <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-5">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h2 className="text-base font-bold text-[#1B2170] font-serif">
+          <h2 className="text-base font-bold text-[#0B4F8A] font-serif">
             Controlled Operational Variables (Relative to Baseline)
           </h2>
           <span className="text-xs font-mono text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
@@ -352,7 +352,7 @@ export const WhatIfSimulator: React.FC = () => {
                 step="1"
                 value={downtimeHours}
                 onChange={(e) => setDowntimeHours(Number(e.target.value))}
-                className="w-full accent-[#1B2170] cursor-pointer"
+                className="w-full accent-[#0B4F8A] cursor-pointer"
               />
               <span className="text-[10px] text-slate-400 block text-right font-mono">Baseline EX-104: 28h | E-17: 4h</span>
             </div>
@@ -398,9 +398,9 @@ export const WhatIfSimulator: React.FC = () => {
                 step="1"
                 value={blastingDelayHours}
                 onChange={(e) => setBlastingDelayHours(Number(e.target.value))}
-                className="w-full accent-amber-600 cursor-pointer"
+                className="w-full accent-orange-600 cursor-pointer"
               />
-              <span className="font-mono font-bold text-amber-900 shrink-0">{blastingDelayHours} hrs</span>
+              <span className="font-mono font-bold text-orange-900 shrink-0">{blastingDelayHours} hrs</span>
             </div>
             <span className="text-[10px] text-slate-400 block font-mono">Baseline: 0.0 hrs</span>
 
@@ -480,9 +480,9 @@ export const WhatIfSimulator: React.FC = () => {
           <button
             onClick={() => runSimulation()}
             disabled={loading}
-            className="w-full sm:w-auto px-7 py-2.5 bg-[#1B2170] hover:bg-[#121650] text-white font-bold text-xs rounded-full transition shadow-md flex items-center justify-center gap-2 border border-amber-400/40 disabled:opacity-50"
+            className="w-full sm:w-auto px-7 py-2.5 bg-[#0B4F8A] hover:bg-[#121650] text-white font-bold text-xs rounded-full transition shadow-md flex items-center justify-center gap-2 border border-orange-400/40 disabled:opacity-50"
           >
-            {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4 text-amber-300 fill-amber-300" />}
+            {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4 text-orange-300 fill-orange-300" />}
             <span>RUN WHAT-IF SIMULATION</span>
           </button>
         </div>
@@ -505,7 +505,7 @@ export const WhatIfSimulator: React.FC = () => {
             {/* CARD 2: WORKFLOW BASELINE FORECAST */}
             <div className="bg-white rounded-2xl border border-slate-200/90 p-4 space-y-1 shadow-sm font-sans">
               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">BASELINE FORECAST (PAGE 2)</span>
-              <div className="text-xl font-extrabold text-[#1B2170] font-mono">{baseline.predicted_production_tonnes} t</div>
+              <div className="text-xl font-extrabold text-[#0B4F8A] font-mono">{baseline.predicted_production_tonnes} t</div>
               <span className="text-[10px] text-red-600 font-mono font-bold">Shortfall: -{baseline.expected_shortfall_tonnes} t</span>
             </div>
 
@@ -541,7 +541,7 @@ export const WhatIfSimulator: React.FC = () => {
 
           {/* VISUAL PRODUCTION BAR COMPARISON GRAPHIC */}
           <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4">
-            <h3 className="text-sm font-bold text-[#1B2170] font-serif flex items-center justify-between">
+            <h3 className="text-sm font-bold text-[#0B4F8A] font-serif flex items-center justify-between">
               <span>Production Recovery Comparison Visualizer</span>
               <span className="text-xs font-mono text-slate-500">Target Goal: {targetTonnes} t</span>
             </h3>
@@ -565,7 +565,7 @@ export const WhatIfSimulator: React.FC = () => {
                   <span className="font-mono font-bold">{baselineForecastTonnes} t ({(baselineForecastTonnes / targetTonnes * 100).toFixed(1)}%)</span>
                 </div>
                 <div className="w-full bg-slate-100 h-4 rounded-full overflow-hidden">
-                  <div className="bg-[#1B2170] h-full rounded-full" style={{ width: `${(baselineForecastTonnes / targetTonnes * 100)}%` }} />
+                  <div className="bg-[#0B4F8A] h-full rounded-full" style={{ width: `${(baselineForecastTonnes / targetTonnes * 100)}%` }} />
                 </div>
               </div>
 
@@ -602,7 +602,7 @@ export const WhatIfSimulator: React.FC = () => {
           {shapReasons.length > 0 && (
             <div className="bg-slate-900 text-white rounded-2xl border border-slate-800 p-6 shadow-sm space-y-3">
               <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
-                <ShieldAlert className="w-5 h-5 text-amber-400" />
+                <ShieldAlert className="w-5 h-5 text-orange-400" />
                 <h3 className="font-serif font-bold text-sm text-white">
                   Relative Delta Impact Breakdown for Scenario ({simulationResult?.whatif_scenario_id})
                 </h3>
@@ -632,7 +632,7 @@ export const WhatIfSimulator: React.FC = () => {
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2">
                   <History className="w-4 h-4 text-slate-600" />
-                  <h3 className="font-serif font-bold text-sm text-[#1B2170]">What-If Simulation Run Log</h3>
+                  <h3 className="font-serif font-bold text-sm text-[#0B4F8A]">What-If Simulation Run Log</h3>
                 </div>
                 <span className="text-xs text-slate-500 font-mono">{history.length} Saved Scenario(s)</span>
               </div>
@@ -652,7 +652,7 @@ export const WhatIfSimulator: React.FC = () => {
                   <tbody className="divide-y divide-slate-100 font-mono text-[11px]">
                     {history.map((h) => (
                       <tr key={h.id} className="hover:bg-slate-50">
-                        <td className="p-2.5 font-bold text-[#1B2170]">{h.id}</td>
+                        <td className="p-2.5 font-bold text-[#0B4F8A]">{h.id}</td>
                         <td className="p-2.5 text-slate-500">{h.timestamp}</td>
                         <td className="p-2.5 font-sans font-semibold text-slate-800">{h.title}</td>
                         <td className={`p-2.5 font-bold ${h.delta_mt >= 0 ? 'text-emerald-700' : 'text-red-600'}`}>
@@ -680,10 +680,10 @@ export const WhatIfSimulator: React.FC = () => {
 
             <button
               onClick={handleContinueToDecision}
-              className="w-full sm:w-auto px-7 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-full transition shadow-md flex items-center justify-center gap-2 border border-amber-300/40"
+              className="w-full sm:w-auto px-7 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-full transition shadow-md flex items-center justify-center gap-2 border border-orange-300/40"
             >
               <span>CONTINUE TO DECISION CENTER (PAGE 8)</span>
-              <ArrowRight className="w-4 h-4 text-amber-300" />
+              <ArrowRight className="w-4 h-4 text-orange-300" />
             </button>
           </div>
 

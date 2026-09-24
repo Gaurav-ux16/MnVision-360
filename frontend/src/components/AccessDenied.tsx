@@ -15,10 +15,10 @@ export const AccessDenied: React.FC<AccessDeniedProps> = ({ requiredPath }) => {
   const targetDashboard = getDefaultDashboard();
 
   return (
-    <div className="min-h-[70vh] w-full flex items-center justify-center p-6 bg-[#F8FAFC] font-sans">
+    <div className="min-h-[70vh] w-full flex items-center justify-center p-6 bg-blue-50 font-sans">
       <div className="max-w-lg w-full bg-white border-2 border-red-500 rounded-2xl shadow-xl p-8 space-y-6 text-center relative overflow-hidden">
         {/* Top Decorative Alert Stripe */}
-        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-red-600 via-amber-500 to-red-600" />
+        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-red-600 via-orange-500 to-red-600" />
 
         <div className="w-20 h-20 rounded-full bg-red-100 border-2 border-red-400 text-red-600 mx-auto flex items-center justify-center shadow-inner">
           <ShieldAlert className="w-10 h-10" />
@@ -30,7 +30,7 @@ export const AccessDenied: React.FC<AccessDeniedProps> = ({ requiredPath }) => {
             <span>HTTP 403 • ACCESS FORBIDDEN</span>
           </div>
 
-          <h1 className="text-2xl font-black text-[#003366] font-serif">
+          <h1 className="text-2xl font-black text-[#0B4F8A] font-serif">
             Restricted Government Resource
           </h1>
 
@@ -40,8 +40,8 @@ export const AccessDenied: React.FC<AccessDeniedProps> = ({ requiredPath }) => {
         </div>
 
         <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-left space-y-2 text-xs">
-          <div className="flex items-center gap-1.5 font-bold text-[#003366]">
-            <ShieldCheck className="w-4 h-4 text-amber-600" />
+          <div className="flex items-center gap-1.5 font-bold text-[#0B4F8A]">
+            <ShieldCheck className="w-4 h-4 text-[#F28C28]" />
             <span>MOIL RBAC Security Policy Notice:</span>
           </div>
           <p className="text-slate-600 leading-relaxed text-[11px]">
@@ -52,9 +52,9 @@ export const AccessDenied: React.FC<AccessDeniedProps> = ({ requiredPath }) => {
         <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
           <button
             onClick={() => navigate(targetDashboard)}
-            className="w-full sm:w-auto px-6 py-2.5 bg-[#003366] hover:bg-[#002244] text-white font-bold text-xs rounded-lg shadow-md transition flex items-center justify-center gap-2 border border-amber-400"
+            className="w-full sm:w-auto px-6 py-2.5 bg-[#0B4F8A] hover:bg-[#1769AA] text-white font-bold text-xs rounded-lg shadow-md transition flex items-center justify-center gap-2 border border-[#F28C28]"
           >
-            <ArrowLeft className="w-4 h-4 text-amber-300" />
+            <ArrowLeft className="w-4 h-4 text-orange-300" />
             <span>RETURN TO AUTHORIZED DASHBOARD ({targetDashboard})</span>
           </button>
         </div>

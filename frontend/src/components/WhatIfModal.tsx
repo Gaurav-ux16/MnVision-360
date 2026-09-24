@@ -126,14 +126,14 @@ export const WhatIfModal: React.FC<WhatIfModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 font-sans animate-in fade-in duration-200">
       <div className="relative w-full max-w-4xl max-h-[90vh] bg-[#F8F9FA] rounded border border-slate-700 shadow-2xl overflow-hidden flex flex-col">
         {/* Modal Industrial Header */}
-        <div className="bg-[#0A1128] text-white px-6 py-4 flex items-center justify-between border-b border-slate-800">
+        <div className="bg-[#0B4F8A] text-white px-6 py-4 flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded bg-[#111A3A] border border-[#C5A059]/40 text-[#C5A059] flex items-center justify-center shadow-inner">
+            <div className="w-9 h-9 rounded bg-[#111A3A] border border-[#F28C28]/40 text-[#F28C28] flex items-center justify-center shadow-inner">
               <Sliders className="w-4 h-4" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono tracking-widest text-[#C5A059] uppercase font-semibold">
+                <span className="text-[10px] font-mono tracking-widest text-[#F28C28] uppercase font-semibold">
                   OPERATIONAL SENSITIVITY SANDBOX
                 </span>
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-slate-800 text-slate-300 border border-slate-700">
@@ -156,9 +156,9 @@ export const WhatIfModal: React.FC<WhatIfModalProps> = ({
         </div>
 
         {/* Prototype Honesty Banner */}
-        <div className="bg-amber-500/10 border-b border-amber-500/20 px-6 py-2 flex items-center justify-between text-xs text-amber-900 font-mono">
+        <div className="bg-orange-500/10 border-b border-orange-500/20 px-6 py-2 flex items-center justify-between text-xs text-orange-900 font-mono">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-3.5 h-3.5 text-amber-700 flex-shrink-0" />
+            <Sparkles className="w-3.5 h-3.5 text-orange-700 flex-shrink-0" />
             <span className="text-[11px] font-medium">Prototype Sensitivity Sandbox • Isolated from Production Telematics Baseline</span>
           </div>
           <PrototypeBadge label="PROTOTYPE SIMULATION DATA" />
@@ -174,7 +174,7 @@ export const WhatIfModal: React.FC<WhatIfModalProps> = ({
               </span>
               <button 
                 onClick={handleReset}
-                className="text-[11px] font-mono font-bold text-slate-600 hover:text-[#0A1128] flex items-center gap-1 transition"
+                className="text-[11px] font-mono font-bold text-slate-600 hover:text-[#0B4F8A] flex items-center gap-1 transition"
               >
                 <RefreshCw className="w-3 h-3" /> Reset Baseline
               </button>
@@ -184,7 +184,7 @@ export const WhatIfModal: React.FC<WhatIfModalProps> = ({
             <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-1.5 text-xs">
               <div className="flex justify-between font-medium">
                 <span className="text-slate-700">Dump Truck EX-104 Downtime:</span>
-                <span className="font-mono font-bold text-[#0A1128]">{downtimeEx104} hrs</span>
+                <span className="font-mono font-bold text-[#0B4F8A]">{downtimeEx104} hrs</span>
               </div>
               <input
                 type="range"
@@ -193,7 +193,7 @@ export const WhatIfModal: React.FC<WhatIfModalProps> = ({
                 step="1"
                 value={downtimeEx104}
                 onChange={(e) => setDowntimeEx104(parseFloat(e.target.value))}
-                className="w-full h-1.5 bg-slate-200 rounded appearance-none cursor-pointer accent-[#0A1128]"
+                className="w-full h-1.5 bg-slate-200 rounded appearance-none cursor-pointer accent-[#0B4F8A]"
               />
               <span className="text-[10px] text-slate-500 font-mono">Baseline: 28.0 hrs (-8.5 MT/hr impact rate)</span>
             </div>
@@ -209,7 +209,7 @@ export const WhatIfModal: React.FC<WhatIfModalProps> = ({
                     className={`w-full py-1.5 px-2 rounded font-mono font-bold text-[11px] transition border ${
                       ex104Status === 'OPERATIONAL'
                         ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
-                        : 'bg-amber-50 text-amber-800 border-amber-300'
+                        : 'bg-orange-50 text-orange-800 border-orange-300'
                     }`}
                   >
                     {ex104Status}
@@ -222,7 +222,7 @@ export const WhatIfModal: React.FC<WhatIfModalProps> = ({
                     className={`w-full py-1.5 px-2 rounded font-mono font-bold text-[11px] transition border ${
                       e17Status === 'OPERATIONAL'
                         ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
-                        : 'bg-amber-50 text-amber-800 border-amber-300'
+                        : 'bg-orange-50 text-orange-800 border-orange-300'
                     }`}
                   >
                     {e17Status}
@@ -235,7 +235,7 @@ export const WhatIfModal: React.FC<WhatIfModalProps> = ({
             <div className="bg-white p-3.5 rounded border border-slate-200 shadow-sm space-y-1.5 text-xs">
               <div className="flex justify-between font-medium">
                 <span className="text-slate-700">Monsoon Rainfall Intensity:</span>
-                <span className="font-mono font-bold text-[#0A1128]">{rainfallMm} mm/day</span>
+                <span className="font-mono font-bold text-[#0B4F8A]">{rainfallMm} mm/day</span>
               </div>
               <input
                 type="range"
@@ -244,7 +244,7 @@ export const WhatIfModal: React.FC<WhatIfModalProps> = ({
                 step="2"
                 value={rainfallMm}
                 onChange={(e) => setRainfallMm(parseFloat(e.target.value))}
-                className="w-full h-1.5 bg-slate-200 rounded appearance-none cursor-pointer accent-[#0A1128]"
+                className="w-full h-1.5 bg-slate-200 rounded appearance-none cursor-pointer accent-[#0B4F8A]"
               />
               <span className="text-[10px] text-slate-500 font-mono">Baseline: 12.0 mm/day (-45 MT per 10mm increment)</span>
             </div>
@@ -287,7 +287,7 @@ export const WhatIfModal: React.FC<WhatIfModalProps> = ({
                     type="checkbox"
                     checked={activateBlockB09}
                     onChange={(e) => setActivateBlockB09(e.target.checked)}
-                    className="w-4 h-4 rounded text-[#0A1128] accent-[#0A1128]"
+                    className="w-4 h-4 rounded text-[#0B4F8A] accent-[#0B4F8A]"
                   />
                   <span className="font-mono text-xs font-bold text-slate-800">
                     {activateBlockB09 ? 'ACTIVE (+180 t)' : 'STANDBY (0 t)'}
@@ -335,16 +335,16 @@ export const WhatIfModal: React.FC<WhatIfModalProps> = ({
               </div>
 
               {/* What-If Predicted Output */}
-              <div className="p-4 rounded bg-[#0A1128] text-white space-y-2 border border-slate-800">
+              <div className="p-4 rounded bg-[#0B4F8A] text-white space-y-2 border border-slate-800">
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-slate-300 font-mono text-[11px] uppercase tracking-wider">Simulated Output Projection:</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-[#C5A059] border border-slate-700">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-[#F28C28] border border-slate-700">
                     {scenarioId}
                   </span>
                 </div>
 
                 <div className="flex items-baseline justify-between">
-                  <span className="text-3xl font-mono font-bold text-[#C5A059] tracking-tight">
+                  <span className="text-3xl font-mono font-bold text-[#F28C28] tracking-tight">
                     {predictedProduction.toLocaleString()} <span className="text-xs font-sans text-slate-400 font-normal">MT</span>
                   </span>
                   <div className={`flex items-center gap-1 text-xs font-mono font-bold px-2 py-0.5 rounded border ${
@@ -369,7 +369,7 @@ export const WhatIfModal: React.FC<WhatIfModalProps> = ({
               <div className="space-y-1.5 text-xs">
                 <div className="flex justify-between font-mono text-[11px] text-slate-700">
                   <span>Target Achievement Ratio:</span>
-                  <span className="font-bold text-[#0A1128]">
+                  <span className="font-bold text-[#0B4F8A]">
                     {Math.min(100, Math.round((predictedProduction / initialTargetTonnes) * 100))}%
                   </span>
                 </div>
@@ -386,16 +386,16 @@ export const WhatIfModal: React.FC<WhatIfModalProps> = ({
             <button
               onClick={handleRunSimulation}
               disabled={isLoading}
-              className="w-full py-3 px-5 rounded bg-[#0A1128] hover:bg-[#111A3A] text-white border border-[#C5A059]/40 hover:border-[#C5A059] font-mono text-xs uppercase tracking-wider font-semibold transition flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 mt-auto"
+              className="w-full py-3 px-5 rounded bg-[#0B4F8A] hover:bg-[#111A3A] text-white border border-[#F28C28]/40 hover:border-[#F28C28] font-mono text-xs uppercase tracking-wider font-semibold transition flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 mt-auto"
             >
               {isLoading ? (
                 <>
-                  <RefreshCw className="w-4 h-4 animate-spin text-[#C5A059]" />
+                  <RefreshCw className="w-4 h-4 animate-spin text-[#F28C28]" />
                   <span>Computing Sensitivity Matrix...</span>
                 </>
               ) : (
                 <>
-                  <Play className="w-4 h-4 text-[#C5A059]" />
+                  <Play className="w-4 h-4 text-[#F28C28]" />
                   <span>Execute What-If Evaluation</span>
                 </>
               )}

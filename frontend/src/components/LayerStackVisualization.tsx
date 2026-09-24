@@ -46,17 +46,17 @@ export const LayerStackVisualization: React.FC<LayerStackVisualizationProps> = (
       case 'tier-vegetation':
         return <Trees className="w-4 h-4 text-emerald-400" />;
       case 'tier-terrain':
-        return <Mountain className="w-4 h-4 text-amber-400" />;
+        return <Mountain className="w-4 h-4 text-orange-400" />;
       case 'tier-geology':
         return <Compass className="w-4 h-4 text-purple-400" />;
       case 'tier-soil':
-        return <Droplet className="w-4 h-4 text-amber-600" />;
+        return <Droplet className="w-4 h-4 text-orange-600" />;
       case 'tier-geochemistry':
         return <Activity className="w-4 h-4 text-cyan-400" />;
       case 'tier-geophysics':
         return <Gauge className="w-4 h-4 text-pink-400" />;
       case 'tier-prospectivity':
-        return <Sparkles className="w-4 h-4 text-[#C5A059]" />;
+        return <Sparkles className="w-4 h-4 text-[#F28C28]" />;
       default:
         return <Layers className="w-4 h-4 text-slate-400" />;
     }
@@ -80,7 +80,7 @@ export const LayerStackVisualization: React.FC<LayerStackVisualizationProps> = (
         );
       case 'SYNTHETIC_PROTOTYPE':
         return (
-          <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-amber-950/80 text-amber-300 border border-amber-700/50 flex items-center gap-0.5">
+          <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-orange-950/80 text-orange-300 border border-orange-700/50 flex items-center gap-0.5">
             <Award className="w-2.5 h-2.5" />
             Prototype
           </span>
@@ -92,8 +92,8 @@ export const LayerStackVisualization: React.FC<LayerStackVisualizationProps> = (
 
   if (isLoading) {
     return (
-      <div className="bg-[#0A1128] border border-slate-800 rounded-2xl p-6 text-center space-y-3">
-        <div className="animate-spin w-8 h-8 border-2 border-[#C5A059] border-t-transparent rounded-full mx-auto" />
+      <div className="bg-[#0B4F8A] border border-slate-800 rounded-2xl p-6 text-center space-y-3">
+        <div className="animate-spin w-8 h-8 border-2 border-[#F28C28] border-t-transparent rounded-full mx-auto" />
         <p className="text-xs font-mono text-slate-400">Extracting 8-plane vertical evidence stack...</p>
       </div>
     );
@@ -104,7 +104,7 @@ export const LayerStackVisualization: React.FC<LayerStackVisualizationProps> = (
       {/* Stack Header */}
       <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
-          <div className="p-1.5 rounded-lg bg-[#C5A059]/10 border border-[#C5A059]/30 text-[#C5A059]">
+          <div className="p-1.5 rounded-lg bg-[#F28C28]/10 border border-[#F28C28]/30 text-[#F28C28]">
             <Layers className="w-4 h-4" />
           </div>
           <div>
@@ -123,7 +123,7 @@ export const LayerStackVisualization: React.FC<LayerStackVisualizationProps> = (
       </div>
 
       {/* Stack Diagram Column */}
-      <div className="space-y-2 relative before:absolute before:left-6 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-sky-500 before:via-purple-500 before:to-[#C5A059] before:opacity-30">
+      <div className="space-y-2 relative before:absolute before:left-6 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-sky-500 before:via-purple-500 before:to-[#F28C28] before:opacity-30">
         {tiers.map((tier, idx) => {
           const isSelected = activeTierId === tier.tier_id || activeTierId === tier.layer_id;
           const isExpanded = expandedTierId === tier.tier_id;
@@ -133,7 +133,7 @@ export const LayerStackVisualization: React.FC<LayerStackVisualizationProps> = (
               key={tier.tier_id}
               className={`relative rounded-xl transition-all duration-200 border text-left overflow-hidden ${
                 isSelected
-                  ? 'bg-slate-900/95 border-[#C5A059] shadow-lg shadow-[#C5A059]/10 ring-1 ring-[#C5A059]/40'
+                  ? 'bg-slate-900/95 border-[#F28C28] shadow-lg shadow-[#F28C28]/10 ring-1 ring-[#F28C28]/40'
                   : 'bg-[#080E21]/90 hover:bg-[#0B142F] border-slate-800/90'
               }`}
             >
@@ -207,7 +207,7 @@ export const LayerStackVisualization: React.FC<LayerStackVisualizationProps> = (
                     </div>
                     <div className="p-1.5 rounded bg-slate-900/80 border border-slate-800">
                       <span className="text-slate-500 block">DATA QUALITY</span>
-                      <span className={`font-bold ${tier.data_quality === 'HIGH' ? 'text-emerald-400' : 'text-amber-400'}`}>
+                      <span className={`font-bold ${tier.data_quality === 'HIGH' ? 'text-emerald-400' : 'text-orange-400'}`}>
                         {tier.data_quality}
                       </span>
                     </div>
@@ -222,7 +222,7 @@ export const LayerStackVisualization: React.FC<LayerStackVisualizationProps> = (
       {/* Depth Honesty Footnote */}
       <div className="p-2 rounded-lg bg-slate-900/50 border border-slate-800/80 text-[10px] font-mono text-slate-400 flex items-center justify-between">
         <span>Datum: WGS84 (EPSG:4326)</span>
-        <span className="text-amber-400/90 font-medium">Modelled Exploration Profile</span>
+        <span className="text-orange-400/90 font-medium">Modelled Exploration Profile</span>
       </div>
     </div>
   );

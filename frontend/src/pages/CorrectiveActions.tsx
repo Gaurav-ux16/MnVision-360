@@ -150,7 +150,7 @@ export const CorrectiveActions: React.FC = () => {
     return (
       <div className="min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center p-6">
         <div className="bg-white p-8 rounded-lg border border-slate-200 shadow-sm text-center max-w-md">
-          <RefreshCw className="w-10 h-10 text-[#1B2170] animate-spin mx-auto mb-4" />
+          <RefreshCw className="w-10 h-10 text-[#0B4F8A] animate-spin mx-auto mb-4" />
           <h3 className="text-lg font-bold text-slate-800">Mapping Corrective Action Candidates</h3>
           <p className="text-xs text-slate-500 mt-2">
             Evaluating domain rule matrix on top SHAP model-contributing factors...
@@ -173,29 +173,29 @@ export const CorrectiveActions: React.FC = () => {
           <span>Estimate Production</span> <span className="mx-1 text-slate-400">&gt;</span>
           <span>Production Shortfall</span> <span className="mx-1 text-slate-400">&gt;</span>
           <span>Analyze Why</span> <span className="mx-1 text-slate-400">&gt;</span>
-          <span className="font-semibold text-[#1B2170]">Corrective Actions</span>
+          <span className="font-semibold text-[#0B4F8A]">Corrective Actions</span>
         </div>
 
         <div className="max-w-7xl mx-auto w-full p-6">
-          <div className="bg-white rounded-lg border border-amber-200 shadow-sm p-8 text-center max-w-2xl mx-auto my-12">
+          <div className="bg-white rounded-lg border border-orange-200 shadow-sm p-8 text-center max-w-2xl mx-auto my-12">
             {statusType === 'NO_ACTIVE_PRODUCTION_SHORTFALL' ? (
               <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto mb-4" />
             ) : (
-              <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
+              <AlertTriangle className="w-12 h-12 text-orange-500 mx-auto mb-4" />
             )}
             <h2 className="text-xl font-bold text-slate-900 tracking-wide uppercase">
               {statusType === 'NO_ACTIVE_PRODUCTION_SHORTFALL' ? 'NO ACTIVE PRODUCTION SHORTFALL' : (
                 statusType === 'CORRECTIVE_ACTION_ANALYSIS_UNAVAILABLE' ? 'CORRECTIVE ACTION ANALYSIS UNAVAILABLE' : 'NO STRUCTURED ACTION MAPPING AVAILABLE'
               )}
             </h2>
-            <p className="text-sm text-slate-600 mt-3 bg-amber-50 p-4 rounded border border-amber-200 text-left">
+            <p className="text-sm text-slate-600 mt-3 bg-orange-50 p-4 rounded border border-orange-200 text-left">
               {statusMsg}
             </p>
 
             <div className="mt-6 flex justify-center gap-4">
               <button
                 onClick={handleBackToAnalyzeWhy}
-                className="flex items-center gap-2 px-5 py-2.5 bg-[#1B2170] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors"
+                className="flex items-center gap-2 px-5 py-2.5 bg-[#0B4F8A] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 RETURN TO ANALYZE WHY
@@ -222,7 +222,7 @@ export const CorrectiveActions: React.FC = () => {
           <span>Estimate Production</span> <span className="text-slate-400">&gt;</span>
           <span>Production Shortfall</span> <span className="text-slate-400">&gt;</span>
           <span>Analyze Why</span> <span className="text-slate-400">&gt;</span>
-          <span className="font-bold text-[#1B2170]">Corrective Actions</span>
+          <span className="font-bold text-[#0B4F8A]">Corrective Actions</span>
         </div>
         <PrototypeBadge type="inline" message={data_honesty_label || "PROTOTYPE SIMULATION DATA — MOIL Sensor Calibration Pending"} />
       </div>
@@ -233,14 +233,14 @@ export const CorrectiveActions: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-lg border border-slate-200 shadow-sm">
           <div>
             <div className="flex items-center gap-2">
-              <span className="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded border border-amber-300 uppercase tracking-wider">
+              <span className="bg-orange-100 text-orange-800 text-[10px] font-bold px-2 py-0.5 rounded border border-orange-300 uppercase tracking-wider">
                 PAGE 5 — ACTION RECOMMENDATION LAYER
               </span>
               <span className="text-xs text-slate-500 font-mono">
                 Mine Type: {mine_type}
               </span>
             </div>
-            <h1 className="text-2xl font-black text-[#1B2170] tracking-tight uppercase mt-1">
+            <h1 className="text-2xl font-black text-[#0B4F8A] tracking-tight uppercase mt-1">
               CORRECTIVE ACTIONS
             </h1>
             <p className="text-xs text-slate-500 font-medium mt-0.5">
@@ -258,7 +258,7 @@ export const CorrectiveActions: React.FC = () => {
             </button>
             <button
               onClick={handleContinueToOptimization}
-              className="flex items-center gap-2 px-4 py-2 bg-[#1B2170] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-[#0B4F8A] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors shadow-sm"
             >
               CONTINUE TO OPTIMIZATION
               <ArrowRight className="w-4 h-4" />
@@ -270,7 +270,7 @@ export const CorrectiveActions: React.FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 text-xs bg-slate-800 text-slate-200 p-3.5 rounded-lg border border-slate-700 shadow-sm font-mono">
           <div>
             <span className="text-slate-400 block text-[10px] uppercase font-sans">Active Mine</span>
-            <span className="font-bold text-amber-400">{mine_id}</span>
+            <span className="font-bold text-orange-400">{mine_id}</span>
           </div>
           <div>
             <span className="text-slate-400 block text-[10px] uppercase font-sans">Target ID</span>
@@ -305,10 +305,10 @@ export const CorrectiveActions: React.FC = () => {
             <span className="text-[11px] text-slate-400 mt-1 block">Ex-ante required output</span>
           </div>
 
-          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm border-l-4 border-l-amber-500">
+          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm border-l-4 border-l-orange-500">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Forecast Production</span>
             <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-2xl font-black text-amber-700">{forecast_tonnes.toLocaleString('en-IN')}</span>
+              <span className="text-2xl font-black text-orange-700">{forecast_tonnes.toLocaleString('en-IN')}</span>
               <span className="text-xs font-bold text-slate-500">tonnes</span>
             </div>
             <span className="text-[11px] text-slate-400 mt-1 block">Tonnage regression model forecast</span>
@@ -323,10 +323,10 @@ export const CorrectiveActions: React.FC = () => {
             <span className="text-[11px] text-red-600 font-semibold mt-1 block">Shortfall: {shortfall_percent}% below target</span>
           </div>
 
-          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm border-l-4 border-l-[#1B2170]">
+          <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm border-l-4 border-l-[#0B4F8A]">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">Selected Actions</span>
             <div className="flex items-baseline gap-1 mt-1">
-              <span className="text-2xl font-black text-[#1B2170]">{selectedActionIds.length}</span>
+              <span className="text-2xl font-black text-[#0B4F8A]">{selectedActionIds.length}</span>
               <span className="text-xs font-bold text-slate-500">of {candidate_actions.length}</span>
             </div>
             <span className="text-[11px] text-slate-400 mt-1 block">Staged for optimization analysis</span>
@@ -336,8 +336,8 @@ export const CorrectiveActions: React.FC = () => {
         {/* 5. Model-Contributing Factors Carryover from Page 4 */}
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
           <div className="bg-slate-50 px-6 py-3.5 border-b border-slate-200 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-[#1B2170] uppercase tracking-wide flex items-center gap-2">
-              <Cpu className="w-4 h-4 text-[#1B2170]" />
+            <h2 className="text-sm font-bold text-[#0B4F8A] uppercase tracking-wide flex items-center gap-2">
+              <Cpu className="w-4 h-4 text-[#0B4F8A]" />
               MODEL-CONTRIBUTING FACTORS (CARRIED FROM PAGE 4)
             </h2>
             <span className="text-xs text-slate-500 font-mono">
@@ -369,8 +369,8 @@ export const CorrectiveActions: React.FC = () => {
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden space-y-4 p-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-4">
             <div>
-              <h2 className="text-base font-bold text-[#1B2170] uppercase tracking-wide flex items-center gap-2">
-                <Wrench className="w-5 h-5 text-[#1B2170]" />
+              <h2 className="text-base font-bold text-[#0B4F8A] uppercase tracking-wide flex items-center gap-2">
+                <Wrench className="w-5 h-5 text-[#0B4F8A]" />
                 POTENTIAL CORRECTIVE ACTIONS (CANDIDATE RESPONSES)
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
@@ -378,8 +378,8 @@ export const CorrectiveActions: React.FC = () => {
               </p>
             </div>
 
-            <div className="bg-amber-50 text-amber-900 border border-amber-200 text-xs px-3 py-1.5 rounded flex items-center gap-2 font-medium">
-              <Info className="w-4 h-4 text-amber-700 shrink-0" />
+            <div className="bg-orange-50 text-orange-900 border border-orange-200 text-xs px-3 py-1.5 rounded flex items-center gap-2 font-medium">
+              <Info className="w-4 h-4 text-orange-700 shrink-0" />
               <span>Select candidate actions to stage for Page 6 optimization analysis</span>
             </div>
           </div>
@@ -394,20 +394,20 @@ export const CorrectiveActions: React.FC = () => {
                   key={idx}
                   className={`border rounded-lg p-5 space-y-3 transition-all ${
                     isSelected 
-                      ? 'bg-blue-50/50 border-[#1B2170] shadow-sm' 
+                      ? 'bg-blue-50/50 border-[#0B4F8A] shadow-sm' 
                       : 'bg-white border-slate-200 hover:border-slate-300'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-mono font-bold text-xs bg-slate-800 text-amber-400 px-2 py-0.5 rounded">
+                        <span className="font-mono font-bold text-xs bg-slate-800 text-orange-400 px-2 py-0.5 rounded">
                           {action.action_id}
                         </span>
                         <span className="text-[10px] bg-slate-100 text-slate-700 font-mono font-bold px-2 py-0.5 rounded border border-slate-200">
                           {action.category}
                         </span>
-                        <span className="text-[10px] bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded border border-amber-200">
+                        <span className="text-[10px] bg-orange-100 text-orange-900 font-bold px-2 py-0.5 rounded border border-orange-200">
                           {action.status}
                         </span>
                       </div>
@@ -420,7 +420,7 @@ export const CorrectiveActions: React.FC = () => {
                       onClick={() => toggleActionSelection(action.action_id)}
                       className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded transition-colors ${
                         isSelected 
-                          ? 'bg-[#1B2170] text-white' 
+                          ? 'bg-[#0B4F8A] text-white' 
                           : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300'
                       }`}
                     >
@@ -474,7 +474,7 @@ export const CorrectiveActions: React.FC = () => {
             </span>
             <button
               onClick={handleContinueToOptimization}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 bg-[#1B2170] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors shadow-sm"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 bg-[#0B4F8A] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors shadow-sm"
             >
               CONTINUE TO OPTIMIZATION
               <ArrowRight className="w-4 h-4" />

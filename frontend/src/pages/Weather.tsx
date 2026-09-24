@@ -12,10 +12,10 @@ export const Weather: React.FC = () => {
       />
 
       {/* Page Title Header */}
-      <div className="bg-white border-l-4 border-[#D4AF37] border border-slate-200 p-6 rounded shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white border-l-4 border-[#F28C28] border border-slate-200 p-6 rounded shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-xs font-bold text-[#003366] uppercase tracking-wider">
-            <CloudRain className="w-4 h-4 text-amber-500" />
+            <CloudRain className="w-4 h-4 text-orange-500" />
             <span>MOIL BALAGHAT ENVIRONMENTAL & METEOROLOGICAL MONITOR</span>
           </div>
           <h1 className="text-2xl font-bold text-[#003366] font-serif mt-1">
@@ -25,9 +25,9 @@ export const Weather: React.FC = () => {
             Real-time satellite soil moisture & rainfall feeds directly influencing ShortfallShield AI risk probabilities.
           </p>
         </div>
-        <div className="bg-[#003366] text-white p-3 rounded text-xs font-mono border-l-2 border-amber-400">
-          <p className="text-amber-300 font-bold">Shortfall Impact Factor</p>
-          <p className="text-xl font-extrabold text-amber-400">18.4% (Monsoon Elevated)</p>
+        <div className="bg-[#003366] text-white p-3 rounded text-xs font-mono border-l-2 border-orange-400">
+          <p className="text-orange-300 font-bold">Shortfall Impact Factor</p>
+          <p className="text-xl font-extrabold text-orange-400">18.4% (Monsoon Elevated)</p>
         </div>
       </div>
 
@@ -52,7 +52,7 @@ export const Weather: React.FC = () => {
           </div>
           <p className="text-2xl font-extrabold text-[#003366]">0.42 m³/m³</p>
           <div className="flex items-center justify-between text-[11px]">
-            <span className="text-amber-800 font-bold">ELEVATED SATURATION</span>
+            <span className="text-orange-800 font-bold">ELEVATED SATURATION</span>
             <span className="text-slate-500">SMAP Satellite</span>
           </div>
         </div>
@@ -60,7 +60,7 @@ export const Weather: React.FC = () => {
         <div className="bg-white p-4 rounded border border-slate-200 shadow-sm space-y-2">
           <div className="flex items-center justify-between text-slate-600 text-xs font-bold uppercase">
             <span>Land Surface Temp</span>
-            <Thermometer className="w-4 h-4 text-amber-600" />
+            <Thermometer className="w-4 h-4 text-orange-600" />
           </div>
           <p className="text-2xl font-extrabold text-[#003366]">28.4 °C</p>
           <div className="flex items-center justify-between text-[11px]">
@@ -86,7 +86,7 @@ export const Weather: React.FC = () => {
       <div className="bg-white rounded border border-slate-200 p-6 shadow-sm space-y-4">
         <h3 className="text-base font-bold text-[#003366] font-serif border-b border-slate-200 pb-3 flex items-center justify-between">
           <span>ShortfallShield AI Integration Mechanism</span>
-          <span className="text-xs font-bold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded">Active ML Feature Feed</span>
+          <span className="text-xs font-bold text-orange-800 bg-orange-100 px-2.5 py-0.5 rounded">Active ML Feature Feed</span>
         </h3>
 
         <div className="p-4 bg-slate-50 border border-slate-200 rounded text-xs text-slate-700 space-y-2 leading-relaxed">

@@ -36,16 +36,16 @@ export const CommandCenter: React.FC = () => {
         <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={() => navigate('/app/decide')}
-            className="px-4 py-2 bg-[#C5A059] hover:bg-[#B38F46] text-slate-950 text-xs font-bold rounded transition shadow-xs flex items-center gap-1.5"
+            className="px-4 py-2 bg-[#F28C28] hover:bg-[#D97706] text-slate-950 text-xs font-bold rounded transition shadow-xs flex items-center gap-1.5"
           >
             <Sliders className="w-3.5 h-3.5" />
             <span>Prescriptive Optimizer</span>
           </button>
           <button
             onClick={() => navigate('/app/explore')}
-            className="px-4 py-2 bg-[#0A1128] hover:bg-[#131E3A] text-white text-xs font-semibold rounded transition flex items-center gap-1.5"
+            className="px-4 py-2 bg-[#0B4F8A] hover:bg-[#1769AA] text-white text-xs font-semibold rounded transition flex items-center gap-1.5"
           >
-            <Compass className="w-3.5 h-3.5 text-[#C5A059]" />
+            <Compass className="w-3.5 h-3.5 text-[#F28C28]" />
             <span>Exploration Map</span>
           </button>
         </div>
@@ -89,7 +89,7 @@ export const CommandCenter: React.FC = () => {
         <div className="bg-white border border-slate-200 p-4 rounded shadow-xs space-y-2">
           <div className="flex items-center justify-between text-slate-500 text-xs font-semibold">
             <span>Projected Gap</span>
-            <AlertTriangle className="w-4 h-4 text-amber-500" />
+            <AlertTriangle className="w-4 h-4 text-orange-500" />
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-mono font-bold text-red-600">-2,750 t</span>
@@ -124,8 +124,8 @@ export const CommandCenter: React.FC = () => {
             <Compass className="w-4 h-4 text-slate-400" />
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-mono font-bold text-[#0A1128]">5 Zones</span>
-            <span className="text-[11px] font-mono font-bold text-[#C5A059]">Top: 0.92</span>
+            <span className="text-2xl font-mono font-bold text-[#0B4F8A]">5 Zones</span>
+            <span className="text-[11px] font-mono font-bold text-[#F28C28]">Top: 0.92</span>
           </div>
           <p className="text-[11px] text-slate-500 leading-snug">
             SpatialBlockCV multi-spectral PU model (Balaghat AOI).
@@ -138,7 +138,7 @@ export const CommandCenter: React.FC = () => {
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="space-y-0.5">
             <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900 font-mono flex items-center gap-2">
-              <Layers className="w-4 h-4 text-[#C5A059]" />
+              <Layers className="w-4 h-4 text-[#F28C28]" />
               <span>Space-to-Mine Integrated Operational Pipeline</span>
             </h2>
             <p className="text-xs text-slate-500">
@@ -154,19 +154,19 @@ export const CommandCenter: React.FC = () => {
           {/* Station 1: Earth Observation */}
           <div 
             onClick={() => navigate('/app/explore')}
-            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0A1128] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
+            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0B4F8A] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
           >
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Stage 01</span>
-              <Compass className="w-4 h-4 text-slate-500 group-hover:text-[#0A1128] transition" />
+              <Compass className="w-4 h-4 text-slate-500 group-hover:text-[#0B4F8A] transition" />
             </div>
-            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0A1128]">
+            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0B4F8A]">
               Earth Observation
             </h3>
             <p className="text-[11px] text-slate-600 leading-relaxed">
               Sentinel-1 SAR polarimetry & Sentinel-2 SWIR ratios mapping Mansar Quartzite surface contacts.
             </p>
-            <div className="pt-2 text-[10px] font-semibold text-[#C5A059] flex items-center gap-1">
+            <div className="pt-2 text-[10px] font-semibold text-[#F28C28] flex items-center gap-1">
               <span>View Targets</span>
               <ChevronRight className="w-3 h-3" />
             </div>
@@ -175,19 +175,19 @@ export const CommandCenter: React.FC = () => {
           {/* Station 2: Geological Validation */}
           <div 
             onClick={() => navigate('/app/explore')}
-            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0A1128] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
+            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0B4F8A] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
           >
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Stage 02</span>
-              <MapPin className="w-4 h-4 text-slate-500 group-hover:text-[#0A1128] transition" />
+              <MapPin className="w-4 h-4 text-slate-500 group-hover:text-[#0B4F8A] transition" />
             </div>
-            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0A1128]">
+            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0B4F8A]">
               Geological Assays
             </h3>
             <p className="text-[11px] text-slate-600 leading-relaxed">
               160 stream sediment assays and diamond core recovery records validating 28.4% - 34.7% Mn grade.
             </p>
-            <div className="pt-2 text-[10px] font-semibold text-[#C5A059] flex items-center gap-1">
+            <div className="pt-2 text-[10px] font-semibold text-[#F28C28] flex items-center gap-1">
               <span>Check Assays</span>
               <ChevronRight className="w-3 h-3" />
             </div>
@@ -196,19 +196,19 @@ export const CommandCenter: React.FC = () => {
           {/* Station 3: Mine Twin 360 */}
           <div 
             onClick={() => navigate('/app/mine')}
-            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0A1128] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
+            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0B4F8A] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
           >
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Stage 03</span>
-              <HardHat className="w-4 h-4 text-slate-500 group-hover:text-[#0A1128] transition" />
+              <HardHat className="w-4 h-4 text-slate-500 group-hover:text-[#0B4F8A] transition" />
             </div>
-            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0A1128]">
+            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0B4F8A]">
               Underground Mine Twin
             </h3>
             <p className="text-[11px] text-slate-600 leading-relaxed">
               Real-time 5-gate readiness scoring across cable bolting, ventilation CFM, trackage, and ore chutes.
             </p>
-            <div className="pt-2 text-[10px] font-semibold text-[#C5A059] flex items-center gap-1">
+            <div className="pt-2 text-[10px] font-semibold text-[#F28C28] flex items-center gap-1">
               <span>Inspect Blocks</span>
               <ChevronRight className="w-3 h-3" />
             </div>
@@ -217,19 +217,19 @@ export const CommandCenter: React.FC = () => {
           {/* Station 4: Shortfall Forecasting */}
           <div 
             onClick={() => navigate('/app/produce')}
-            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0A1128] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
+            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0B4F8A] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
           >
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Stage 04</span>
-              <TrendingUp className="w-4 h-4 text-slate-500 group-hover:text-[#0A1128] transition" />
+              <TrendingUp className="w-4 h-4 text-slate-500 group-hover:text-[#0B4F8A] transition" />
             </div>
-            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0A1128]">
+            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0B4F8A]">
               Shortfall Prediction
             </h3>
             <p className="text-[11px] text-slate-600 leading-relaxed">
               30-day production curve projecting a 2,750 MT gap, decomposed via Tree SHAP feature attributions.
             </p>
-            <div className="pt-2 text-[10px] font-semibold text-[#C5A059] flex items-center gap-1">
+            <div className="pt-2 text-[10px] font-semibold text-[#F28C28] flex items-center gap-1">
               <span>View Forecast</span>
               <ChevronRight className="w-3 h-3" />
             </div>
@@ -238,19 +238,19 @@ export const CommandCenter: React.FC = () => {
           {/* Station 5: Prescriptive Optimization */}
           <div 
             onClick={() => navigate('/app/decide')}
-            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0A1128] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
+            className="p-4 bg-slate-50 border border-slate-200 rounded hover:border-[#0B4F8A] hover:bg-slate-100/60 transition cursor-pointer space-y-2 group"
           >
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Stage 05</span>
-              <Cpu className="w-4 h-4 text-slate-500 group-hover:text-[#0A1128] transition" />
+              <Cpu className="w-4 h-4 text-slate-500 group-hover:text-[#0B4F8A] transition" />
             </div>
-            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0A1128]">
+            <h3 className="text-xs font-bold text-slate-900 group-hover:text-[#0B4F8A]">
               Prescriptive Decision
             </h3>
             <p className="text-[11px] text-slate-600 leading-relaxed">
               Mathematical solver deploying Plan A (+350 MT via Block B-17) and real-time sensitivity simulation.
             </p>
-            <div className="pt-2 text-[10px] font-semibold text-[#C5A059] flex items-center gap-1">
+            <div className="pt-2 text-[10px] font-semibold text-[#F28C28] flex items-center gap-1">
               <span>Optimize Output</span>
               <ChevronRight className="w-3 h-3" />
             </div>
@@ -297,7 +297,7 @@ export const CommandCenter: React.FC = () => {
                 <td className="py-3 px-4 text-right">
                   <button
                     onClick={() => navigate('/app/decide')}
-                    className="px-3 py-1 bg-[#0A1128] hover:bg-[#131E3A] text-white text-[11px] font-semibold rounded transition"
+                    className="px-3 py-1 bg-[#0B4F8A] hover:bg-[#1769AA] text-white text-[11px] font-semibold rounded transition"
                   >
                     Run Optimizer
                   </button>
@@ -306,13 +306,13 @@ export const CommandCenter: React.FC = () => {
 
               <tr className="hover:bg-slate-50 transition">
                 <td className="py-3 px-4">
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-50 text-orange-800 border border-orange-200">
                     WARNING
                   </span>
                 </td>
                 <td className="py-3 px-4 font-mono font-bold text-slate-900">Mine Twin Telematics</td>
                 <td className="py-3 px-4">Stope BLK-BAL-04 (Access Gate)</td>
-                <td className="py-3 px-4 font-mono text-amber-700 font-bold">68% Readiness</td>
+                <td className="py-3 px-4 font-mono text-orange-700 font-bold">68% Readiness</td>
                 <td className="py-3 px-4 font-mono text-slate-600">&ge; 80% Required</td>
                 <td className="py-3 px-4 text-right">
                   <button

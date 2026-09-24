@@ -8,11 +8,11 @@ export default {
     extend: {
       colors: {
         brand: {
-          navy: '#0B192C',      // MOIL Deep Navy
-          blue: '#1E3A8A',      // MOIL Institutional Blue
+          navy: '#0B4F8A',      // MOIL blue
+          blue: '#1769AA',      // MOIL blue
           sky: '#0284C7',       // Government Accent Blue
-          gold: '#D4AF37',      // MOIL Ore Gold Accent
-          'gold-dark': '#B8860B',
+          gold: '#F28C28',      // Manganese orange accent
+          'gold-dark': '#D97706',
           bg: '#F8FAFC',        // PSU Light Grey Background
           surface: '#FFFFFF',   // White Card / Panel Background
           border: '#E2E8F0',    // Thin Clean Border
@@ -28,7 +28,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-        serif: ['Merriweather', 'Georgia', 'serif'],
+        serif: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       }
     },
   },

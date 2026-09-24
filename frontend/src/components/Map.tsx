@@ -381,8 +381,8 @@ export const Map: React.FC<MapProps> = ({
     const targetPins = [
       { id: 'Target-1', name: 'MN-TGT-001', label: 'High Priority', coords: [80.72, 21.84], color: 'bg-red-600' },
       { id: 'Target-3', name: 'MN-TGT-003', label: 'High Priority', coords: [79.82, 21.91], color: 'bg-red-600' },
-      { id: 'Target-2', name: 'MN-TGT-002', label: 'High Priority', coords: [79.92, 21.68], color: 'bg-amber-500' },
-      { id: 'Target-4', name: 'MN-TGT-004', label: 'Moderate Priority', coords: [80.31, 21.62], color: 'bg-amber-400' },
+      { id: 'Target-2', name: 'MN-TGT-002', label: 'High Priority', coords: [79.92, 21.68], color: 'bg-orange-500' },
+      { id: 'Target-4', name: 'MN-TGT-004', label: 'Moderate Priority', coords: [80.31, 21.62], color: 'bg-orange-400' },
       { id: 'Target-5', name: 'MN-TGT-005', label: 'Low Priority', coords: [80.12, 21.78], color: 'bg-emerald-600' },
     ];
 
@@ -394,7 +394,7 @@ export const Map: React.FC<MapProps> = ({
       const labelDiv = document.createElement('div');
       labelDiv.className = `px-2.5 py-1 rounded-md shadow-2xl text-[10px] font-extrabold flex items-center gap-1.5 transition-all ${
         isSelected
-          ? 'bg-[#1B2170] text-white ring-2 ring-amber-400 scale-110 shadow-amber-500/50'
+          ? 'bg-[#0B4F8A] text-white ring-2 ring-orange-400 scale-110 shadow-orange-500/50'
           : 'bg-[#0F172A]/90 text-white border border-slate-700 hover:scale-105'
       }`;
       labelDiv.innerHTML = `
@@ -404,7 +404,7 @@ export const Map: React.FC<MapProps> = ({
 
       const dotDiv = document.createElement('div');
       dotDiv.className = `w-4 h-4 rounded-full ${pin.color} border-2 border-white shadow-xl mt-1 ${
-        isSelected ? 'ring-4 ring-amber-400 scale-125' : ''
+        isSelected ? 'ring-4 ring-orange-400 scale-125' : ''
       }`;
 
       container.appendChild(labelDiv);
@@ -427,10 +427,10 @@ export const Map: React.FC<MapProps> = ({
       const pinContainer = document.createElement('div');
       pinContainer.className = 'flex flex-col items-center cursor-pointer z-40 animate-bounce';
       pinContainer.innerHTML = `
-        <div class="bg-amber-400 text-slate-950 font-mono font-black px-2 py-0.5 rounded text-[10px] shadow-lg border border-amber-300">
+        <div class="bg-orange-400 text-slate-950 font-mono font-black px-2 py-0.5 rounded text-[10px] shadow-lg border border-orange-300">
           📍 LOC (${selectedLocationPin.lat.toFixed(4)}, ${selectedLocationPin.lng.toFixed(4)})
         </div>
-        <div class="w-5 h-5 rounded-full bg-amber-400 border-2 border-slate-950 shadow-2xl mt-0.5"></div>
+        <div class="w-5 h-5 rounded-full bg-orange-400 border-2 border-slate-950 shadow-2xl mt-0.5"></div>
       `;
       const locMarker = new maplibregl.Marker({ element: pinContainer })
         .setLngLat([selectedLocationPin.lng, selectedLocationPin.lat])

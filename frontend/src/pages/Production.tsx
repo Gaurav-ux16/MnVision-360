@@ -108,10 +108,10 @@ export const Production: React.FC = () => {
       {/* ------------------------------------------------ */}
       {/* 1. PAGE HEADER & CONTEXT BAR                     */}
       {/* ------------------------------------------------ */}
-      <div className="bg-gradient-to-r from-[#1B2170] via-[#313896] to-[#3B42A6] text-white p-6 rounded-2xl border border-[#2B308B] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-[#0B4F8A] via-[#1769AA] to-[#2A7BBE] text-white p-6 rounded-2xl border border-[#1769AA] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-xs font-bold text-amber-300 uppercase tracking-wider">
-            <TrendingUp className="w-4 h-4 text-amber-300" />
+          <div className="flex items-center gap-2 text-xs font-bold text-orange-300 uppercase tracking-wider">
+            <TrendingUp className="w-4 h-4 text-orange-300" />
             <span>PAGE 2: ESTIMATE PRODUCTION</span>
           </div>
           <h1 className="text-2xl font-bold font-serif text-white tracking-tight">
@@ -123,19 +123,19 @@ export const Production: React.FC = () => {
 
           {/* Compact Context Bar */}
           <div className="pt-2 flex flex-wrap items-center gap-2 text-[11px] font-mono text-blue-100">
-            <span className="bg-[#1B2170]/80 px-2.5 py-1 rounded-md border border-white/20 font-bold text-amber-300">
+            <span className="bg-[#0B4F8A]/80 px-2.5 py-1 rounded-md border border-white/20 font-bold text-orange-300">
               Selected Location: {lat.toFixed(4)}° N, {lng.toFixed(4)}° E
             </span>
             <span className="text-white/40">•</span>
-            <span className="bg-[#1B2170]/80 px-2.5 py-1 rounded-md border border-white/20">
+            <span className="bg-[#0B4F8A]/80 px-2.5 py-1 rounded-md border border-white/20">
               Target ID: {targetId || 'Not Available'}
             </span>
             <span className="text-white/40">•</span>
-            <span className="bg-[#1B2170]/80 px-2.5 py-1 rounded-md border border-white/20">
+            <span className="bg-[#0B4F8A]/80 px-2.5 py-1 rounded-md border border-white/20">
               Mine: {forecastData?.mine_name || 'Balaghat Underground Mine'}
             </span>
             <span className="text-white/40">•</span>
-            <span className="bg-[#1B2170]/80 px-2.5 py-1 rounded-md border border-white/20">
+            <span className="bg-[#0B4F8A]/80 px-2.5 py-1 rounded-md border border-white/20">
               Mine Type: {forecastData?.mine_type || 'UNDERGROUND'}
             </span>
             <span className="text-white/40">•</span>
@@ -150,7 +150,7 @@ export const Production: React.FC = () => {
           <button
             onClick={handleGenerateForecast}
             disabled={loadingForecast}
-            className="px-5 py-2.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs rounded-full shadow-md transition flex items-center gap-2 border border-amber-300 active:scale-95"
+            className="px-5 py-2.5 bg-orange-400 hover:bg-orange-300 text-slate-950 font-extrabold text-xs rounded-full shadow-md transition flex items-center gap-2 border border-orange-300 active:scale-95"
           >
             <RefreshCw className={`w-4 h-4 ${loadingForecast ? 'animate-spin' : ''}`} />
             <span>{loadingForecast ? 'COMPUTING FORECAST...' : '[ GENERATE PRODUCTION FORECAST ]'}</span>
@@ -160,9 +160,9 @@ export const Production: React.FC = () => {
 
       {/* MAPPING ERROR ALERT BANNER */}
       {mappingError && (
-        <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-xl text-amber-900 text-xs flex items-center justify-between shadow-sm">
+        <div className="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-xl text-orange-900 text-xs flex items-center justify-between shadow-sm">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0" />
+            <AlertTriangle className="w-5 h-5 text-orange-600 shrink-0" />
             <div>
               <strong className="font-bold text-sm block">Mine / Operational Mapping Unavailable</strong>
               <p className="mt-0.5">{mappingError}</p>
@@ -170,7 +170,7 @@ export const Production: React.FC = () => {
           </div>
           <button
             onClick={() => navigate('/exploration')}
-            className="px-4 py-1.5 bg-[#313896] text-white font-bold text-xs rounded-full shadow hover:bg-[#282D7A]"
+            className="px-4 py-1.5 bg-[#1769AA] text-white font-bold text-xs rounded-full shadow hover:bg-[#282D7A]"
           >
             [ CONTINUE TO INVESTIGATION ]
           </button>
@@ -185,11 +185,11 @@ export const Production: React.FC = () => {
         {/* LEFT: SELECTED LOCATION CARD (4 cols) */}
         <div className="lg:col-span-4 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
           <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
-            <h2 className="text-base font-bold text-[#313896] font-serif uppercase tracking-wide flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-amber-500" />
+            <h2 className="text-base font-bold text-[#1769AA] font-serif uppercase tracking-wide flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-orange-500" />
               <span>SELECTED LOCATION</span>
             </h2>
-            <span className="text-[10px] font-mono text-[#313896] bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5] font-bold">
+            <span className="text-[10px] font-mono text-[#1769AA] bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5] font-bold">
               EPSG:4326
             </span>
           </div>
@@ -219,7 +219,7 @@ export const Production: React.FC = () => {
 
             <div className="flex justify-between items-center py-1.5 border-b border-slate-100">
               <span className="text-slate-600 font-semibold">Target ID:</span>
-              <strong className="font-mono text-[#313896] font-bold">{targetId || 'Not Available'}</strong>
+              <strong className="font-mono text-[#1769AA] font-bold">{targetId || 'Not Available'}</strong>
             </div>
 
             <div className="flex justify-between items-center py-1.5 border-b border-slate-100">
@@ -229,14 +229,14 @@ export const Production: React.FC = () => {
 
             <div className="flex justify-between items-center py-1.5">
               <span className="text-slate-600 font-semibold">Mine Type:</span>
-              <span className="bg-[#EBEFFA] text-[#313896] font-mono font-bold px-2.5 py-0.5 rounded text-[11px] border border-[#D0DCF5]">
+              <span className="bg-[#EBEFFA] text-[#1769AA] font-mono font-bold px-2.5 py-0.5 rounded text-[11px] border border-[#D0DCF5]">
                 {forecastData?.mine_type || 'UNDERGROUND'}
               </span>
             </div>
           </div>
 
           <div className="p-3 bg-blue-50/80 rounded-xl border border-blue-200 text-[11px] text-blue-900 leading-relaxed font-sans flex items-start gap-2">
-            <ShieldCheck className="w-4 h-4 text-[#313896] shrink-0 mt-0.5" />
+            <ShieldCheck className="w-4 h-4 text-[#1769AA] shrink-0 mt-0.5" />
             <span>
               Prospectivity indicates exploration potential. Production forecasting requires resource availability, ready mine blocks, and operational telemetry.
             </span>
@@ -266,8 +266,8 @@ export const Production: React.FC = () => {
       {/* ------------------------------------------------ */}
       <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
         <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
-          <h2 className="text-base font-bold text-[#313896] font-serif uppercase tracking-wide flex items-center gap-2">
-            <Database className="w-4 h-4 text-[#313896]" />
+          <h2 className="text-base font-bold text-[#1769AA] font-serif uppercase tracking-wide flex items-center gap-2">
+            <Database className="w-4 h-4 text-[#1769AA]" />
             <span>RESOURCE & MINEABLE BLOCK READINESS</span>
           </h2>
           <span className="text-xs text-slate-500 font-mono">Mapped Blocks: {forecastData?.block_ids?.join(', ') || 'BLK-001, BLK-002, BLK-003'}</span>
@@ -276,7 +276,7 @@ export const Production: React.FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-sans">
           <div className="p-4 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
             <span className="text-slate-500 font-semibold block text-[11px]">Total Resource Tonnes</span>
-            <strong className="font-mono text-base text-[#313896] font-bold">
+            <strong className="font-mono text-base text-[#1769AA] font-bold">
               {forecastData?.resource_context?.resource_tonnes?.toLocaleString() || '174,000'} t
             </strong>
           </div>
@@ -337,8 +337,8 @@ export const Production: React.FC = () => {
       {/* ------------------------------------------------ */}
       <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
         <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
-          <h2 className="text-base font-bold text-[#313896] font-serif uppercase tracking-wide flex items-center gap-2">
-            <Activity className="w-4 h-4 text-[#313896]" />
+          <h2 className="text-base font-bold text-[#1769AA] font-serif uppercase tracking-wide flex items-center gap-2">
+            <Activity className="w-4 h-4 text-[#1769AA]" />
             <span>OPERATIONAL CONDITIONS & ACTIVITY SUMMARY</span>
           </h2>
           <span className="text-xs text-slate-500 font-mono">Method-Aware Operational Inputs ({forecastData?.mine_type || 'UNDERGROUND'})</span>
@@ -346,9 +346,9 @@ export const Production: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-sans">
           <div className="p-4 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-2">
-            <div className="flex items-center justify-between font-bold text-[#313896]">
+            <div className="flex items-center justify-between font-bold text-[#1769AA]">
               <span>EXCAVATION</span>
-              <Truck className="w-4 h-4 text-amber-500" />
+              <Truck className="w-4 h-4 text-orange-500" />
             </div>
             <div className="space-y-1 font-mono text-[11px] text-slate-700">
               <div className="flex justify-between"><span>Availability:</span><strong>{forecastData?.operational_summary?.excavation_avail_pct || 78}%</strong></div>
@@ -358,9 +358,9 @@ export const Production: React.FC = () => {
           </div>
 
           <div className="p-4 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-2">
-            <div className="flex items-center justify-between font-bold text-[#313896]">
+            <div className="flex items-center justify-between font-bold text-[#1769AA]">
               <span>DRILLING</span>
-              <Wrench className="w-4 h-4 text-amber-500" />
+              <Wrench className="w-4 h-4 text-orange-500" />
             </div>
             <div className="space-y-1 font-mono text-[11px] text-slate-700">
               <div className="flex justify-between"><span>Readiness:</span><strong>{forecastData?.operational_summary?.drilling_readiness_pct || 95}%</strong></div>
@@ -369,9 +369,9 @@ export const Production: React.FC = () => {
           </div>
 
           <div className="p-4 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-2">
-            <div className="flex items-center justify-between font-bold text-[#313896]">
+            <div className="flex items-center justify-between font-bold text-[#1769AA]">
               <span>BLASTING</span>
-              <Activity className="w-4 h-4 text-amber-500" />
+              <Activity className="w-4 h-4 text-orange-500" />
             </div>
             <div className="space-y-1 font-mono text-[11px] text-slate-700">
               <div className="flex justify-between"><span>Readiness:</span><strong>{forecastData?.operational_summary?.blasting_readiness_pct || 75}%</strong></div>
@@ -380,9 +380,9 @@ export const Production: React.FC = () => {
           </div>
 
           <div className="p-4 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-2">
-            <div className="flex items-center justify-between font-bold text-[#313896]">
+            <div className="flex items-center justify-between font-bold text-[#1769AA]">
               <span>CRUSHING / PROCESSING</span>
-              <Layers className="w-4 h-4 text-amber-500" />
+              <Layers className="w-4 h-4 text-orange-500" />
             </div>
             <div className="space-y-1 font-mono text-[11px] text-slate-700">
               <div className="flex justify-between"><span>Availability:</span><strong>{forecastData?.operational_summary?.crusher_avail_pct || 88}%</strong></div>
@@ -396,10 +396,10 @@ export const Production: React.FC = () => {
       {/* 5. PRODUCTION FORECAST RESULT BANNER             */}
       {/* ------------------------------------------------ */}
       {forecastData?.forecast_result && (
-        <div className="bg-[#1B2170] text-white rounded-2xl border border-[#2B308B] p-6 shadow-md space-y-4">
+        <div className="bg-[#0B4F8A] text-white rounded-2xl border border-[#1769AA] p-6 shadow-md space-y-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/20 pb-4">
             <div>
-              <div className="flex items-center gap-2 text-xs font-bold text-amber-300 uppercase tracking-wider font-mono">
+              <div className="flex items-center gap-2 text-xs font-bold text-orange-300 uppercase tracking-wider font-mono">
                 <span>FORECAST ID: {forecastData.forecast_id}</span>
                 <span className="text-white/40">•</span>
                 <span>MODEL: {forecastData.model_status?.model_name}</span>
@@ -422,9 +422,9 @@ export const Production: React.FC = () => {
               </strong>
             </div>
 
-            <div className="bg-white/10 p-4 rounded-xl border border-amber-400/40 ring-2 ring-amber-400/30">
-              <span className="text-amber-300 text-xs block font-sans font-semibold">Forecast Production</span>
-              <strong className="text-2xl text-amber-300 font-extrabold block mt-1">
+            <div className="bg-white/10 p-4 rounded-xl border border-orange-400/40 ring-2 ring-orange-400/30">
+              <span className="text-orange-300 text-xs block font-sans font-semibold">Forecast Production</span>
+              <strong className="text-2xl text-orange-300 font-extrabold block mt-1">
                 {forecastData.forecast_result.forecast_tonnes.toLocaleString()} tonnes
               </strong>
             </div>
@@ -459,8 +459,8 @@ export const Production: React.FC = () => {
       <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
         <div className="border-b border-slate-100 pb-3 flex flex-col md:flex-row md:items-center justify-between gap-2">
           <div>
-            <h3 className="text-base font-bold text-[#313896] font-serif uppercase tracking-wide flex items-center gap-2">
-              <BarChart2 className="w-4 h-4 text-[#313896]" />
+            <h3 className="text-base font-bold text-[#1769AA] font-serif uppercase tracking-wide flex items-center gap-2">
+              <BarChart2 className="w-4 h-4 text-[#1769AA]" />
               <span>PRODUCTION FORECAST MODEL STATUS</span>
             </h3>
             <p className="text-xs text-slate-500 font-sans mt-0.5">
@@ -471,9 +471,9 @@ export const Production: React.FC = () => {
           {/* Authorized Model Control Button */}
           <button
             onClick={handleRetrainModel}
-            className="px-4 py-1.5 bg-[#EBEFFA] hover:bg-[#D0DCF5] text-[#313896] font-bold text-xs rounded-full border border-[#D0DCF5] transition flex items-center gap-1.5 shrink-0"
+            className="px-4 py-1.5 bg-[#EBEFFA] hover:bg-[#D0DCF5] text-[#1769AA] font-bold text-xs rounded-full border border-[#D0DCF5] transition flex items-center gap-1.5 shrink-0"
           >
-            <Settings className="w-3.5 h-3.5 text-[#313896]" />
+            <Settings className="w-3.5 h-3.5 text-[#1769AA]" />
             <span>[ RETRAIN MODEL (AUTHORIZED) ]</span>
           </button>
         </div>
@@ -511,7 +511,7 @@ export const Production: React.FC = () => {
         <div className="overflow-x-auto pt-2">
           <table className="w-full text-left text-xs border-collapse font-sans">
             <thead>
-              <tr className="bg-[#EBEFFA] border-b border-[#D0DCF5] text-[#313896] font-bold uppercase text-[11px]">
+              <tr className="bg-[#EBEFFA] border-b border-[#D0DCF5] text-[#1769AA] font-bold uppercase text-[11px]">
                 <th className="py-2.5 px-4 rounded-l-lg">Model Candidate</th>
                 <th className="py-2.5 px-4">Validation MAE</th>
                 <th className="py-2.5 px-4">Validation RMSE</th>
@@ -521,14 +521,14 @@ export const Production: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700 font-mono text-[11px]">
               {forecastData?.model_status?.model_comparison?.map((mItem: any, idx: number) => (
-                <tr key={idx} className={mItem.status.includes('Selected') ? 'bg-amber-50/60 font-bold' : ''}>
+                <tr key={idx} className={mItem.status.includes('Selected') ? 'bg-orange-50/60 font-bold' : ''}>
                   <td className="py-2.5 px-4 font-sans text-slate-900 font-semibold">{mItem.model}</td>
                   <td className="py-2.5 px-4 text-emerald-700">{mItem.mae} tonnes</td>
                   <td className="py-2.5 px-4 text-cyan-800">{mItem.rmse} tonnes</td>
                   <td className="py-2.5 px-4 text-purple-700">{mItem.r2}</td>
                   <td className="py-2.5 px-4 text-right font-sans">
                     <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                      mItem.status.includes('Selected') ? 'bg-amber-400 text-slate-950' : 'bg-slate-200 text-slate-700'
+                      mItem.status.includes('Selected') ? 'bg-orange-400 text-slate-950' : 'bg-slate-200 text-slate-700'
                     }`}>
                       {mItem.status}
                     </span>
@@ -536,12 +536,12 @@ export const Production: React.FC = () => {
                 </tr>
               )) || (
                 <>
-                  <tr className="bg-amber-50/60 font-bold">
+                  <tr className="bg-orange-50/60 font-bold">
                     <td className="py-2.5 px-4 font-sans text-slate-900 font-semibold">HistGradientBoosting / XGBoost Regressor</td>
                     <td className="py-2.5 px-4 text-emerald-700">17.46 tonnes</td>
                     <td className="py-2.5 px-4 text-cyan-800">21.51 tonnes</td>
                     <td className="py-2.5 px-4 text-purple-700">0.9633</td>
-                    <td className="py-2.5 px-4 text-right font-sans"><span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-400 text-slate-950">Selected (Chronological Validation)</span></td>
+                    <td className="py-2.5 px-4 text-right font-sans"><span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-orange-400 text-slate-950">Selected (Chronological Validation)</span></td>
                   </tr>
                   <tr>
                     <td className="py-2.5 px-4 font-sans text-slate-900 font-semibold">Random Forest Regressor</td>
@@ -569,7 +569,7 @@ export const Production: React.FC = () => {
       {/* ------------------------------------------------ */}
       <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
         <div>
-          <h4 className="font-bold text-base text-[#313896] font-serif">
+          <h4 className="font-bold text-base text-[#1769AA] font-serif">
             PREPARE WORKFLOW HANDOFF TO NEXT STAGE
           </h4>
           <p className="text-xs text-slate-600 mt-0.5 font-sans">
@@ -579,10 +579,10 @@ export const Production: React.FC = () => {
 
         <button
           onClick={handleCheckProductionTarget}
-          className="px-6 py-3 bg-[#313896] hover:bg-[#282D7A] text-white font-extrabold text-xs rounded-full shadow transition flex items-center gap-2 shrink-0 active:scale-95"
+          className="px-6 py-3 bg-[#1769AA] hover:bg-[#282D7A] text-white font-extrabold text-xs rounded-full shadow transition flex items-center gap-2 shrink-0 active:scale-95"
         >
           <span>[ CHECK PRODUCTION TARGET ]</span>
-          <ChevronRight className="w-4 h-4 text-amber-300" />
+          <ChevronRight className="w-4 h-4 text-orange-300" />
         </button>
       </div>
 

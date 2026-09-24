@@ -174,10 +174,10 @@ export const DecisionCenter: React.FC = () => {
       )}
 
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-[#1B2170] via-[#2B308B] to-[#1B2170] text-white p-6 rounded-2xl border border-[#2B308B] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-[#0B4F8A] via-[#1769AA] to-[#0B4F8A] text-white p-6 rounded-2xl border border-[#1769AA] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-amber-300 uppercase tracking-wider">
-            <ShieldCheck className="w-4 h-4 text-amber-300" />
+          <div className="flex items-center gap-2 text-xs font-bold text-orange-300 uppercase tracking-wider">
+            <ShieldCheck className="w-4 h-4 text-orange-300" />
             <span>STAGE 11 — EXECUTIVE GOVERNANCE & DECISION SIGN-OFF</span>
           </div>
           <h1 className="text-2xl font-bold font-serif text-white mt-1">
@@ -190,7 +190,7 @@ export const DecisionCenter: React.FC = () => {
 
         {/* Context Strip Badge */}
         <div className="bg-white/10 backdrop-blur-md p-3.5 rounded-xl border border-white/15 text-xs font-mono space-y-1 shrink-0">
-          <div className="text-amber-300 font-bold">Decision ID: {wf.decisionId || 'DEC-PENDING'}</div>
+          <div className="text-orange-300 font-bold">Decision ID: {wf.decisionId || 'DEC-PENDING'}</div>
           <div className="text-blue-100 text-[11px]">Active Target: {targetId}</div>
           <div className="text-blue-100 text-[11px]">Mine: {mineId} ({mineType})</div>
         </div>
@@ -208,7 +208,7 @@ export const DecisionCenter: React.FC = () => {
 
         <div className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm space-y-1">
           <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">BASELINE FORECAST (PAGE 2)</span>
-          <div className="text-lg font-extrabold text-[#1B2170] font-mono">
+          <div className="text-lg font-extrabold text-[#0B4F8A] font-mono">
             {formatMetricVal(metrics.baseline_forecast_tonnes)}
           </div>
           <span className="text-[10px] text-red-600 font-mono font-bold">
@@ -245,27 +245,27 @@ export const DecisionCenter: React.FC = () => {
 
       {/* SECTION 2: END-TO-END WORKFLOW TRACEABILITY CHAIN */}
       <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4">
-        <h2 className="text-base font-bold text-[#1B2170] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
+        <h2 className="text-base font-bold text-[#0B4F8A] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
           <span>End-to-End Workflow Evidence & Traceability Chain</span>
-          <span className="text-xs font-mono text-[#1B2170] bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">Audit Verifiable</span>
+          <span className="text-xs font-mono text-[#0B4F8A] bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">Audit Verifiable</span>
         </h2>
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-xs font-mono">
           <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
             <span className="text-[10px] text-slate-500 font-sans block font-bold">1. Target ID</span>
-            <strong className="text-[#1B2170]">{targetId}</strong>
+            <strong className="text-[#0B4F8A]">{targetId}</strong>
           </div>
           <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
             <span className="text-[10px] text-slate-500 font-sans block font-bold">2. Investigation ID</span>
-            <strong className="text-[#1B2170]">{wf.investigationId || 'INV-2026-001'}</strong>
+            <strong className="text-[#0B4F8A]">{wf.investigationId || 'INV-2026-001'}</strong>
           </div>
           <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
             <span className="text-[10px] text-slate-500 font-sans block font-bold">3. Resource ID</span>
-            <strong className="text-[#1B2170]">{wf.resourceId || 'RES-BAL-001'}</strong>
+            <strong className="text-[#0B4F8A]">{wf.resourceId || 'RES-BAL-001'}</strong>
           </div>
           <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
             <span className="text-[10px] text-slate-500 font-sans block font-bold">4. Baseline Forecast ID</span>
-            <strong className="text-[#1B2170]">{forecastId}</strong>
+            <strong className="text-[#0B4F8A]">{forecastId}</strong>
           </div>
           <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
             <span className="text-[10px] text-slate-500 font-sans block font-bold">5. Shortfall Alert ID</span>
@@ -294,20 +294,20 @@ export const DecisionCenter: React.FC = () => {
         
         {/* LEFT COLUMN: EXECUTIVE SIGN-OFF FORM */}
         <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4 font-sans">
-          <h2 className="text-base font-bold text-[#1B2170] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
+          <h2 className="text-base font-bold text-[#0B4F8A] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
             <span>Executive Decision & Dispatch Sign-Off</span>
-            <UserCheck className="w-5 h-5 text-[#1B2170]" />
+            <UserCheck className="w-5 h-5 text-[#0B4F8A]" />
           </h2>
 
           {/* Authenticated Actor Display (Backend Derived) */}
           <div className="p-3.5 bg-blue-50/70 border border-blue-200 rounded-xl flex items-center justify-between text-xs">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-[#1B2170] text-amber-300 font-bold flex items-center justify-center text-xs">
+              <div className="w-8 h-8 rounded-full bg-[#0B4F8A] text-orange-300 font-bold flex items-center justify-center text-xs">
                 {currentActorName.charAt(0).toUpperCase()}
               </div>
               <div>
                 <span className="font-bold text-slate-900 block">{currentActorName}</span>
-                <span className="text-[11px] text-slate-600 font-medium">Role: <strong className="text-[#1B2170]">{currentActorRole}</strong></span>
+                <span className="text-[11px] text-slate-600 font-medium">Role: <strong className="text-[#0B4F8A]">{currentActorRole}</strong></span>
               </div>
             </div>
             <span className="bg-white border border-blue-300 text-blue-900 px-2.5 py-1 rounded-full font-mono text-[10px] font-bold">
@@ -344,9 +344,9 @@ export const DecisionCenter: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-7 py-3 bg-[#1B2170] hover:bg-[#121650] text-white font-bold text-xs rounded-full transition shadow-md flex items-center gap-2 border border-amber-400/40 disabled:opacity-50"
+                className="px-7 py-3 bg-[#0B4F8A] hover:bg-[#121650] text-white font-bold text-xs rounded-full transition shadow-md flex items-center gap-2 border border-orange-400/40 disabled:opacity-50"
               >
-                {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4 text-amber-300" />}
+                {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4 text-orange-300" />}
                 <span>RECORD EXECUTIVE DECISION & DISPATCH</span>
               </button>
             </div>
@@ -355,7 +355,7 @@ export const DecisionCenter: React.FC = () => {
 
         {/* RIGHT COLUMN: RECENT DECISION SNAPSHOTS */}
         <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4 font-sans">
-          <h3 className="text-base font-bold text-[#1B2170] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
+          <h3 className="text-base font-bold text-[#0B4F8A] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
             <span>Recorded Decision Snapshots</span>
             <Lock className="w-4 h-4 text-slate-500" />
           </h3>
@@ -369,7 +369,7 @@ export const DecisionCenter: React.FC = () => {
               decisionHistory.map((dec) => (
                 <div key={dec.decision_id} className="p-3.5 bg-[#F8FAFC] border border-slate-200/80 rounded-xl text-xs space-y-2 font-mono">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-[#1B2170]">{dec.decision_id}</span>
+                    <span className="font-bold text-[#0B4F8A]">{dec.decision_id}</span>
                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                       dec.decision_status === 'APPROVED' || dec.decision_status === 'DISPATCHED'
                         ? 'bg-emerald-100 text-emerald-800'
@@ -395,8 +395,8 @@ export const DecisionCenter: React.FC = () => {
       {/* SECTION 3: LIVE SECURITY & OPERATIONAL AUDIT STREAM */}
       <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4 font-sans">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h2 className="text-base font-bold text-[#1B2170] font-serif flex items-center gap-2">
-            <Clock className="w-5 h-5 text-[#1B2170]" />
+          <h2 className="text-base font-bold text-[#0B4F8A] font-serif flex items-center gap-2">
+            <Clock className="w-5 h-5 text-[#0B4F8A]" />
             <span>Security & Operational Audit Stream (Live Event Log)</span>
           </h2>
           <span className="text-xs font-mono text-slate-500">{auditLogs.length} Event(s) Loaded</span>
@@ -421,7 +421,7 @@ export const DecisionCenter: React.FC = () => {
                   <td className="p-2.5 text-slate-500 shrink-0">{new Date(log.timestamp).toLocaleTimeString()}</td>
                   <td className="p-2.5 font-bold text-slate-900">{log.username}</td>
                   <td className="p-2.5 text-slate-600 font-sans">{log.role}</td>
-                  <td className="p-2.5 font-bold text-[#1B2170]">{log.action}</td>
+                  <td className="p-2.5 font-bold text-[#0B4F8A]">{log.action}</td>
                   <td className="p-2.5 text-slate-600 truncate max-w-[150px]">{log.resource}</td>
                   <td className="p-2.5">
                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${

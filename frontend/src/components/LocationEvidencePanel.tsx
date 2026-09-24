@@ -80,7 +80,7 @@ export const LocationEvidencePanel: React.FC<LocationEvidencePanelProps> = ({
         {/* Header with Coordinates */}
         <div className="flex items-start justify-between gap-2 border-b border-slate-800/80 pb-3">
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[#C5A059]">
+            <div className="p-2 rounded-xl bg-orange-500/10 border border-orange-500/30 text-[#F28C28]">
               <MapPin className="w-5 h-5" />
             </div>
             <div>
@@ -99,7 +99,7 @@ export const LocationEvidencePanel: React.FC<LocationEvidencePanelProps> = ({
             className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase ${
               isDrillReady 
                 ? 'bg-emerald-950 text-emerald-300 border border-emerald-700/60' 
-                : 'bg-amber-950 text-amber-300 border border-amber-700/60'
+                : 'bg-orange-950 text-orange-300 border border-orange-700/60'
             }`}
           >
             {explorationReadiness.replace(/_/g, ' ')}
@@ -122,7 +122,7 @@ export const LocationEvidencePanel: React.FC<LocationEvidencePanelProps> = ({
           </div>
           <div className="col-span-2 p-2 rounded-lg bg-slate-900/70 border border-slate-800">
             <span className="text-slate-500 block text-[9px]">MAPPED HOST FORMATION</span>
-            <span className="text-[#C5A059] font-bold block truncate" title={location.geological_unit}>
+            <span className="text-[#F28C28] font-bold block truncate" title={location.geological_unit}>
               {location.geological_unit}
             </span>
           </div>
@@ -149,7 +149,7 @@ export const LocationEvidencePanel: React.FC<LocationEvidencePanelProps> = ({
 
           <div className="flex items-center justify-between text-[10px] font-mono pt-1 text-slate-400">
             <span>Applicability Domain:</span>
-            <span className={`font-bold ${location.confidence.applicability_domain === 'HIGH' ? 'text-emerald-400' : 'text-amber-400'}`}>
+            <span className={`font-bold ${location.confidence.applicability_domain === 'HIGH' ? 'text-emerald-400' : 'text-orange-400'}`}>
               {location.confidence.applicability_domain} ({Math.round(location.confidence.ood_applicability_score * 100)}%)
             </span>
           </div>
@@ -231,7 +231,7 @@ export const LocationEvidencePanel: React.FC<LocationEvidencePanelProps> = ({
                     key={i} 
                     className={`p-2 rounded-lg border text-left transition ${
                       isOre 
-                        ? 'bg-amber-950/40 border-[#C5A059] shadow-sm' 
+                        ? 'bg-orange-950/40 border-[#F28C28] shadow-sm' 
                         : 'bg-slate-900/50 border-slate-800/80'
                     }`}
                   >
@@ -239,7 +239,7 @@ export const LocationEvidencePanel: React.FC<LocationEvidencePanelProps> = ({
                       <span className="font-mono text-slate-300 text-[10px]">
                         {iv.from_depth_m.toFixed(1)}m – {iv.to_depth_m.toFixed(1)}m
                       </span>
-                      <span className={`font-mono font-bold text-[11px] ${isOre ? 'text-[#C5A059]' : 'text-slate-400'}`}>
+                      <span className={`font-mono font-bold text-[11px] ${isOre ? 'text-[#F28C28]' : 'text-slate-400'}`}>
                         {iv.mn_grade_pct}% Mn ({iv.fe_grade_pct}% Fe)
                       </span>
                     </div>
@@ -253,16 +253,16 @@ export const LocationEvidencePanel: React.FC<LocationEvidencePanelProps> = ({
           </div>
         ) : (
           /* CASE B: No Real Drillhole in Proximity — Strictly Avoid Fake Depths */
-          <div className="p-3 rounded-xl bg-amber-950/25 border border-amber-800/40 space-y-2 text-xs">
-            <div className="flex items-start gap-2 text-amber-300 font-medium">
-              <AlertTriangle className="w-4 h-4 shrink-0 text-amber-400 mt-0.5" />
+          <div className="p-3 rounded-xl bg-orange-950/25 border border-orange-800/40 space-y-2 text-xs">
+            <div className="flex items-start gap-2 text-orange-300 font-medium">
+              <AlertTriangle className="w-4 h-4 shrink-0 text-orange-400 mt-0.5" />
               <span>Surface & Near-Surface Exploration Evidence Only</span>
             </div>
             <p className="text-[11px] text-slate-300 leading-relaxed font-sans">
               No verified diamond core drillholes exist within 15 km of this coordinate. 
               <span className="font-semibold text-white"> Subsurface depths and tonnages cannot be confirmed by satellite data alone.</span>
             </p>
-            <div className="pt-2 border-t border-amber-800/30 text-[10px] font-mono text-amber-300/80 flex items-center justify-between">
+            <div className="pt-2 border-t border-orange-800/30 text-[10px] font-mono text-orange-300/80 flex items-center justify-between">
               <span>Next Field Step:</span>
               <span className="font-bold text-white">In-Situ Ground Geophysics & Drilling</span>
             </div>
@@ -276,9 +276,9 @@ export const LocationEvidencePanel: React.FC<LocationEvidencePanelProps> = ({
           onClick={() => {
             alert(`Evidence profile for ${location.sector} (${location.latitude.toFixed(4)}°N, ${location.longitude.toFixed(4)}°E) exported to exploration log.`);
           }}
-          className="w-full py-2 px-3 rounded-xl bg-[#0A1128] hover:bg-[#111A38] border border-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-center gap-2"
+          className="w-full py-2 px-3 rounded-xl bg-[#0B4F8A] hover:bg-[#111A38] border border-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-center gap-2"
         >
-          <FileText className="w-3.5 h-3.5 text-[#C5A059]" />
+          <FileText className="w-3.5 h-3.5 text-[#F28C28]" />
           <span>Export Evidence Summary</span>
         </button>
       </div>

@@ -62,15 +62,15 @@ export const WorkflowStepper: React.FC<{ activeStep?: number; targetId?: string 
   };
 
   return (
-    <div className="w-full bg-[#1B2170] text-white p-4 rounded-2xl border border-[#2B308B] shadow-md space-y-3 font-sans">
+    <div className="w-full bg-[#0B4F8A] text-white p-4 rounded-2xl border border-[#1769AA] shadow-md space-y-3 font-sans">
       {/* Header Info Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-blue-400/20 pb-3">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-full bg-amber-400 text-slate-900 font-extrabold flex items-center justify-center text-sm shadow-sm">
+          <div className="w-8 h-8 rounded-full bg-orange-400 text-slate-900 font-extrabold flex items-center justify-center text-sm shadow-sm">
             {currentStep}
           </div>
           <div>
-            <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-amber-300 tracking-wider">
+            <div className="flex items-center gap-2 text-[10px] uppercase font-bold text-orange-300 tracking-wider">
               <span>MnVision 360 Decision Support System</span>
               <span className="text-white/40">•</span>
               <span className="text-blue-200">Target: {targetId}</span>
@@ -89,7 +89,7 @@ export const WorkflowStepper: React.FC<{ activeStep?: number; targetId?: string 
               onClick={() => navigateToStage(prevStage)}
               className="px-3.5 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-full text-xs font-bold transition flex items-center gap-1 border border-white/15"
             >
-              <ChevronLeft className="w-3.5 h-3.5 text-amber-300" />
+              <ChevronLeft className="w-3.5 h-3.5 text-orange-300" />
               <span>Back</span>
             </button>
           )}
@@ -97,7 +97,7 @@ export const WorkflowStepper: React.FC<{ activeStep?: number; targetId?: string 
           {nextStage && (
             <button
               onClick={() => navigateToStage(nextStage)}
-              className="px-4 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-900 rounded-full text-xs font-extrabold transition flex items-center gap-1.5 shadow-sm"
+              className="px-4 py-1.5 bg-orange-400 hover:bg-orange-300 text-slate-900 rounded-full text-xs font-extrabold transition flex items-center gap-1.5 shadow-sm"
             >
               <span>Proceed to {nextStage.shortName}</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -120,14 +120,14 @@ export const WorkflowStepper: React.FC<{ activeStep?: number; targetId?: string 
                 onClick={() => navigateToStage(stage)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition border ${
                   isActive
-                    ? 'bg-amber-400 text-slate-900 border-amber-300 font-bold shadow-md scale-105'
+                    ? 'bg-orange-400 text-slate-900 border-orange-300 font-bold shadow-md scale-105'
                     : isCompleted
                     ? 'bg-blue-900/60 text-emerald-300 border-emerald-500/40 hover:bg-blue-800'
                     : 'bg-white/5 text-blue-200 border-white/10 hover:bg-white/15 hover:text-white'
                 }`}
                 title={stage.description}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-slate-900' : isCompleted ? 'text-emerald-400' : 'text-amber-300'}`} />
+                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-slate-900' : isCompleted ? 'text-emerald-400' : 'text-orange-300'}`} />
                 <span>{stage.shortName}</span>
                 {isCompleted && <CheckCircle2 className="w-3 h-3 text-emerald-400 ml-0.5" />}
               </button>

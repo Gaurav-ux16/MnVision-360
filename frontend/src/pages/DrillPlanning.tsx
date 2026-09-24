@@ -59,7 +59,7 @@ export const DrillPlanning: React.FC = () => {
       case 'Very High':
         return 'bg-red-600 text-white font-bold px-2.5 py-0.5 rounded text-xs';
       case 'High':
-        return 'bg-amber-500 text-white font-bold px-2.5 py-0.5 rounded text-xs';
+        return 'bg-orange-500 text-white font-bold px-2.5 py-0.5 rounded text-xs';
       case 'Medium':
         return 'bg-yellow-500 text-slate-900 font-bold px-2.5 py-0.5 rounded text-xs';
       default:
@@ -72,7 +72,7 @@ export const DrillPlanning: React.FC = () => {
       case 'HIGH':
         return <span className="text-emerald-700 bg-emerald-100 font-bold px-2 py-0.5 rounded text-[11px]">HIGH</span>;
       case 'MEDIUM':
-        return <span className="text-amber-800 bg-amber-100 font-bold px-2 py-0.5 rounded text-[11px]">MEDIUM</span>;
+        return <span className="text-orange-800 bg-orange-100 font-bold px-2 py-0.5 rounded text-[11px]">MEDIUM</span>;
       default:
         return <span className="text-red-700 bg-red-100 font-bold px-2 py-0.5 rounded text-[11px]">LOW (OOD)</span>;
     }
@@ -87,40 +87,40 @@ export const DrillPlanning: React.FC = () => {
       />
 
       {/* Closed-Loop Workflow Visualizer Pipeline Header */}
-      <div className="bg-gradient-to-r from-[#1B2170] via-[#313896] to-[#3B42A6] text-white p-6 rounded-2xl border border-[#2B308B] shadow-md space-y-4">
+      <div className="bg-gradient-to-r from-[#0B4F8A] via-[#1769AA] to-[#2A7BBE] text-white p-6 rounded-2xl border border-[#1769AA] shadow-md space-y-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-white/20 pb-4">
           <div>
             <h1 className="text-2xl font-bold font-serif text-white flex items-center gap-2">
-              <Target className="w-6 h-6 text-amber-300" />
+              <Target className="w-6 h-6 text-orange-300" />
               <span>DrillTarget AI & Closed-Loop Exploration</span>
             </h1>
             <p className="text-xs text-blue-100/90 mt-0.5">
               Ranked candidate target queue with persistent Target ID handoff across field survey & core drilling
             </p>
           </div>
-          <div className="bg-[#1B2170]/80 backdrop-blur-sm border border-white/20 px-3.5 py-1.5 rounded-full text-xs font-mono text-cyan-200 shadow-inner">
+          <div className="bg-[#0B4F8A]/80 backdrop-blur-sm border border-white/20 px-3.5 py-1.5 rounded-full text-xs font-mono text-cyan-200 shadow-inner">
             Persistent Target ID Sync: ACTIVE
           </div>
         </div>
 
         {/* 6-Step Closed Loop Progress Bar */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 text-center text-xs pt-1 font-mono">
-          <div className="p-2.5 bg-white text-[#313896] border border-white rounded-full font-bold shadow-sm">
+          <div className="p-2.5 bg-white text-[#1769AA] border border-white rounded-full font-bold shadow-sm">
             1. MnExplore AI
           </div>
-          <div className="p-2.5 bg-[#1B2170]/70 border border-white/20 rounded-full text-blue-100">
+          <div className="p-2.5 bg-[#0B4F8A]/70 border border-white/20 rounded-full text-blue-100">
             2. Field Survey
           </div>
-          <div className="p-2.5 bg-[#1B2170]/70 border border-white/20 rounded-full text-blue-100">
+          <div className="p-2.5 bg-[#0B4F8A]/70 border border-white/20 rounded-full text-blue-100">
             3. Core Drilling
           </div>
-          <div className="p-2.5 bg-[#1B2170]/70 border border-white/20 rounded-full text-blue-100">
+          <div className="p-2.5 bg-[#0B4F8A]/70 border border-white/20 rounded-full text-blue-100">
             4. Lab Assay
           </div>
-          <div className="p-2.5 bg-[#1B2170]/70 border border-white/20 rounded-full text-blue-100">
+          <div className="p-2.5 bg-[#0B4F8A]/70 border border-white/20 rounded-full text-blue-100">
             5. Ground Truth
           </div>
-          <div className="p-2.5 bg-[#1B2170]/70 border border-white/20 rounded-full text-blue-100">
+          <div className="p-2.5 bg-[#0B4F8A]/70 border border-white/20 rounded-full text-blue-100">
             6. Controlled Retrain
           </div>
         </div>
@@ -129,16 +129,16 @@ export const DrillPlanning: React.FC = () => {
       {/* Target Handoff Queue Table */}
       <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h2 className="text-base font-bold text-[#313896] font-serif flex items-center gap-2">
+          <h2 className="text-base font-bold text-[#1769AA] font-serif flex items-center gap-2">
             <span>Ranked Exploration Targets (Balaghat Manganese Belt)</span>
           </h2>
-          <span className="text-xs text-[#313896] font-mono bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">5 Verified Candidates</span>
+          <span className="text-xs text-[#1769AA] font-mono bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">5 Verified Candidates</span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-[#EBEFFA] border-b border-[#D0DCF5] text-[#313896] font-bold uppercase tracking-wider text-[11px]">
+              <tr className="bg-[#EBEFFA] border-b border-[#D0DCF5] text-[#1769AA] font-bold uppercase tracking-wider text-[11px]">
                 <th className="py-3.5 px-3 rounded-l-xl">Rank</th>
                 <th className="py-3.5 px-3">Persistent Target ID</th>
                 <th className="py-3.5 px-3">PU Score</th>
@@ -153,9 +153,9 @@ export const DrillPlanning: React.FC = () => {
             <tbody className="divide-y divide-slate-100 text-slate-700">
               {targets.map((target) => (
                 <tr key={target.target_id} className="hover:bg-[#F8FAFC] transition">
-                  <td className="py-3.5 px-3 font-mono font-bold text-[#313896]">#{target.rank}</td>
-                  <td className="py-3.5 px-3 font-bold text-[#313896] flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-amber-400" />
+                  <td className="py-3.5 px-3 font-mono font-bold text-[#1769AA]">#{target.rank}</td>
+                  <td className="py-3.5 px-3 font-bold text-[#1769AA] flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-orange-400" />
                     <span className="font-mono">{target.target_id}</span>
                   </td>
                   <td className="py-3.5 px-3 font-mono font-bold text-emerald-700">
@@ -177,14 +177,14 @@ export const DrillPlanning: React.FC = () => {
                   <td className="py-3.5 px-3 text-right space-x-2">
                     <Link
                       to={`/exploration/${target.target_id}`}
-                      className="px-3 py-1.5 bg-[#313896] text-white rounded-full text-[11px] font-bold hover:bg-[#282D7A] transition inline-flex items-center gap-1 shadow-sm"
+                      className="px-3 py-1.5 bg-[#1769AA] text-white rounded-full text-[11px] font-bold hover:bg-[#282D7A] transition inline-flex items-center gap-1 shadow-sm"
                     >
                       <span>Analyze Target</span>
-                      <ChevronRight className="w-3 h-3 text-amber-300" />
+                      <ChevronRight className="w-3 h-3 text-orange-300" />
                     </Link>
                     <button
                       onClick={() => handleProceedToFieldSurvey(target.target_id)}
-                      className="px-3 py-1.5 bg-[#313896] text-white rounded-full text-[11px] font-bold hover:bg-[#282D7A] transition inline-flex items-center gap-1 shadow-sm"
+                      className="px-3 py-1.5 bg-[#1769AA] text-white rounded-full text-[11px] font-bold hover:bg-[#282D7A] transition inline-flex items-center gap-1 shadow-sm"
                     >
                       <span>Field Survey</span>
                       <ArrowRight className="w-3 h-3" />
@@ -197,8 +197,8 @@ export const DrillPlanning: React.FC = () => {
         </div>
 
         {/* Scientific Safety Disclaimer */}
-        <div className="p-3.5 bg-[#FFF8F0] rounded-xl border border-amber-300/80 text-amber-900 text-xs flex items-center gap-2 shadow-sm">
-          <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0" />
+        <div className="p-3.5 bg-[#FFF8F0] rounded-xl border border-orange-300/80 text-orange-900 text-xs flex items-center gap-2 shadow-sm">
+          <ShieldAlert className="w-4 h-4 text-orange-600 shrink-0" />
           <span>
             <strong>SCIENTIFIC SAFETY MANDATE:</strong> Priority exploration target — Requires field validation & diamond core drilling confirmation.
           </span>

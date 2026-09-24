@@ -281,16 +281,16 @@ export const MnAssist: React.FC<MnAssistProps> = ({ externalIsOpen, onClose }) =
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-3 bg-[#003366] text-white px-5 py-3.5 rounded-full shadow-2xl hover:bg-[#002244] border-2 border-[#D4AF37] transition-all transform hover:scale-105 group"
+          className="flex items-center gap-3 bg-[#003366] text-white px-5 py-3.5 rounded-full shadow-2xl hover:bg-[#002244] border-2 border-[#F28C28] transition-all transform hover:scale-105 group"
         >
           <div className="relative">
-            <Bot className="w-6 h-6 text-[#D4AF37] group-hover:rotate-12 transition-transform" />
+            <Bot className="w-6 h-6 text-[#F28C28] group-hover:rotate-12 transition-transform" />
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[#003366] animate-pulse"></span>
           </div>
           <div className="text-left">
             <div className="font-bold text-sm leading-tight flex items-center gap-1.5">
               <span>MnAssist AI</span>
-              <span className="bg-[#D4AF37] text-[#003366] text-[10px] px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wider">MOIL Voice</span>
+              <span className="bg-[#F28C28] text-[#003366] text-[10px] px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wider">MOIL Voice</span>
             </div>
             <div className="text-[11px] text-slate-300">Space-to-Mine Intelligence</div>
           </div>
@@ -304,10 +304,10 @@ export const MnAssist: React.FC<MnAssistProps> = ({ externalIsOpen, onClose }) =
           }`}
         >
           {/* Header */}
-          <div className="bg-[#003366] text-white px-4 py-3 flex items-center justify-between border-b border-[#D4AF37]/40">
+          <div className="bg-[#003366] text-white px-4 py-3 flex items-center justify-between border-b border-[#F28C28]/40">
             <div className="flex items-center gap-2.5">
-              <div className="p-1.5 bg-[#D4AF37]/20 rounded-lg border border-[#D4AF37]/50">
-                <Bot className="w-5 h-5 text-[#D4AF37]" />
+              <div className="p-1.5 bg-[#F28C28]/20 rounded-lg border border-[#F28C28]/50">
+                <Bot className="w-5 h-5 text-[#F28C28]" />
               </div>
               <div>
                 <h3 className="font-bold text-sm flex items-center gap-1.5">
@@ -340,19 +340,19 @@ export const MnAssist: React.FC<MnAssistProps> = ({ externalIsOpen, onClose }) =
             <>
               {/* Voice Mode Banner if active */}
               {isVoiceActive && (
-                <div className="bg-amber-50 border-b border-amber-200 p-3 flex items-center justify-between animate-pulse">
-                  <div className="flex items-center gap-2 text-amber-900 text-xs font-semibold">
+                <div className="bg-orange-50 border-b border-orange-200 p-3 flex items-center justify-between animate-pulse">
+                  <div className="flex items-center gap-2 text-orange-900 text-xs font-semibold">
                     <div className="flex gap-1 items-end h-4">
-                      <span className="w-1 bg-amber-600 animate-bounce h-2"></span>
-                      <span className="w-1 bg-amber-600 animate-bounce h-4 delay-100"></span>
-                      <span className="w-1 bg-amber-600 animate-bounce h-3 delay-200"></span>
-                      <span className="w-1 bg-amber-600 animate-bounce h-4 delay-300"></span>
+                      <span className="w-1 bg-orange-600 animate-bounce h-2"></span>
+                      <span className="w-1 bg-orange-600 animate-bounce h-4 delay-100"></span>
+                      <span className="w-1 bg-orange-600 animate-bounce h-3 delay-200"></span>
+                      <span className="w-1 bg-orange-600 animate-bounce h-4 delay-300"></span>
                     </div>
                     <span>🎙️ LISTENING... (Voice Mode Active)</span>
                   </div>
                   <button
                     onClick={toggleVoiceMode}
-                    className="text-xs bg-amber-200 text-amber-900 px-2 py-1 rounded hover:bg-amber-300 font-bold"
+                    className="text-xs bg-orange-200 text-orange-900 px-2 py-1 rounded hover:bg-orange-300 font-bold"
                   >
                     Mute Voice
                   </button>
@@ -367,7 +367,7 @@ export const MnAssist: React.FC<MnAssistProps> = ({ externalIsOpen, onClose }) =
                     className={`flex gap-2.5 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     {msg.sender === 'assistant' && (
-                      <div className="w-7 h-7 rounded-full bg-[#003366] text-[#D4AF37] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-[#D4AF37]/40">
+                      <div className="w-7 h-7 rounded-full bg-[#003366] text-[#F28C28] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-[#F28C28]/40">
                         AI
                       </div>
                     )}
@@ -416,7 +416,7 @@ export const MnAssist: React.FC<MnAssistProps> = ({ externalIsOpen, onClose }) =
                 
                 {isTyping && (
                   <div className="flex gap-2.5 items-center text-slate-400 text-xs">
-                    <div className="w-7 h-7 rounded-full bg-[#003366] text-[#D4AF37] flex items-center justify-center font-bold text-xs">AI</div>
+                    <div className="w-7 h-7 rounded-full bg-[#003366] text-[#F28C28] flex items-center justify-center font-bold text-xs">AI</div>
                     <div className="bg-white p-2.5 rounded-lg border border-slate-200 flex gap-1">
                       <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
                       <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce delay-100"></span>
@@ -441,7 +441,7 @@ export const MnAssist: React.FC<MnAssistProps> = ({ externalIsOpen, onClose }) =
                     onClick={toggleVoiceMode}
                     className={`p-2 rounded-lg border transition ${
                       isVoiceActive
-                        ? 'bg-amber-500 text-white border-amber-600 animate-pulse'
+                        ? 'bg-orange-500 text-white border-orange-600 animate-pulse'
                         : 'bg-slate-100 text-slate-600 border-slate-300 hover:bg-slate-200'
                     }`}
                     title={isVoiceActive ? 'Voice mode active' : 'Activate Voice Assistant'}

@@ -397,10 +397,10 @@ export const IndiaManganeseMapSection: React.FC = () => {
         const pinDiv = document.createElement('div');
         pinDiv.className = 'flex flex-col items-center cursor-pointer z-40 animate-pulse';
         pinDiv.innerHTML = `
-          <div class="bg-amber-400 text-slate-950 font-mono font-black px-2 py-0.5 rounded text-[10px] shadow-lg border border-amber-300">
+          <div class="bg-orange-400 text-slate-950 font-mono font-black px-2 py-0.5 rounded text-[10px] shadow-lg border border-orange-300">
             📍 (${lat.toFixed(4)}°, ${lng.toFixed(4)}°)
           </div>
-          <div class="w-4 h-4 rounded-full bg-amber-400 border-2 border-slate-950 shadow-2xl mt-0.5"></div>
+          <div class="w-4 h-4 rounded-full bg-orange-400 border-2 border-slate-950 shadow-2xl mt-0.5"></div>
         `;
 
         clickPinRef.current = new maplibregl.Marker({ element: pinDiv })
@@ -443,9 +443,9 @@ export const IndiaManganeseMapSection: React.FC = () => {
       const targetPins = [
         { id: 'T001', code: 'MN-BAL-001', name: 'Target T001 (Balaghat)', coords: [80.72, 21.84], score: '92%', rank: '#1', color: 'bg-red-600' },
         { id: 'T003', code: 'MN-UKW-003', name: 'Target T003 (Tirodi)', coords: [79.82, 21.91], score: '87%', rank: '#2', color: 'bg-red-600' },
-        { id: 'T002', code: 'MN-DNG-002', name: 'Target T002 (Dongri)', coords: [79.92, 21.68], score: '76%', rank: '#3', color: 'bg-amber-500' },
+        { id: 'T002', code: 'MN-DNG-002', name: 'Target T002 (Dongri)', coords: [79.92, 21.68], score: '76%', rank: '#3', color: 'bg-orange-500' },
         { id: 'T004', code: 'MN-KNJ-004', name: 'Target T004 (Keonjhar)', coords: [85.30, 21.80], score: '81%', rank: '#4', color: 'bg-red-500' },
-        { id: 'T005', code: 'MN-SND-005', name: 'Target T005 (Sandur)', coords: [76.55, 15.08], score: '76%', rank: '#5', color: 'bg-amber-400' },
+        { id: 'T005', code: 'MN-SND-005', name: 'Target T005 (Sandur)', coords: [76.55, 15.08], score: '76%', rank: '#5', color: 'bg-orange-400' },
         { id: 'T006', code: 'MN-SGB-006', name: 'Target T006 (Singhbhum)', coords: [85.75, 22.35], score: '73%', rank: '#6', color: 'bg-emerald-500' }
       ];
 
@@ -458,18 +458,18 @@ export const IndiaManganeseMapSection: React.FC = () => {
         const badgeDiv = document.createElement('div');
         badgeDiv.className = `px-2 py-1 rounded-md shadow-2xl text-[10px] font-mono font-bold flex items-center gap-1.5 transition-all ${
           isSelected
-            ? 'bg-[#0A1128] text-white ring-2 ring-[#C5A059] scale-110 shadow-amber-500/50'
-            : 'bg-[#070D1E]/90 text-white border border-slate-700 hover:scale-105'
+            ? 'bg-[#0B4F8A] text-white ring-2 ring-[#F28C28] scale-110 shadow-orange-500/50'
+            : 'bg-[#083B67]/90 text-white border border-slate-700 hover:scale-105'
         }`;
         badgeDiv.innerHTML = `
           <span class="w-2 h-2 rounded-full ${pin.color}"></span>
           <span>${pin.code}</span>
-          <span class="text-amber-300 font-extrabold">${pin.score}</span>
+          <span class="text-orange-300 font-extrabold">${pin.score}</span>
         `;
 
         const pinDot = document.createElement('div');
         pinDot.className = `w-4 h-4 rounded-full ${pin.color} border-2 border-white shadow-xl mt-0.5 ${
-          isSelected ? 'ring-4 ring-amber-400 scale-125' : ''
+          isSelected ? 'ring-4 ring-orange-400 scale-125' : ''
         }`;
 
         container.appendChild(badgeDiv);
@@ -589,12 +589,12 @@ export const IndiaManganeseMapSection: React.FC = () => {
       <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-2">
           {/* Hierarchical Clickable Breadcrumbs */}
-          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#C5A059] uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#F28C28] uppercase tracking-wider">
             <button
               onClick={handleFlyToIndiaLevel}
-              className="hover:underline flex items-center gap-1 text-[#C5A059]"
+              className="hover:underline flex items-center gap-1 text-[#F28C28]"
             >
-              <Globe className="w-3.5 h-3.5 text-amber-500" />
+              <Globe className="w-3.5 h-3.5 text-orange-500" />
               <span>INDIA NATIONAL MAP</span>
             </button>
 
@@ -616,7 +616,7 @@ export const IndiaManganeseMapSection: React.FC = () => {
             {selectedTargetId && targetDetail && (
               <>
                 <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-                <span className="text-[#0A1128] font-black bg-amber-100 px-2 py-0.5 rounded border border-amber-300">
+                <span className="text-[#0B4F8A] font-black bg-orange-100 px-2 py-0.5 rounded border border-orange-300">
                   {targetDetail.mn_target_code}
                 </span>
               </>
@@ -640,13 +640,13 @@ export const IndiaManganeseMapSection: React.FC = () => {
               placeholder="Search site, district, state or Target ID..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 pr-4 py-1.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-[#0A1128] w-64 font-semibold"
+              className="pl-9 pr-4 py-1.5 rounded-lg bg-slate-50 border border-slate-300 text-xs text-slate-900 focus:outline-none focus:border-[#0B4F8A] w-64 font-semibold"
             />
           </div>
 
           <button
             onClick={handleFlyToIndiaLevel}
-            className="px-3 py-1.5 rounded-lg bg-[#0A1128] hover:bg-slate-900 text-[#C5A059] font-mono text-xs font-bold transition shadow-sm flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-lg bg-[#0B4F8A] hover:bg-slate-900 text-[#F28C28] font-mono text-xs font-bold transition shadow-sm flex items-center gap-1.5"
           >
             <Compass className="w-3.5 h-3.5" />
             <span>Reset India Zoom</span>
@@ -655,14 +655,14 @@ export const IndiaManganeseMapSection: React.FC = () => {
       </div>
 
       {/* ── MAP LAYER TOGGLE & PROVENANCE STRIP ───────────────────────────────── */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-[#0A1128] text-white p-3 rounded-lg border border-slate-800 text-xs font-mono">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-[#0B4F8A] text-white p-3 rounded-lg border border-slate-800 text-xs font-mono">
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-slate-400 font-bold uppercase mr-1">Interactive Layers:</span>
           
           <button
             onClick={() => toggleFilter('prospectivity')}
             className={`px-2.5 py-1 rounded text-[11px] font-bold transition ${
-              mapLayerFilters.prospectivity ? 'bg-[#C5A059] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
+              mapLayerFilters.prospectivity ? 'bg-[#F28C28] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
             }`}
           >
             ░ Prospectivity Heatmap
@@ -671,7 +671,7 @@ export const IndiaManganeseMapSection: React.FC = () => {
           <button
             onClick={() => toggleFilter('targets')}
             className={`px-2.5 py-1 rounded text-[11px] font-bold transition ${
-              mapLayerFilters.targets ? 'bg-[#C5A059] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
+              mapLayerFilters.targets ? 'bg-[#F28C28] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
             }`}
           >
             △ Exploration Targets (6)
@@ -680,7 +680,7 @@ export const IndiaManganeseMapSection: React.FC = () => {
           <button
             onClick={() => toggleFilter('occurrences')}
             className={`px-2.5 py-1 rounded text-[11px] font-bold transition ${
-              mapLayerFilters.occurrences ? 'bg-[#C5A059] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
+              mapLayerFilters.occurrences ? 'bg-[#F28C28] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
             }`}
           >
             ◆ Mn Occurrences & Assays
@@ -689,7 +689,7 @@ export const IndiaManganeseMapSection: React.FC = () => {
           <button
             onClick={() => toggleFilter('boundaries')}
             className={`px-2.5 py-1 rounded text-[11px] font-bold transition ${
-              mapLayerFilters.boundaries ? 'bg-[#C5A059] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
+              mapLayerFilters.boundaries ? 'bg-[#F28C28] text-slate-950' : 'bg-slate-800 text-slate-400 border border-slate-700'
             }`}
           >
             ⬡ State & National Borders
@@ -704,12 +704,12 @@ export const IndiaManganeseMapSection: React.FC = () => {
       {/* ── MAIN HIERARCHICAL WORKSPACE GRID ──────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* ── LEFT/CENTER GEOGRAPHIC MAP WORKSPACE (8 COLUMNS) ────────────────── */}
-        <div className="lg:col-span-8 bg-[#070D1E] rounded-xl border border-slate-800 shadow-xl overflow-hidden relative flex flex-col">
+        <div className="lg:col-span-8 bg-[#083B67] rounded-xl border border-slate-800 shadow-xl overflow-hidden relative flex flex-col">
           {/* Map Level Header Banner */}
-          <div className="p-3 border-b border-slate-800 bg-[#0A1128] flex items-center justify-between text-xs text-white">
+          <div className="p-3 border-b border-slate-800 bg-[#0B4F8A] flex items-center justify-between text-xs text-white">
             <div className="flex items-center gap-2 font-mono">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="font-bold text-[#C5A059]">
+              <span className="font-bold text-[#F28C28]">
                 {hierarchyLevel === 1 && 'LEVEL 1: NATIONAL MANGANESE DISTRIBUTION (GEOTIFF RASTER TILES)'}
                 {hierarchyLevel === 2 && `LEVEL 2: REGIONAL EXPLORATION AREA — ${selectedSite?.name}`}
                 {hierarchyLevel === 3 && `LEVEL 3: TARGET EXPLORATION ZONE — ${targetDetail?.mn_target_code || 'T001'}`}
@@ -719,7 +719,7 @@ export const IndiaManganeseMapSection: React.FC = () => {
             {hierarchyLevel > 1 && (
               <button
                 onClick={handleFlyToIndiaLevel}
-                className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[#C5A059] text-[10px] font-bold transition"
+                className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[#F28C28] text-[10px] font-bold transition"
               >
                 ← Return to India Map
               </button>
@@ -733,7 +733,7 @@ export const IndiaManganeseMapSection: React.FC = () => {
             {/* Scientific Heatmap Concentration Legend Box */}
             <div className="absolute bottom-4 left-4 z-30 bg-[#090D16]/95 border-2 border-slate-700 p-3 rounded-lg text-white font-mono text-[10px] shadow-2xl space-y-2 max-w-[240px]">
               <div className="border-b border-slate-700 pb-1 font-sans">
-                <span className="font-bold text-[#C5A059] block uppercase text-[11px]">EXPLANATION</span>
+                <span className="font-bold text-[#F28C28] block uppercase text-[11px]">EXPLANATION</span>
                 <span className="text-slate-300 block text-[10px]">Modelled Manganese Prospectivity Surface</span>
               </div>
 
@@ -839,8 +839,8 @@ export const IndiaManganeseMapSection: React.FC = () => {
               </div>
 
               {/* 1. MANGANESE STATUS (STRICT SCIENTIFIC SEPARATION) */}
-              <div className="bg-[#0A1128] text-white p-4 rounded-lg space-y-3 font-mono text-xs">
-                <div className="flex items-center justify-between text-[#C5A059] border-b border-slate-800 pb-2">
+              <div className="bg-[#0B4F8A] text-white p-4 rounded-lg space-y-3 font-mono text-xs">
+                <div className="flex items-center justify-between text-[#F28C28] border-b border-slate-800 pb-2">
                   <span className="font-bold uppercase tracking-wider">MANGANESE STATUS</span>
                   <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 </div>
@@ -853,7 +853,7 @@ export const IndiaManganeseMapSection: React.FC = () => {
 
                   <div className="p-2 bg-slate-950 rounded border border-slate-800">
                     <span className="text-slate-400 block text-[9px] uppercase">Estimated Mn</span>
-                    <strong className="text-amber-300 text-sm">{targetDetail.manganese_status.estimated_mn_wt_pct}% wt</strong>
+                    <strong className="text-orange-300 text-sm">{targetDetail.manganese_status.estimated_mn_wt_pct}% wt</strong>
                   </div>
 
                   <div className="p-2 bg-slate-950 rounded border border-slate-800">
@@ -872,7 +872,7 @@ export const IndiaManganeseMapSection: React.FC = () => {
               <div className="space-y-3 pt-2">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                   <span className="font-serif font-bold text-sm text-slate-900">Why did AI predict {targetDetail.target_id}?</span>
-                  <BarChart3 className="w-4 h-4 text-[#C5A059]" />
+                  <BarChart3 className="w-4 h-4 text-[#F28C28]" />
                 </div>
 
                 <div className="space-y-2 text-xs">
@@ -884,7 +884,7 @@ export const IndiaManganeseMapSection: React.FC = () => {
                       </div>
                       <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-amber-400 to-[#0A1128] rounded-full"
+                          className="h-full bg-gradient-to-r from-orange-400 to-[#0B4F8A] rounded-full"
                           style={{ width: `${shap.weight_pct * 2.5}%` }}
                         />
                       </div>
@@ -897,16 +897,16 @@ export const IndiaManganeseMapSection: React.FC = () => {
               <div className="pt-4 border-t border-slate-200 space-y-2">
                 <button
                   onClick={() => navigate(`/app/explore/${targetDetail.target_id}`)}
-                  className="w-full py-2.5 bg-[#0A1128] hover:bg-slate-900 text-[#C5A059] font-bold text-xs rounded transition flex items-center justify-center gap-2 shadow-xs"
+                  className="w-full py-2.5 bg-[#0B4F8A] hover:bg-slate-900 text-[#F28C28] font-bold text-xs rounded transition flex items-center justify-center gap-2 shadow-xs"
                 >
-                  <Target className="w-4 h-4 text-[#C5A059]" />
+                  <Target className="w-4 h-4 text-[#F28C28]" />
                   <span>OPEN DRILLTARGET ANALYSIS FOR {targetDetail.target_id}</span>
                 </button>
               </div>
             </div>
           ) : (
             <div className="p-6 rounded-xl bg-slate-50 border border-dashed border-slate-300 text-center text-xs text-slate-500 space-y-3">
-              <Compass className="w-8 h-8 text-[#C5A059] mx-auto animate-spin" style={{ animationDuration: '10s' }} />
+              <Compass className="w-8 h-8 text-[#F28C28] mx-auto animate-spin" style={{ animationDuration: '10s' }} />
               <div className="space-y-1">
                 <p className="font-bold text-slate-800 text-sm">Interactive GIS Point Inspector</p>
                 <p className="text-[11px] text-slate-600 leading-relaxed">

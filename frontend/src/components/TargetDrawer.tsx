@@ -55,14 +55,14 @@ export const TargetDrawer: React.FC<TargetDrawerProps> = ({
   return (
     <div className="fixed inset-y-0 right-0 z-50 w-full max-w-xl bg-white shadow-2xl border-l border-slate-300 flex flex-col font-sans animate-in slide-in-from-right duration-200">
       {/* Top Header */}
-      <div className="bg-[#0A1128] text-white p-5 flex items-center justify-between border-b border-slate-800">
+      <div className="bg-[#0B4F8A] text-white p-5 flex items-center justify-between border-b border-slate-800">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded bg-[#131E3A] border border-[#C5A059] text-[#C5A059] font-mono font-bold flex items-center justify-center text-sm shadow-xs">
+          <div className="w-9 h-9 rounded bg-[#1769AA] border border-[#F28C28] text-[#F28C28] font-mono font-bold flex items-center justify-center text-sm shadow-xs">
             #{target.rank}
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold text-[#C5A059] tracking-wider">
+              <span className="text-xs font-mono font-bold text-[#F28C28] tracking-wider">
                 {target.mn_target_code || target.target_id}
               </span>
               <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-slate-800 text-slate-300 border border-slate-700">
@@ -87,7 +87,7 @@ export const TargetDrawer: React.FC<TargetDrawerProps> = ({
         {/* Prototype Honesty Banner */}
         <div className="flex items-center justify-between bg-slate-100 border border-slate-200 rounded p-3 text-xs text-slate-800">
           <div className="flex items-center gap-2 font-medium">
-            <Compass className="w-4 h-4 text-[#C5A059] shrink-0" />
+            <Compass className="w-4 h-4 text-[#F28C28] shrink-0" />
             <span>Multi-Source Exploration Target • Balaghat District (MP)</span>
           </div>
           <PrototypeBadge label="DEMO DATA" />
@@ -97,7 +97,7 @@ export const TargetDrawer: React.FC<TargetDrawerProps> = ({
         <div className="grid grid-cols-3 gap-3">
           <div className="bg-white p-3.5 rounded border border-slate-200 text-center shadow-xs">
             <span className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider block">Prospectivity</span>
-            <span className="text-2xl font-mono font-bold text-[#0A1128] mt-1 block">{prospectivityPct}%</span>
+            <span className="text-2xl font-mono font-bold text-[#0B4F8A] mt-1 block">{prospectivityPct}%</span>
             <span className="text-[10px] text-emerald-700 font-semibold">PU Learning Model</span>
           </div>
 
@@ -113,7 +113,7 @@ export const TargetDrawer: React.FC<TargetDrawerProps> = ({
               <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${
                 isHighApplicability 
                   ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' 
-                  : 'bg-amber-50 text-amber-800 border border-amber-200'
+                  : 'bg-orange-50 text-orange-800 border border-orange-200'
               }`}>
                 {target.applicability}
               </span>
@@ -126,7 +126,7 @@ export const TargetDrawer: React.FC<TargetDrawerProps> = ({
         <div className="bg-white p-4 rounded border border-slate-200 shadow-xs space-y-3">
           <div className="flex items-center justify-between pb-3 border-b border-slate-100 text-xs">
             <div className="flex items-center gap-2 text-slate-600">
-              <MapPin className="w-4 h-4 text-[#C5A059]" />
+              <MapPin className="w-4 h-4 text-[#F28C28]" />
               <span className="font-semibold text-slate-800">Coordinates:</span>
               <span className="font-mono text-slate-900 font-bold">{target.latitude.toFixed(4)}° N, {target.longitude.toFixed(4)}° E</span>
             </div>
@@ -200,7 +200,7 @@ export const TargetDrawer: React.FC<TargetDrawerProps> = ({
               </div>
               <div className="w-full h-1.5 bg-slate-100 rounded overflow-hidden">
                 <div 
-                  className="h-full bg-[#C5A059] rounded" 
+                  className="h-full bg-[#F28C28] rounded" 
                   style={{ width: '85%' }}
                 />
               </div>
@@ -241,12 +241,12 @@ export const TargetDrawer: React.FC<TargetDrawerProps> = ({
         </div>
 
         {/* Scientific Safety Disclosure Notice */}
-        <div className="p-3.5 rounded bg-amber-50/80 border border-amber-300 space-y-1 text-xs">
-          <div className="flex items-center gap-2 font-mono font-bold text-amber-950 uppercase text-[10px]">
-            <AlertCircle className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+        <div className="p-3.5 rounded bg-orange-50/80 border border-orange-300 space-y-1 text-xs">
+          <div className="flex items-center gap-2 font-mono font-bold text-orange-950 uppercase text-[10px]">
+            <AlertCircle className="w-3.5 h-3.5 text-orange-700 shrink-0" />
             <span>Scientific Exploration Safety Principle</span>
           </div>
-          <p className="text-[11px] leading-relaxed text-amber-900">
+          <p className="text-[11px] leading-relaxed text-orange-900">
             {target.scientific_safety_note || 
               "Satellite observations provide surface and near-surface evidence contributing to prospectivity modelling. Subsurface manganese deposit verification strictly requires field reconnaissance, geophysical sounding, and diamond core drilling."}
           </p>
@@ -266,10 +266,10 @@ export const TargetDrawer: React.FC<TargetDrawerProps> = ({
           onClick={() => {
             if (onPlanDrilling) onPlanDrilling(target);
           }}
-          className="flex-1 px-4 py-2 rounded bg-[#0A1128] hover:bg-[#131E3A] text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-xs"
+          className="flex-1 px-4 py-2 rounded bg-[#0B4F8A] hover:bg-[#1769AA] text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-xs"
         >
           <span>Plan Verification Drillhole</span>
-          <ArrowRight className="w-4 h-4 text-[#C5A059]" />
+          <ArrowRight className="w-4 h-4 text-[#F28C28]" />
         </button>
       </div>
     </div>

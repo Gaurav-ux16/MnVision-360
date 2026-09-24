@@ -189,7 +189,7 @@ export const Optimization: React.FC = () => {
     return (
       <div className="min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center p-6">
         <div className="bg-white p-8 rounded-lg border border-slate-200 shadow-sm text-center max-w-md">
-          <RefreshCw className="w-10 h-10 text-[#1B2170] animate-spin mx-auto mb-4" />
+          <RefreshCw className="w-10 h-10 text-[#0B4F8A] animate-spin mx-auto mb-4" />
           <h3 className="text-lg font-bold text-slate-800">Solving MILP Mathematical Optimization</h3>
           <p className="text-xs text-slate-500 mt-2">
             Evaluating candidate corrective action combinations under equipment availability and crusher capacity constraints...
@@ -213,7 +213,7 @@ export const Optimization: React.FC = () => {
           <span>Production Shortfall</span> <span className="mx-1 text-slate-400">&gt;</span>
           <span>Analyze Why</span> <span className="mx-1 text-slate-400">&gt;</span>
           <span>Corrective Actions</span> <span className="mx-1 text-slate-400">&gt;</span>
-          <span className="font-semibold text-[#1B2170]">Optimization</span>
+          <span className="font-semibold text-[#0B4F8A]">Optimization</span>
         </div>
 
         <div className="max-w-7xl mx-auto w-full p-6">
@@ -221,21 +221,21 @@ export const Optimization: React.FC = () => {
             {statusType === 'NO_ACTIVE_PRODUCTION_SHORTFALL' ? (
               <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto mb-4" />
             ) : (
-              <AlertTriangle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
+              <AlertTriangle className="w-12 h-12 text-orange-500 mx-auto mb-4" />
             )}
             <h2 className="text-xl font-bold text-slate-900 tracking-wide uppercase">
               {statusType === 'NO_ACTIVE_PRODUCTION_SHORTFALL' ? 'NO ACTIVE PRODUCTION SHORTFALL' : (
                 statusType === 'INFEASIBLE' ? 'NO FEASIBLE OPTIMIZATION SCENARIO' : 'INSUFFICIENT DATA FOR OPTIMIZATION'
               )}
             </h2>
-            <p className="text-sm text-slate-600 mt-3 bg-amber-50 p-4 rounded border border-amber-200 text-left font-sans">
+            <p className="text-sm text-slate-600 mt-3 bg-orange-50 p-4 rounded border border-orange-200 text-left font-sans">
               {statusMsg}
             </p>
 
             <div className="mt-6 flex justify-center gap-4">
               <button
                 onClick={handleBackToCorrectiveActions}
-                className="flex items-center gap-2 px-5 py-2.5 bg-[#1B2170] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors"
+                className="flex items-center gap-2 px-5 py-2.5 bg-[#0B4F8A] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 RETURN TO CORRECTIVE ACTIONS
@@ -267,7 +267,7 @@ export const Optimization: React.FC = () => {
           <span>Production Shortfall</span> <span className="text-slate-400">&gt;</span>
           <span>Analyze Why</span> <span className="text-slate-400">&gt;</span>
           <span>Corrective Actions</span> <span className="text-slate-400">&gt;</span>
-          <span className="font-bold text-[#1B2170]">Optimization</span>
+          <span className="font-bold text-[#0B4F8A]">Optimization</span>
         </div>
         <PrototypeBadge type="inline" message={data_honesty_label || "PROTOTYPE SIMULATION DATA — MOIL Sensor Calibration Pending"} />
       </div>
@@ -285,7 +285,7 @@ export const Optimization: React.FC = () => {
                 Scenario ID: {scenario_id}
               </span>
             </div>
-            <h1 className="text-2xl font-black text-[#1B2170] tracking-tight uppercase mt-1">
+            <h1 className="text-2xl font-black text-[#0B4F8A] tracking-tight uppercase mt-1">
               OPTIMIZATION — FEASIBLE PRODUCTION RECOVERY
             </h1>
             <p className="text-xs text-slate-500 font-medium mt-0.5">
@@ -303,7 +303,7 @@ export const Optimization: React.FC = () => {
             </button>
             <button
               onClick={handleContinueToWhatIf}
-              className="flex items-center gap-2 px-4 py-2 bg-[#1B2170] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-[#0B4F8A] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors shadow-sm"
             >
               CONTINUE TO WHAT-IF
               <ArrowRight className="w-4 h-4" />
@@ -315,7 +315,7 @@ export const Optimization: React.FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3 text-xs bg-slate-800 text-slate-200 p-3.5 rounded-lg border border-slate-700 shadow-sm font-mono">
           <div>
             <span className="text-slate-400 block text-[10px] uppercase font-sans">Active Mine</span>
-            <span className="font-bold text-amber-400">{mine_id}</span>
+            <span className="font-bold text-orange-400">{mine_id}</span>
           </div>
           <div>
             <span className="text-slate-400 block text-[10px] uppercase font-sans">Mine Type</span>
@@ -353,7 +353,7 @@ export const Optimization: React.FC = () => {
 
           <div className="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
             <span className="text-[10px] font-bold text-slate-500 uppercase block">Baseline Forecast</span>
-            <span className="text-xl font-black text-amber-700 mt-1 block">{baseline_forecast_tonnes.toLocaleString()} t</span>
+            <span className="text-xl font-black text-orange-700 mt-1 block">{baseline_forecast_tonnes.toLocaleString()} t</span>
             <span className="text-[10px] text-slate-400 block">Page 2 forecast</span>
           </div>
 
@@ -386,8 +386,8 @@ export const Optimization: React.FC = () => {
         <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm space-y-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-3">
             <div>
-              <h2 className="text-sm font-bold text-[#1B2170] uppercase tracking-wide flex items-center gap-2">
-                <Layers className="w-4 h-4 text-[#1B2170]" />
+              <h2 className="text-sm font-bold text-[#0B4F8A] uppercase tracking-wide flex items-center gap-2">
+                <Layers className="w-4 h-4 text-[#0B4F8A]" />
                 SELECTED CORRECTIVE ACTIONS & OPTIMIZER CONTROL
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
@@ -398,7 +398,7 @@ export const Optimization: React.FC = () => {
             <button
               onClick={handleRunOptimizationClick}
               disabled={optimizing}
-              className="flex items-center gap-2 px-5 py-2 bg-[#1B2170] hover:bg-[#151a5c] text-white text-xs font-bold rounded shadow transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 px-5 py-2 bg-[#0B4F8A] hover:bg-[#151a5c] text-white text-xs font-bold rounded shadow transition-colors disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 ${optimizing ? 'animate-spin' : ''}`} />
               <span>{optimizing ? 'SOLVING OPTIMIZATION...' : 'RUN MATHEMATICAL OPTIMIZATION'}</span>
@@ -418,8 +418,8 @@ export const Optimization: React.FC = () => {
 
         {/* 6. Production Comparison Visualizer */}
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 space-y-4">
-          <h2 className="text-base font-bold text-[#1B2170] uppercase tracking-wide flex items-center gap-2">
-            <BarChart2 className="w-5 h-5 text-[#1B2170]" />
+          <h2 className="text-base font-bold text-[#0B4F8A] uppercase tracking-wide flex items-center gap-2">
+            <BarChart2 className="w-5 h-5 text-[#0B4F8A]" />
             PRODUCTION TRAJECTORY COMPARISON (BASELINE VS OPTIMIZED VS TARGET)
           </h2>
 
@@ -441,11 +441,11 @@ export const Optimization: React.FC = () => {
             <div className="space-y-1">
               <div className="flex justify-between text-xs font-semibold">
                 <span>Baseline Forecast (Page 2)</span>
-                <span className="font-mono text-amber-700">{baseline_forecast_tonnes.toLocaleString()} tonnes ({((baseline_forecast_tonnes/target_tonnes)*100).toFixed(1)}%)</span>
+                <span className="font-mono text-orange-700">{baseline_forecast_tonnes.toLocaleString()} tonnes ({((baseline_forecast_tonnes/target_tonnes)*100).toFixed(1)}%)</span>
               </div>
               <div className="h-6 w-full bg-slate-100 rounded overflow-hidden relative border border-slate-200">
                 <div 
-                  className="h-full bg-amber-500 flex items-center justify-end pr-2 text-white font-mono text-xs font-bold"
+                  className="h-full bg-orange-500 flex items-center justify-end pr-2 text-white font-mono text-xs font-bold"
                   style={{ width: `${(baseline_forecast_tonnes / target_tonnes) * 100}%` }}
                 >
                   {baseline_forecast_tonnes} t
@@ -475,8 +475,8 @@ export const Optimization: React.FC = () => {
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
           <div className="bg-slate-50 px-6 py-4 border-b border-slate-200 flex items-center justify-between">
             <div>
-              <h2 className="text-base font-bold text-[#1B2170] uppercase tracking-wide flex items-center gap-2">
-                <Zap className="w-5 h-5 text-[#1B2170]" />
+              <h2 className="text-base font-bold text-[#0B4F8A] uppercase tracking-wide flex items-center gap-2">
+                <Zap className="w-5 h-5 text-[#0B4F8A]" />
                 FEASIBLE OPTIMIZATION SCENARIOS (EVALUATED BY MILP ENGINE)
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
@@ -494,7 +494,7 @@ export const Optimization: React.FC = () => {
                   onClick={() => setSelectedPlanId(plan.plan_id)}
                   className={`px-4 py-2 text-xs font-bold rounded transition-all ${
                     selectedPlanId === plan.plan_id
-                      ? 'bg-[#1B2170] text-white shadow-sm'
+                      ? 'bg-[#0B4F8A] text-white shadow-sm'
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300'
                   }`}
                 >
@@ -508,7 +508,7 @@ export const Optimization: React.FC = () => {
               <div className="bg-slate-50 border border-slate-200 rounded-lg p-5 space-y-4">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-200 pb-3">
                   <div>
-                    <span className="text-[10px] bg-[#1B2170] text-white font-mono font-bold px-2 py-0.5 rounded">
+                    <span className="text-[10px] bg-[#0B4F8A] text-white font-mono font-bold px-2 py-0.5 rounded">
                       {activePlan.plan_id}
                     </span>
                     <h3 className="text-base font-bold text-slate-900 mt-1">
@@ -562,8 +562,8 @@ export const Optimization: React.FC = () => {
         {/* 8. Active Constraints Transparency Panel */}
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
           <div className="bg-slate-50 px-6 py-4 border-b border-slate-200">
-            <h2 className="text-base font-bold text-[#1B2170] uppercase tracking-wide flex items-center gap-2">
-              <Sliders className="w-5 h-5 text-[#1B2170]" />
+            <h2 className="text-base font-bold text-[#0B4F8A] uppercase tracking-wide flex items-center gap-2">
+              <Sliders className="w-5 h-5 text-[#0B4F8A]" />
               OPTIMIZATION CONSTRAINTS TRANSPARENCY
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
@@ -615,7 +615,7 @@ export const Optimization: React.FC = () => {
 
           <button
             onClick={handleContinueToWhatIf}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 bg-[#1B2170] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors shadow-sm"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 bg-[#0B4F8A] text-white text-xs font-bold rounded hover:bg-[#151a5c] transition-colors shadow-sm"
           >
             CONTINUE TO WHAT-IF
             <ArrowRight className="w-4 h-4" />

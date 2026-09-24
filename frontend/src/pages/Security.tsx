@@ -144,10 +144,10 @@ export const Security: React.FC = () => {
       />
 
       {/* Page Title Header */}
-      <div className="bg-gradient-to-r from-[#1B2170] via-[#313896] to-[#3B42A6] text-white p-6 rounded-2xl border border-[#2B308B] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-[#0B4F8A] via-[#1769AA] to-[#2A7BBE] text-white p-6 rounded-2xl border border-[#1769AA] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-amber-300 uppercase tracking-wider">
-            <Lock className="w-4 h-4 text-amber-300" />
+          <div className="flex items-center gap-2 text-xs font-bold text-orange-300 uppercase tracking-wider">
+            <Lock className="w-4 h-4 text-orange-300" />
             <span>MOIL ENTERPRISE SECURITY & AUDIT CONTROL</span>
           </div>
           <h1 className="text-2xl font-bold font-serif text-white mt-1">
@@ -162,14 +162,14 @@ export const Security: React.FC = () => {
           <button
             onClick={fetchSecurityData}
             disabled={refreshing}
-            className="px-4 py-2 bg-[#1B2170]/80 hover:bg-[#1B2170] text-white rounded-full text-xs font-bold transition flex items-center gap-1.5 border border-white/20 shadow-inner"
+            className="px-4 py-2 bg-[#0B4F8A]/80 hover:bg-[#0B4F8A] text-white rounded-full text-xs font-bold transition flex items-center gap-1.5 border border-white/20 shadow-inner"
             title="Refresh Live Audit Stream"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
             <span>{refreshing ? 'Refreshing...' : 'Refresh Logs'}</span>
           </button>
 
-          <div className="bg-[#1B2170]/80 backdrop-blur-sm text-white px-5 py-2.5 rounded-full text-xs font-mono border border-white/20 shadow-inner">
+          <div className="bg-[#0B4F8A]/80 backdrop-blur-sm text-white px-5 py-2.5 rounded-full text-xs font-mono border border-white/20 shadow-inner">
             <p className="text-blue-200 text-[10px] uppercase font-bold">Security Enforcement</p>
             <p className="text-emerald-300 font-bold">🟢 ACTIVE & ENFORCED (JWT + RBAC)</p>
           </div>
@@ -181,9 +181,9 @@ export const Security: React.FC = () => {
         <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-500 text-xs font-bold">
             <span>Authentication Engine</span>
-            <Key className="w-4 h-4 text-[#313896]" />
+            <Key className="w-4 h-4 text-[#1769AA]" />
           </div>
-          <p className="text-xl font-extrabold text-[#313896] font-mono">
+          <p className="text-xl font-extrabold text-[#1769AA] font-mono">
             {statusData?.jwt_algorithm || 'HS256'} JWT
           </p>
           <p className="text-[11px] text-slate-500">
@@ -194,9 +194,9 @@ export const Security: React.FC = () => {
         <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-500 text-xs font-bold">
             <span>Failed Logins</span>
-            <AlertOctagon className="w-4 h-4 text-amber-600" />
+            <AlertOctagon className="w-4 h-4 text-orange-600" />
           </div>
-          <p className="text-2xl font-extrabold text-amber-700 font-mono">
+          <p className="text-2xl font-extrabold text-orange-700 font-mono">
             {statusData?.recent_failed_logins_count ?? 0} Attempts
           </p>
           <p className="text-[11px] text-slate-500">Rate Limited & Throttled</p>
@@ -216,9 +216,9 @@ export const Security: React.FC = () => {
         <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-500 text-xs font-bold">
             <span>API Security Gateway</span>
-            <Activity className="w-4 h-4 text-[#313896]" />
+            <Activity className="w-4 h-4 text-[#1769AA]" />
           </div>
-          <p className="text-lg font-extrabold text-[#313896] font-mono">
+          <p className="text-lg font-extrabold text-[#1769AA] font-mono">
             FastAPI v1.0.0
           </p>
           <p className="text-[11px] text-slate-500">CORS & CSP Hardened</p>
@@ -227,9 +227,9 @@ export const Security: React.FC = () => {
 
       {/* Network & Infrastructure Status */}
       <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4">
-        <h3 className="text-base font-bold text-[#313896] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
+        <h3 className="text-base font-bold text-[#1769AA] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
           <span>Real System Infrastructure & Data Services Status</span>
-          <span className="text-xs font-mono text-[#313896] bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">FastAPI / Nginx Topology</span>
+          <span className="text-xs font-mono text-[#1769AA] bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">FastAPI / Nginx Topology</span>
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs font-mono">
@@ -257,8 +257,8 @@ export const Security: React.FC = () => {
       {/* Real-time System Audit Stream Table */}
       <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h3 className="text-base font-bold text-[#313896] font-serif flex items-center gap-2">
-            <Terminal className="w-5 h-5 text-[#313896]" />
+          <h3 className="text-base font-bold text-[#1769AA] font-serif flex items-center gap-2">
+            <Terminal className="w-5 h-5 text-[#1769AA]" />
             <span>Real System Security Audit Stream</span>
           </h3>
           <span className="text-xs text-slate-500 font-mono">Showing {auditLogs.length} recent audit events</span>
@@ -267,7 +267,7 @@ export const Security: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse font-mono">
             <thead>
-              <tr className="bg-[#EBEFFA] border-b border-[#D0DCF5] text-[#313896] font-bold uppercase tracking-wider text-[11px]">
+              <tr className="bg-[#EBEFFA] border-b border-[#D0DCF5] text-[#1769AA] font-bold uppercase tracking-wider text-[11px]">
                 <th className="py-3.5 px-3 rounded-l-xl">Timestamp</th>
                 <th className="py-3.5 px-3">Username</th>
                 <th className="py-3.5 px-3">Role</th>
@@ -280,7 +280,7 @@ export const Security: React.FC = () => {
               {auditLogs.map((log) => (
                 <tr key={log.id} className="hover:bg-[#F8FAFC] transition">
                   <td className="py-3.5 px-3 text-slate-500">{new Date(log.timestamp).toLocaleString()}</td>
-                  <td className="py-3.5 px-3 font-bold text-[#313896]">{log.username}</td>
+                  <td className="py-3.5 px-3 font-bold text-[#1769AA]">{log.username}</td>
                   <td className="py-3.5 px-3 text-slate-700 font-semibold">{log.role}</td>
                   <td className="py-3.5 px-3 text-slate-900 font-bold">{log.action}</td>
                   <td className="py-3.5 px-3 text-slate-600 truncate max-w-xs">{log.resource}</td>
@@ -290,7 +290,7 @@ export const Security: React.FC = () => {
                     ) : log.status === 'BLOCKED' ? (
                       <span className="text-red-700">🔴 {log.status}</span>
                     ) : (
-                      <span className="text-amber-700">⚠️ {log.status}</span>
+                      <span className="text-orange-700">⚠️ {log.status}</span>
                     )}
                   </td>
                 </tr>

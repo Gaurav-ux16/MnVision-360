@@ -126,18 +126,18 @@ export const VoiceModal: React.FC<VoiceModalProps> = ({
             {isListening && (
               <>
                 <div className="absolute w-28 h-28 rounded-full bg-blue-400/20 animate-ping duration-1000" />
-                <div className="absolute w-24 h-24 rounded-full bg-[#1B2170]/15 animate-pulse" />
+                <div className="absolute w-24 h-24 rounded-full bg-[#0B4F8A]/15 animate-pulse" />
               </>
             )}
             <div className={`w-20 h-20 rounded-full flex items-center justify-center text-white shadow-xl transition-all ${
-              isListening ? 'bg-[#1B2170] scale-110' : 'bg-slate-700'
+              isListening ? 'bg-[#0B4F8A] scale-110' : 'bg-slate-700'
             }`}>
-              {isListening ? <Mic className="w-9 h-9 text-amber-300 animate-bounce" /> : <MicOff className="w-9 h-9 text-slate-300" />}
+              {isListening ? <Mic className="w-9 h-9 text-orange-300 animate-bounce" /> : <MicOff className="w-9 h-9 text-slate-300" />}
             </div>
           </div>
 
-          <span className="text-xs font-bold uppercase tracking-widest text-[#1B2170] mt-4 flex items-center gap-1.5">
-            <Volume2 className="w-3.5 h-3.5 text-amber-500" />
+          <span className="text-xs font-bold uppercase tracking-widest text-[#0B4F8A] mt-4 flex items-center gap-1.5">
+            <Volume2 className="w-3.5 h-3.5 text-orange-500" />
             <span>{isListening ? 'Voice Intelligence Active — Speak Now' : 'Voice Input Standby'}</span>
           </span>
         </div>
@@ -182,9 +182,9 @@ export const VoiceModal: React.FC<VoiceModalProps> = ({
                   setTranscript(cmd);
                   handleCommand(cmd);
                 }}
-                className="text-xs font-semibold px-3 py-1.5 rounded-full bg-slate-100 hover:bg-[#1B2170] hover:text-white text-slate-700 transition border border-slate-200 flex items-center gap-1.5"
+                className="text-xs font-semibold px-3 py-1.5 rounded-full bg-slate-100 hover:bg-[#0B4F8A] hover:text-white text-slate-700 transition border border-slate-200 flex items-center gap-1.5"
               >
-                <Sparkles className="w-3 h-3 text-amber-500" />
+                <Sparkles className="w-3 h-3 text-orange-500" />
                 <span>{cmd}</span>
               </button>
             ))}
