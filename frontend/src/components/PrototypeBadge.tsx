@@ -5,13 +5,16 @@ interface PrototypeBadgeProps {
   type?: 'banner' | 'badge' | 'inline';
   isReal?: boolean;
   message?: string;
+  label?: string;
 }
 
 export const PrototypeBadge: React.FC<PrototypeBadgeProps> = ({
   type = 'badge',
   isReal = false,
-  message
+  message,
+  label
 }) => {
+  const activeMessage = message || label;
   if (isReal) {
     if (type === 'banner') {
       return (
@@ -19,7 +22,7 @@ export const PrototypeBadge: React.FC<PrototypeBadgeProps> = ({
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-600" />
             <span className="font-bold">
-              {message || 'REAL GEOSPATIAL ML MODEL INTEGRATED — Balaghat AOI (SRTM DEM, Sentinel-1 SAR, Sentinel-2 Optical, GSI Geology & Geochemistry)'}
+              {activeMessage || 'REAL GEOSPATIAL ML MODEL INTEGRATED — Balaghat AOI (SRTM DEM, Sentinel-1 SAR, Sentinel-2 Optical, GSI Geology & Geochemistry)'}
             </span>
           </div>
           <span className="text-[10px] text-emerald-900 bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded uppercase font-extrabold">
@@ -33,7 +36,7 @@ export const PrototypeBadge: React.FC<PrototypeBadgeProps> = ({
       return (
         <span className="text-[11px] text-emerald-800 font-semibold flex items-center gap-1">
           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-          <span>{message || 'REAL GEOSPATIAL DATA'}</span>
+          <span>{activeMessage || 'REAL GEOSPATIAL DATA'}</span>
         </span>
       );
     }
@@ -47,16 +50,16 @@ export const PrototypeBadge: React.FC<PrototypeBadgeProps> = ({
   }
 
   // Fallback for Prototype Simulation Data (Operational Modules)
-  const defaultMessage = message || 'PROTOTYPE SIMULATION DATA — Synthetic MOIL Operational Telemetry';
+  const defaultMessage = activeMessage || 'PROTOTYPE SIMULATION DATA — Synthetic MOIL Operational Telemetry';
 
   if (type === 'banner') {
     return (
-      <div className="bg-amber-50 border-b border-amber-200 px-4 py-2 flex items-center justify-between text-xs text-amber-900 font-medium tracking-wide">
+      <div className="bg-orange-50 border-b border-orange-200 px-4 py-2 flex items-center justify-between text-xs text-orange-900 font-medium tracking-wide">
         <div className="flex items-center gap-2">
-          <AlertTriangle className="w-4 h-4 text-amber-600 animate-pulse" />
+          <AlertTriangle className="w-4 h-4 text-orange-600 animate-pulse" />
           <span className="font-semibold">⚠ {defaultMessage}</span>
         </div>
-        <span className="text-[10px] text-amber-800 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded uppercase font-bold">
+        <span className="text-[10px] text-orange-800 bg-orange-100 border border-orange-300 px-2 py-0.5 rounded uppercase font-bold">
           SIH Demonstration Sandbox
         </span>
       </div>
@@ -65,15 +68,15 @@ export const PrototypeBadge: React.FC<PrototypeBadgeProps> = ({
 
   if (type === 'inline') {
     return (
-      <span className="text-[11px] text-amber-800 font-semibold flex items-center gap-1">
-        <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+      <span className="text-[11px] text-orange-800 font-semibold flex items-center gap-1">
+        <AlertTriangle className="w-3.5 h-3.5 text-orange-600" />
         <span>{defaultMessage}</span>
       </span>
     );
   }
 
   return (
-    <span className="inline-flex items-center gap-1 bg-amber-100 text-amber-900 border border-amber-300 px-2.5 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase">
+    <span className="inline-flex items-center gap-1 bg-orange-100 text-orange-900 border border-orange-300 px-2.5 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase">
       Prototype Data
     </span>
   );

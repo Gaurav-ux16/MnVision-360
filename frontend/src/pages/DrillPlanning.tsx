@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Target, MapPin, CheckCircle2, ChevronRight, Award, ShieldAlert, Sparkles, Activity, Layers, ArrowRight } from 'lucide-react';
 import { PrototypeBadge } from '../components/PrototypeBadge';
 import { Link, useNavigate } from 'react-router-dom';
+import { workflowApi } from '../services/api';
 
 interface DrillTargetItem {
   id: string;
@@ -40,12 +41,25 @@ export const DrillPlanning: React.FC = () => {
       .catch(() => setLoading(false));
   }, []);
 
+  const handleProceedToFieldSurvey = async (targetId: string) => {
+    try {
+      await workflowApi.updateState({
+        currentStage: 'validate',
+        targetId,
+        investigationId: `INV-2026-${targetId.replace('Target-', '00')}`
+      });
+    } catch (e) {
+      console.warn('Failed to update workflow state:', e);
+    }
+    navigate(`/field-survey?target_id=${targetId}`);
+  };
+
   const getPriorityBadge = (priority: string) => {
     switch (priority) {
       case 'Very High':
         return 'bg-red-600 text-white font-bold px-2.5 py-0.5 rounded text-xs';
       case 'High':
-        return 'bg-amber-500 text-white font-bold px-2.5 py-0.5 rounded text-xs';
+        return 'bg-orange-500 text-white font-bold px-2.5 py-0.5 rounded text-xs';
       case 'Medium':
         return 'bg-yellow-500 text-slate-900 font-bold px-2.5 py-0.5 rounded text-xs';
       default:
@@ -58,7 +72,7 @@ export const DrillPlanning: React.FC = () => {
       case 'HIGH':
         return <span className="text-emerald-700 bg-emerald-100 font-bold px-2 py-0.5 rounded text-[11px]">HIGH</span>;
       case 'MEDIUM':
-        return <span className="text-amber-800 bg-amber-100 font-bold px-2 py-0.5 rounded text-[11px]">MEDIUM</span>;
+        return <span className="text-orange-800 bg-orange-100 font-bold px-2 py-0.5 rounded text-[11px]">MEDIUM</span>;
       default:
         return <span className="text-red-700 bg-red-100 font-bold px-2 py-0.5 rounded text-[11px]">LOW (OOD)</span>;
     }
@@ -174,7 +188,7 @@ export const DrillPlanning: React.FC = () => {
                     >
                       <span>Field Survey</span>
                       <ArrowRight className="w-3 h-3" />
-                    </Link>
+                    </button>
                   </td>
                 </tr>
               ))}

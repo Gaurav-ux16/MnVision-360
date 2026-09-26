@@ -194,9 +194,9 @@ export const Security: React.FC = () => {
         <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-500 text-xs font-bold">
             <span>Failed Logins</span>
-            <AlertOctagon className="w-4 h-4 text-amber-600" />
+            <AlertOctagon className="w-4 h-4 text-orange-600" />
           </div>
-          <p className="text-2xl font-extrabold text-amber-700 font-mono">
+          <p className="text-2xl font-extrabold text-orange-700 font-mono">
             {statusData?.recent_failed_logins_count ?? 0} Attempts
           </p>
           <p className="text-[11px] text-slate-500">Rate Limited & Throttled</p>
@@ -290,7 +290,7 @@ export const Security: React.FC = () => {
                     ) : log.status === 'BLOCKED' ? (
                       <span className="text-red-700">🔴 {log.status}</span>
                     ) : (
-                      <span className="text-amber-700">⚠️ {log.status}</span>
+                      <span className="text-orange-700">⚠️ {log.status}</span>
                     )}
                   </td>
                 </tr>

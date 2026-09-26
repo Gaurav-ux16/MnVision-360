@@ -172,7 +172,7 @@ export const TargetAnalysis: React.FC = () => {
             </div>
             <div className="flex justify-between">
               <span className="text-slate-500">Lineament Density:</span>
-              <strong className="font-mono text-amber-700">{target.evidence?.structural_lineament_density || 0.81}</strong>
+              <strong className="font-mono text-orange-700">{target.evidence?.structural_lineament_density || 0.81}</strong>
             </div>
             <div className="flex justify-between">
               <span className="text-slate-500">Host Rock:</span>
@@ -185,7 +185,7 @@ export const TargetAnalysis: React.FC = () => {
         <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm space-y-3">
           <div className="flex items-center justify-between text-xs font-bold text-[#313896] border-b border-slate-100 pb-2.5">
             <span className="flex items-center gap-1.5">
-              <MapPin className="w-4 h-4 text-amber-600" />
+              <MapPin className="w-4 h-4 text-orange-600" />
               <span>Geochemistry</span>
             </span>
             <span className="text-[10px] font-mono text-[#313896] bg-[#EBEFFA] px-2 py-0.5 rounded-full border border-[#D0DCF5]">Assays</span>
@@ -197,7 +197,7 @@ export const TargetAnalysis: React.FC = () => {
             </div>
             <div className="flex justify-between">
               <span className="text-slate-500">Predicted Ore Grade:</span>
-              <strong className="font-mono text-amber-700">{target.predicted_grade}</strong>
+              <strong className="font-mono text-orange-700">{target.predicted_grade}</strong>
             </div>
             <div className="flex justify-between">
               <span className="text-slate-500">Control Distance:</span>
@@ -227,7 +227,7 @@ export const TargetAnalysis: React.FC = () => {
             className="px-6 py-2.5 bg-[#313896] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full transition shadow-sm flex items-center gap-2"
           >
             <FileText className="w-4 h-4" />
-            <span>Open Field Survey PWA</span>
+            <span>Stage 3: Field Survey Ground Truth</span>
           </Link>
           <Link
             to="/drill-planning"

@@ -9,7 +9,10 @@ interface MapProps {
   height?: string;
   activeLayers?: Record<string, boolean>;
   selectedTarget?: string;
+  selectedLocationPin?: { lat: number; lng: number } | null;
   onMarkerClick?: (targetId: string) => void;
+  onMapClick?: (lat: number, lng: number, prospectivity: number) => void;
+  onHover?: (lat: number, lng: number, prospectivity: number) => void;
 }
 
 const TARGET_COORDINATES: Record<string, [number, number]> = {
@@ -25,6 +28,25 @@ const MAP_TILES = {
   Map: 'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
 };
 
+export function calculateProspectivity(lat: number, lng: number): number {
+  const centers = [
+    { lat: 21.84, lng: 80.72, score: 0.92 },
+    { lat: 21.91, lng: 79.82, score: 0.87 },
+    { lat: 21.68, lng: 79.92, score: 0.76 },
+    { lat: 21.62, lng: 80.31, score: 0.69 },
+    { lat: 21.78, lng: 80.12, score: 0.58 },
+  ];
+  let maxScore = 0.22;
+  for (const c of centers) {
+    const dist = Math.sqrt(Math.pow(lat - c.lat, 2) + Math.pow(lng - c.lng, 2));
+    if (dist < 0.20) {
+      const contrib = c.score * Math.max(0, 1 - dist / 0.20);
+      if (contrib > maxScore) maxScore = contrib;
+    }
+  }
+  return Number(Math.min(0.96, Math.max(0.12, maxScore)).toFixed(2));
+}
+
 export const Map: React.FC<MapProps> = ({
   initialCenter = [79.98, 21.72], // Centered around Balaghat Manganese Belt
   initialZoom = 9.8,
@@ -38,7 +60,10 @@ export const Map: React.FC<MapProps> = ({
     lineaments: false,
   },
   selectedTarget = 'Target-1',
-  onMarkerClick
+  selectedLocationPin = null,
+  onMarkerClick,
+  onMapClick,
+  onHover,
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
@@ -271,6 +296,26 @@ export const Map: React.FC<MapProps> = ({
           .setLngLat(loc.coords as [number, number])
           .addTo(map.current!);
       });
+
+      // Mousemove hover event listener
+      map.current.on('mousemove', (e) => {
+        const lng = e.lngLat.lng;
+        const lat = e.lngLat.lat;
+        const score = calculateProspectivity(lat, lng);
+        if (onHoverRef.current) {
+          onHoverRef.current(lat, lng, score);
+        }
+      });
+
+      // Click event listener
+      map.current.on('click', (e) => {
+        const lng = e.lngLat.lng;
+        const lat = e.lngLat.lat;
+        const score = calculateProspectivity(lat, lng);
+        if (onMapClickRef.current) {
+          onMapClickRef.current(lat, lng, score);
+        }
+      });
     });
 
     return () => {
@@ -311,6 +356,7 @@ export const Map: React.FC<MapProps> = ({
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
 
+    // Predefined Target Markers
     const targetPins = [
       { id: 'Target-1', title: 'Target 1', subtitle: 'Very High Priority', color: 'red', coords: [80.08, 21.84] },
       { id: 'Target-2', title: 'Target 2', subtitle: 'High Priority', color: 'orange', coords: [79.98, 21.66] },
@@ -319,7 +365,7 @@ export const Map: React.FC<MapProps> = ({
     ];
 
     targetPins.forEach((pin) => {
-      const isSelected = selectedTarget === pin.id;
+      const isSelected = selectedTarget === pin.id || selectedTarget === pin.name;
       const container = document.createElement('div');
       container.className = 'flex flex-col items-center cursor-pointer group z-30 transition-transform hover:scale-105';
 
@@ -344,7 +390,8 @@ export const Map: React.FC<MapProps> = ({
       container.appendChild(callout);
       container.appendChild(pinDot);
 
-      container.onclick = () => {
+      container.onclick = (e) => {
+        e.stopPropagation();
         if (onMarkerClick) onMarkerClick(pin.id);
       };
 

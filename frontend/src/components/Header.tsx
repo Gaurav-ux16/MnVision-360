@@ -53,7 +53,7 @@ export const Header: React.FC = () => {
       {/* 1. TOP UTILITY BAR */}
       <div className="bg-slate-100 text-slate-700 text-[11px] px-4 md:px-8 py-1 flex items-center justify-between border-b border-slate-200">
         <div className="flex items-center gap-2 font-semibold text-slate-700">
-          <span className="bg-[#1E3A8A] text-amber-300 text-[9px] px-1.5 py-0.5 rounded font-mono uppercase">
+          <span className="bg-[#1E3A8A] text-orange-300 text-[9px] px-1.5 py-0.5 rounded font-mono uppercase">
             Govt of India PSU
           </span>
           <span className="hidden sm:inline text-slate-600">Ministry of Steel | MOIL Limited</span>
@@ -66,7 +66,7 @@ export const Header: React.FC = () => {
             className="p-1 rounded-full hover:bg-slate-200 text-slate-800 transition-colors"
             title="Toggle Accessibility High Contrast"
           >
-            {darkMode ? <Sun className="w-3.5 h-3.5 text-amber-500" /> : <Moon className="w-3.5 h-3.5 text-slate-800" />}
+            {darkMode ? <Sun className="w-3.5 h-3.5 text-orange-500" /> : <Moon className="w-3.5 h-3.5 text-slate-800" />}
           </button>
 
           {/* Language Switcher */}
@@ -96,8 +96,8 @@ export const Header: React.FC = () => {
       <div className="px-4 md:px-8 py-3 bg-white flex items-center justify-between border-b border-slate-100">
         {/* Left: MOIL Logo & Tagline */}
         <NavLink to="/" className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-[#003366] text-white flex flex-col items-center justify-center border-2 border-amber-400 shadow-md flex-shrink-0">
-            <span className="text-[9px] font-extrabold tracking-tighter leading-none text-amber-300">मॉयल</span>
+          <div className="w-12 h-12 rounded-full bg-[#003366] text-white flex flex-col items-center justify-center border-2 border-orange-400 shadow-md flex-shrink-0">
+            <span className="text-[9px] font-extrabold tracking-tighter leading-none text-orange-300">मॉयल</span>
             <span className="text-[10px] font-black tracking-wider leading-none">MOIL</span>
           </div>
           <div>
@@ -116,7 +116,7 @@ export const Header: React.FC = () => {
         {/* Center: Official National Emblem of India (Ashok Stambha) */}
         <div className="hidden md:flex flex-col items-center justify-center">
           <div className="w-10 h-12 flex flex-col items-center justify-center">
-            <Landmark className="w-7 h-7 text-amber-700" />
+            <Landmark className="w-7 h-7 text-orange-700" />
             <span className="text-[9px] font-bold text-slate-800 tracking-widest uppercase mt-0.5 font-serif">
               सत्यमेव जयते
             </span>
@@ -127,7 +127,7 @@ export const Header: React.FC = () => {
         <div className="flex items-center gap-4">
           <div className="hidden lg:flex flex-col text-right">
             <div className="flex items-center gap-1 text-xs font-bold text-[#003366]">
-              <Layers className="w-3.5 h-3.5 text-amber-600" />
+              <Layers className="w-3.5 h-3.5 text-orange-600" />
               <span>MnVision 360 GIS</span>
             </div>
             <span className="text-[10px] text-slate-500 font-medium">Balaghat Belt Operations</span>
@@ -164,12 +164,12 @@ export const Header: React.FC = () => {
                   to={item.path} 
                   className={({ isActive }) => 
                     `inline-flex items-center gap-1 px-3.5 py-3 border-b-2 transition-colors ${
-                      isActive ? 'border-[#003366] text-[#003366] font-extrabold bg-blue-50/50' : 'border-transparent hover:text-amber-700 hover:border-amber-500'
+                      isActive ? 'border-[#003366] text-[#003366] font-extrabold bg-blue-50/50' : 'border-transparent hover:text-orange-700 hover:border-orange-500'
                     }`
                   }
                 >
                   <span>{item.label}</span>
-                  {item.hasDropdown && <ChevronDown className="w-3 h-3 text-amber-600" />}
+                  {item.hasDropdown && <ChevronDown className="w-3 h-3 text-orange-600" />}
                 </NavLink>
 
                 {/* Mega-Menu Dropdown for Exploration */}
@@ -214,7 +214,7 @@ export const Header: React.FC = () => {
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="JWT Active & Enforced" />
                     {user.username}
                   </span>
-                  <span className="text-[10px] text-amber-700 font-extrabold uppercase mt-0.5">
+                  <span className="text-[10px] text-orange-700 font-extrabold uppercase mt-0.5">
                     [{user.role}]
                   </span>
                 </div>
@@ -231,9 +231,9 @@ export const Header: React.FC = () => {
             ) : (
               <NavLink
                 to="/login"
-                className="bg-[#003366] text-white px-3 py-1 rounded text-[11px] font-bold hover:bg-[#002244] transition flex items-center gap-1 border border-[#D4AF37] shadow-sm"
+                className="bg-[#003366] text-white px-3 py-1 rounded text-[11px] font-bold hover:bg-[#002244] transition flex items-center gap-1 border border-[#F28C28] shadow-sm"
               >
-                <User className="w-3.5 h-3.5 text-[#D4AF37]" />
+                <User className="w-3.5 h-3.5 text-[#F28C28]" />
                 <span>Login</span>
               </NavLink>
             )}

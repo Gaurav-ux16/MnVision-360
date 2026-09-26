@@ -25,7 +25,7 @@ export const KPICard: React.FC<KPICardProps> = ({
 }) => {
   const statusColor = {
     ok: 'border-slate-200 hover:border-[#1E3A8A]',
-    warning: 'border-amber-300 bg-amber-50/50',
+    warning: 'border-orange-300 bg-orange-50/50',
     danger: 'border-red-300 bg-red-50/50',
   }[status];
 
@@ -56,7 +56,7 @@ export const KPICard: React.FC<KPICardProps> = ({
 
       {isPrototype && (
         <div className="mt-1 flex justify-end">
-          <span className="text-[9px] uppercase tracking-wider text-amber-700 font-bold">
+          <span className="text-[9px] uppercase tracking-wider text-orange-700 font-bold">
             Simulation Data
           </span>
         </div>

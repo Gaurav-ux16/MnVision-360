@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Map } from '../components/Map';
 import { PrototypeBadge } from '../components/PrototypeBadge';
+import { TargetDrawer, TargetData } from '../components/TargetDrawer';
+import { GeoLayersSection } from '../components/GeoLayersSection';
+import { SubsurfaceLayerIntelligence } from '../components/SubsurfaceLayerIntelligence';
+import { IndiaManganeseMapSection } from '../components/IndiaManganeseMapSection';
+import { workflowApi } from '../services/api';
 import { 
   Calendar, Layers, MapPin, Sparkles, 
   CheckSquare, Square, Wrench, Search, ChevronUp, ChevronDown, 
@@ -10,8 +15,9 @@ import {
 } from 'lucide-react';
 
 interface ProspectTarget {
-  rank: number;
   id: string;
+  target_id: string;
+  mn_target_code: string;
   name: string;
   score: number;
   area: number;
@@ -28,28 +34,39 @@ interface ProspectTarget {
   cemAnomaly?: number;
 }
 
-const PROSPECT_TARGETS: ProspectTarget[] = [
+const DEFAULT_TARGETS: ProspectTarget[] = [
   {
-    rank: 1,
     id: 'Target-1',
+    target_id: 'Target-1',
+    mn_target_code: 'MN-TGT-001',
     name: 'Target 1',
-    score: 0.92,
-    area: 12.8,
-    status: 'Very High',
-    lat: 21.84,
-    lng: 80.72,
-    predictedGrade: '28.4% - 34.7% Mn',
-    confidence: 86,
+    rank: 1,
+    priority_level: 'Very High',
+    prospectivity_score: 0.92,
+    confidence_pct: 86.0,
     applicability: 'HIGH',
-    ndvi: 0.68,
-    bandRatio: 2.14,
-    demSlope: 12.6,
-    geologyMatch: 'High (Mansar Group)',
-    cemAnomaly: 0.88,
+    area_sqkm: 12.8,
+    latitude: 21.84,
+    longitude: 80.72,
+    predicted_grade: '28.4% - 34.7% Mn',
+    geology_match: 'High (Mansar Formation Quartzite / Mn Ore)',
+    recommended_action: 'Priority diamond core verification drillhole recommended at (21.84 N, 80.72 E).',
+    evidence: {
+      cem_anomaly: 0.88,
+      structural_lineament_density: 0.81,
+      geophysics_gravity: 0.62,
+      geochemistry_mn_ppm: 2840.0,
+      sar_polarization_ratio: 0.68,
+      dem_slope_deg: 12.6
+    },
+    scientific_safety_note: 'Priority exploration target - Requires field validation.',
+    has_production_data: true
   },
   {
     rank: 2,
     id: 'Target-2',
+    target_id: 'Target-2',
+    mn_target_code: 'MN-TGT-002',
     name: 'Target 2',
     score: 0.76,
     area: 14.2,
@@ -59,11 +76,22 @@ const PROSPECT_TARGETS: ProspectTarget[] = [
     predictedGrade: '22.0% - 28.5% Mn',
     confidence: 79,
     applicability: 'HIGH',
-    ndvi: 0.58,
-    bandRatio: 1.75,
-    demSlope: 9.8,
-    geologyMatch: 'Medium (Chorbaoli)',
-    cemAnomaly: 0.74,
+    area_sqkm: 14.2,
+    latitude: 21.68,
+    longitude: 79.92,
+    predicted_grade: '22.0% - 28.5% Mn',
+    geology_match: 'Medium (Chorbaoli Formation)',
+    recommended_action: 'Outcrop geological mapping & geochemical trenching recommended.',
+    evidence: {
+      cem_anomaly: 0.74,
+      structural_lineament_density: 0.69,
+      geophysics_gravity: 0.52,
+      geochemistry_mn_ppm: 1950.0,
+      sar_polarization_ratio: 0.58,
+      dem_slope_deg: 9.8
+    },
+    scientific_safety_note: 'Priority exploration target - Requires field validation.',
+    has_production_data: true
   },
   {
     rank: 3,
@@ -86,6 +114,8 @@ const PROSPECT_TARGETS: ProspectTarget[] = [
   {
     rank: 4,
     id: 'Target-4',
+    target_id: 'Target-4',
+    mn_target_code: 'MN-TGT-004',
     name: 'Target 4',
     score: 0.69,
     area: 9.7,
@@ -95,11 +125,22 @@ const PROSPECT_TARGETS: ProspectTarget[] = [
     predictedGrade: '19.5% - 24.8% Mn',
     confidence: 74,
     applicability: 'MEDIUM',
-    ndvi: 0.52,
-    bandRatio: 1.62,
-    demSlope: 8.4,
-    geologyMatch: 'Medium (Sausar Group)',
-    cemAnomaly: 0.61,
+    area_sqkm: 9.7,
+    latitude: 21.62,
+    longitude: 80.31,
+    predicted_grade: '19.5% - 24.8% Mn',
+    geology_match: 'Medium (Sausar Group Contact)',
+    recommended_action: 'Ground magnetics survey to resolve structural uncertainty.',
+    evidence: {
+      cem_anomaly: 0.61,
+      structural_lineament_density: 0.62,
+      geophysics_gravity: 0.48,
+      geochemistry_mn_ppm: 1620.0,
+      sar_polarization_ratio: 0.52,
+      dem_slope_deg: 8.4
+    },
+    scientific_safety_note: 'Priority exploration target - Requires field validation.',
+    has_production_data: false
   },
 ];
 
@@ -163,7 +204,7 @@ export const ExplorationMap: React.FC = () => {
       <PrototypeBadge 
         type="banner" 
         isReal={true} 
-        message="SCIENTIFIC ML PIPELINE — Multi-Source Evidence Fusion (SAR + Optical + DEM + Geochem + CEM Spectral Anomaly + PU Learning & SpatialBlockCV)" 
+        message="MNEXPLORE — Multi-Source Earth Observation & AI Prospectivity Analysis (Balaghat Manganese Belt)" 
       />
 
       {/* ------------------------------------------------ */}
@@ -663,3 +704,4 @@ export const ExplorationMap: React.FC = () => {
     </div>
   );
 };
+

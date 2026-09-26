@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Building2, Layers, CheckCircle2, ShieldAlert, ChevronRight, Activity, Zap, Check, AlertTriangle, X } from 'lucide-react';
 import { PrototypeBadge } from '../components/PrototypeBadge';
-import { Link } from 'react-router-dom';
+import { WorkflowStepper } from '../components/WorkflowStepper';
+import { BlockDrawer, MineBlockData } from '../components/BlockDrawer';
+import { Link, useNavigate } from 'react-router-dom';
+import { workflowApi } from '../services/api';
 
 interface MineBlockState {
   block_code: string;
@@ -17,9 +20,23 @@ interface MineBlockState {
 }
 
 export const MineTwin: React.FC = () => {
+  const navigate = useNavigate();
   const [mineState, setMineState] = useState<any>(null);
   const [blocks, setBlocks] = useState<MineBlockState[]>([]);
+  const [selectedBlock, setSelectedBlock] = useState<MineBlockData | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const handleProceedToShortfall = async () => {
+    try {
+      await workflowApi.updateState({
+        currentStage: 'shortfall',
+        blockIds: ['BLK-BAL-01', 'BLK-BAL-02']
+      });
+    } catch (e) {
+      console.warn('Failed to update workflow state:', e);
+    }
+    navigate('/production');
+  };
 
   useEffect(() => {
     fetch('/api/minetwin')
@@ -36,7 +53,7 @@ export const MineTwin: React.FC = () => {
 
   const getReadinessBadge = (score: number) => {
     if (score >= 85) return 'bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-xs';
-    if (score >= 75) return 'bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded text-xs';
+    if (score >= 75) return 'bg-orange-100 text-orange-800 font-bold px-2 py-0.5 rounded text-xs';
     return 'bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded text-xs';
   };
 
@@ -45,8 +62,11 @@ export const MineTwin: React.FC = () => {
       <PrototypeBadge 
         type="banner" 
         isReal={true} 
-        message="PROTOTYPE SIMULATION DATA — MineTwin Operational State & Block Readiness Matrix" 
+        message="STAGE 6 & 7: MINE TWIN TELEMETRY & TREE SHAP ROOT-CAUSE ANALYSIS" 
       />
+
+      {/* 11-Stage Workflow Navigator */}
+      <WorkflowStepper activeStep={6} />
 
       {/* Page Title Header */}
       <div className="bg-gradient-to-r from-[#1B2170] via-[#313896] to-[#3B42A6] text-white p-6 rounded-2xl border border-[#2B308B] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -55,7 +75,7 @@ export const MineTwin: React.FC = () => {
             <Building2 className="w-4 h-4 text-amber-300" />
             <span>MOIL UNDERGROUND MINE DIGITAL TWIN</span>
           </div>
-          <h1 className="text-2xl font-bold font-serif text-white mt-1">
+          <h1 className="text-xl md:text-2xl font-serif font-bold text-white tracking-tight">
             MineTwin Operational State & Block Readiness Matrix
           </h1>
           <p className="text-xs text-blue-100/90 mt-1">
@@ -112,6 +132,33 @@ export const MineTwin: React.FC = () => {
                   <td className="py-3.5 px-4 text-right font-mono font-semibold text-[#313896]">
                     {block.status}
                   </td>
+                  <td className="py-3.5 px-4 text-right">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedBlock({
+                          block_code: block.block_code,
+                          development_pct: block.development_pct,
+                          access_pct: block.access_pct,
+                          drilling_pct: block.drilling_pct,
+                          blasting_pct: block.blasting_pct,
+                          readiness_score: block.readiness_score,
+                          estimated_ore_tonnes: block.estimated_ore_tonnes,
+                          mn_grade_pct: block.mn_grade_pct,
+                          fe_grade_pct: block.fe_grade_pct || 6.2,
+                          status: block.status,
+                          level_m: 385,
+                          ventilation_status: 'NORMAL (18.4 m³/s)',
+                          water_risk: 'LOW (12 L/min seepage)',
+                          equipment_available: true
+                        });
+                      }}
+                      className="px-3.5 py-1.5 bg-[#EBEFFA] hover:bg-[#D0DCF5] text-[#1769AA] text-[11px] font-bold rounded-full transition border border-[#D0DCF5] inline-flex items-center gap-1 shadow-sm"
+                    >
+                      <Layers className="w-3 h-3 text-[#1769AA]" />
+                      <span>INSPECT</span>
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -129,6 +176,17 @@ export const MineTwin: React.FC = () => {
           <ChevronRight className="w-4 h-4 text-amber-300" />
         </Link>
       </div>
+
+      {/* Contextual Mine Block Drawer */}
+      <BlockDrawer
+        isOpen={Boolean(selectedBlock)}
+        onClose={() => setSelectedBlock(null)}
+        block={selectedBlock}
+        onSimulateWhatIf={(block) => {
+          setSelectedBlock(null);
+          navigate('/whatif');
+        }}
+      />
     </div>
   );
 };

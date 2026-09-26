@@ -2,46 +2,46 @@
   "ElkanNotoPULearner": {
     "spatial_blocks_count": 6,
     "cv_folds": 3,
-    "roc_auc": 0.9946008186376442,
-    "roc_auc_std": 0.006678062945086861,
-    "pr_auc": 0.9883474230938808,
-    "accuracy": 0.9750942040580692,
-    "precision": 0.5279179366420743,
-    "recall": 0.595840554592721,
-    "f1": 0.5585752178855627,
+    "roc_auc": 0.8319485023944703,
+    "roc_auc_std": 0.05219084376084594,
+    "pr_auc": 0.43610337588501613,
+    "accuracy": 0.8441836099523528,
+    "precision": 0.21949936361701067,
+    "recall": 0.3660826044109151,
+    "f1": 0.2419931296883354,
     "confusion_matrix": [
       [
-        10421,
-        220
+        8940,
+        1701
       ],
       [
-        12,
-        974
+        319,
+        667
       ]
     ],
     "spatial_leakage_prevented": true
   },
-  "propensity_constant_c": 0.8802338324090422,
+  "propensity_constant_c": 0.6268521353353326,
   "top_features": [
     {
-      "feature": "dist_chem_km",
-      "importance": 0.4768117751779118
-    },
-    {
-      "feature": "nearest_mno_pct",
-      "importance": 0.16518223894623238
-    },
-    {
       "feature": "soil_moisture",
-      "importance": 0.07665842862371826
+      "importance": 0.22795753810685407
     },
     {
       "feature": "dist_roads_km",
-      "importance": 0.07320319637110609
+      "importance": 0.19765677319935032
     },
     {
       "feature": "rainfall",
-      "importance": 0.05124069737120911
+      "importance": 0.14366199921134284
+    },
+    {
+      "feature": "landsat_b4",
+      "importance": 0.07449793970666656
+    },
+    {
+      "feature": "landsat_b2",
+      "importance": 0.05223674152245736
     }
   ]
 }
