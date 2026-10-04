@@ -9,47 +9,72 @@ import { IndiaManganeseMapSection } from '../components/IndiaManganeseMapSection
 import { workflowApi } from '../services/api';
 import { 
   Calendar, Layers, MapPin, Sparkles, 
-  CheckSquare, Square, Wrench, Search, ChevronUp, ChevronDown, 
+  CheckSquare, Square, Wrench, Search, ChevronUp, ChevronDown, ChevronLeft, ChevronRight,
   Plus, Mountain, BarChart3, Target, Clock, ArrowRight, ShieldCheck, Activity,
   Ruler, Download, Upload, Compass, Filter, FileText
 } from 'lucide-react';
 
 interface ProspectTarget {
   id: string;
-  target_id: string;
-  mn_target_code: string;
+  target_id?: string;
+  mn_target_code?: string;
   name: string;
-  score: number;
-  area: number;
-  status: 'Very High' | 'High' | 'Medium' | 'Low';
-  lat: number;
-  lng: number;
-  predictedGrade: string;
-  confidence: number;
-  applicability: 'HIGH' | 'MEDIUM' | 'LOW';
-  ndvi: number;
-  bandRatio: number;
-  demSlope: number;
-  geologyMatch: string;
+  rank?: number;
+  score?: number;
+  priority_level?: string;
+  prospectivity_score?: number;
+  confidence_pct?: number;
+  area?: number;
+  area_sqkm?: number;
+  status?: string;
+  lat?: number;
+  lng?: number;
+  latitude?: number;
+  longitude?: number;
+  predictedGrade?: string;
+  predicted_grade?: string;
+  confidence?: number;
+  applicability?: string;
+  geology_match?: string;
+  recommended_action?: string;
+  evidence?: any;
+  scientific_safety_note?: string;
+  has_production_data?: boolean;
+  ndvi?: number;
+  bandRatio?: number;
+  demSlope?: number;
+  geologyMatch?: string;
   cemAnomaly?: number;
 }
 
-const DEFAULT_TARGETS: ProspectTarget[] = [
+const PROSPECT_TARGETS: ProspectTarget[] = [
   {
     id: 'Target-1',
     target_id: 'Target-1',
     mn_target_code: 'MN-TGT-001',
     name: 'Target 1',
     rank: 1,
+    status: 'Very High',
     priority_level: 'Very High',
+    score: 0.92,
     prospectivity_score: 0.92,
+    confidence: 86,
     confidence_pct: 86.0,
     applicability: 'HIGH',
+    area: 12.8,
     area_sqkm: 12.8,
+    lat: 21.84,
     latitude: 21.84,
+    lng: 80.72,
     longitude: 80.72,
+    predictedGrade: '28.4% - 34.7% Mn',
     predicted_grade: '28.4% - 34.7% Mn',
+    ndvi: 0.58,
+    bandRatio: 2.14,
+    demSlope: 12.6,
+    geologyMatch: 'High (Mansar Formation Quartzite / Mn Ore)',
     geology_match: 'High (Mansar Formation Quartzite / Mn Ore)',
+    cemAnomaly: 0.88,
     recommended_action: 'Priority diamond core verification drillhole recommended at (21.84 N, 80.72 E).',
     evidence: {
       cem_anomaly: 0.88,
@@ -63,24 +88,32 @@ const DEFAULT_TARGETS: ProspectTarget[] = [
     has_production_data: true
   },
   {
-    rank: 2,
     id: 'Target-2',
     target_id: 'Target-2',
     mn_target_code: 'MN-TGT-002',
     name: 'Target 2',
-    score: 0.76,
-    area: 14.2,
+    rank: 2,
     status: 'High',
-    lat: 21.66,
-    lng: 79.98,
-    predictedGrade: '22.0% - 28.5% Mn',
+    priority_level: 'High',
+    score: 0.76,
+    prospectivity_score: 0.76,
     confidence: 79,
+    confidence_pct: 79.0,
     applicability: 'HIGH',
+    area: 14.2,
     area_sqkm: 14.2,
-    latitude: 21.68,
-    longitude: 79.92,
+    lat: 21.66,
+    latitude: 21.66,
+    lng: 79.98,
+    longitude: 79.98,
+    predictedGrade: '22.0% - 28.5% Mn',
     predicted_grade: '22.0% - 28.5% Mn',
+    ndvi: 0.52,
+    bandRatio: 1.84,
+    demSlope: 9.8,
+    geologyMatch: 'Medium (Chorbaoli Formation)',
     geology_match: 'Medium (Chorbaoli Formation)',
+    cemAnomaly: 0.74,
     recommended_action: 'Outcrop geological mapping & geochemical trenching recommended.',
     evidence: {
       cem_anomaly: 0.74,
@@ -94,42 +127,71 @@ const DEFAULT_TARGETS: ProspectTarget[] = [
     has_production_data: true
   },
   {
-    rank: 3,
     id: 'Target-3',
+    target_id: 'Target-3',
+    mn_target_code: 'MN-TGT-003',
     name: 'Target 3',
-    score: 0.87,
-    area: 10.4,
+    rank: 3,
     status: 'Very High',
-    lat: 21.83,
-    lng: 79.78,
-    predictedGrade: '26.1% - 32.0% Mn',
+    priority_level: 'Very High',
+    score: 0.87,
+    prospectivity_score: 0.87,
     confidence: 84,
+    confidence_pct: 84.0,
     applicability: 'HIGH',
+    area: 10.4,
+    area_sqkm: 10.4,
+    lat: 21.83,
+    latitude: 21.83,
+    lng: 79.78,
+    longitude: 79.78,
+    predictedGrade: '26.1% - 32.0% Mn',
+    predicted_grade: '26.1% - 32.0% Mn',
     ndvi: 0.64,
     bandRatio: 1.98,
     demSlope: 11.2,
     geologyMatch: 'High (Tirodi Gneiss)',
+    geology_match: 'High (Tirodi Gneiss)',
     cemAnomaly: 0.82,
+    recommended_action: 'Subsurface drilling recommended along Tirodi contact boundary.',
+    evidence: {
+      cem_anomaly: 0.82,
+      structural_lineament_density: 0.77,
+      geophysics_gravity: 0.59,
+      geochemistry_mn_ppm: 2410.0,
+      sar_polarization_ratio: 0.63,
+      dem_slope_deg: 11.2
+    },
+    scientific_safety_note: 'Priority exploration target - Requires field validation.',
+    has_production_data: true
   },
   {
-    rank: 4,
     id: 'Target-4',
     target_id: 'Target-4',
     mn_target_code: 'MN-TGT-004',
     name: 'Target 4',
-    score: 0.69,
-    area: 9.7,
+    rank: 4,
     status: 'High',
-    lat: 21.56,
-    lng: 80.32,
-    predictedGrade: '19.5% - 24.8% Mn',
+    priority_level: 'High',
+    score: 0.69,
+    prospectivity_score: 0.69,
     confidence: 74,
+    confidence_pct: 74.0,
     applicability: 'MEDIUM',
+    area: 9.7,
     area_sqkm: 9.7,
-    latitude: 21.62,
-    longitude: 80.31,
+    lat: 21.56,
+    latitude: 21.56,
+    lng: 80.32,
+    longitude: 80.32,
+    predictedGrade: '19.5% - 24.8% Mn',
     predicted_grade: '19.5% - 24.8% Mn',
+    ndvi: 0.46,
+    bandRatio: 1.62,
+    demSlope: 8.4,
+    geologyMatch: 'Medium (Sausar Group Contact)',
     geology_match: 'Medium (Sausar Group Contact)',
+    cemAnomaly: 0.61,
     recommended_action: 'Ground magnetics survey to resolve structural uncertainty.',
     evidence: {
       cem_anomaly: 0.61,
@@ -165,11 +227,28 @@ export const ExplorationMap: React.FC = () => {
     setActiveLayers(prev => ({ ...prev, [layerKey]: !prev[layerKey] }));
   };
 
-  // Target Selection State (Default Target 1 matching image)
+  // Target & Mine Selection State
   const [selectedTargetId, setSelectedTargetId] = useState('Target-1');
+  const [selectedMineId, setSelectedMineId] = useState<string | null>('mine-balaghat');
   const selectedTarget = PROSPECT_TARGETS.find(t => t.id === selectedTargetId) || PROSPECT_TARGETS[0];
 
-  // Left Sidebar Accordion & Tab State
+  const handleAOIChange = (aoi: string) => {
+    setSelectedAOI(aoi);
+    if (aoi.includes('Balaghat')) {
+      setSelectedMineId('mine-balaghat');
+      setSelectedTargetId('Target-1');
+    } else if (aoi.includes('Bhandara')) {
+      setSelectedMineId('mine-dongri');
+      setSelectedTargetId('Target-2');
+    } else {
+      setSelectedMineId('mine-mansar');
+      setSelectedTargetId('Target-4');
+    }
+  };
+
+  // Sidebar & Accordion State
+  const [isLeftSidebarVisible, setIsLeftSidebarVisible] = useState(true);
+  const [isRightSidebarVisible, setIsRightSidebarVisible] = useState(true);
   const [sidebarTab, setSidebarTab] = useState<'layers' | 'tools'>('layers');
   const [layerSearch, setLayerSearch] = useState('');
   const [aiLayersOpen, setAiLayersOpen] = useState(true);
@@ -204,7 +283,7 @@ export const ExplorationMap: React.FC = () => {
       <PrototypeBadge 
         type="banner" 
         isReal={true} 
-        message="MNEXPLORE — Multi-Source Earth Observation & AI Prospectivity Analysis (Balaghat Manganese Belt)" 
+        message="MNEXPLORE â€” Multi-Source Earth Observation & AI Prospectivity Analysis (Balaghat Manganese Belt)" 
       />
 
       {/* ------------------------------------------------ */}
@@ -235,7 +314,7 @@ export const ExplorationMap: React.FC = () => {
             <MapPin className="w-3.5 h-3.5 text-[#003366] shrink-0" />
             <select 
               value={selectedAOI}
-              onChange={(e) => setSelectedAOI(e.target.value)}
+              onChange={(e) => handleAOIChange(e.target.value)}
               className="bg-transparent border-none text-xs font-extrabold text-[#003366] focus:outline-none cursor-pointer"
             >
               <option value="Nagpur Extension Belt">Nagpur Extension Belt</option>
@@ -267,175 +346,200 @@ export const ExplorationMap: React.FC = () => {
         {/* ================================================ */}
         {/* COLUMN 1: LEFT SIDEBAR (LAYERS & TOOLS)          */}
         {/* ================================================ */}
-        <div className="lg:col-span-3 bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs space-y-3">
-          
-          {/* Top Tabs: Layers vs Tools */}
-          <div className="grid grid-cols-2 gap-1.5 bg-slate-100 p-1 rounded-lg border border-slate-200">
-            <button
-              onClick={() => setSidebarTab('layers')}
-              className={`py-1.5 px-3 rounded-md font-extrabold text-xs transition flex items-center justify-center gap-1.5 ${
-                sidebarTab === 'layers' 
-                  ? 'bg-[#003366] text-white shadow-xs' 
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+        {isLeftSidebarVisible && (
+          <div className="lg:col-span-3 bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs space-y-3 relative">
+            <button 
+              onClick={() => setIsLeftSidebarVisible(false)}
+              className="absolute -right-3 top-3 bg-white border border-slate-300 p-1 rounded-full shadow-md z-10 hover:bg-slate-50 text-slate-500 hidden lg:block"
+              title="Hide Sidebar"
             >
-              <Layers className="w-3.5 h-3.5" />
-              <span>Layers</span>
+              <ChevronLeft className="w-4 h-4" />
             </button>
-            <button
-              onClick={() => setSidebarTab('tools')}
-              className={`py-1.5 px-3 rounded-md font-extrabold text-xs transition flex items-center justify-center gap-1.5 ${
-                sidebarTab === 'tools' 
-                  ? 'bg-[#003366] text-white shadow-xs' 
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              <Wrench className="w-3.5 h-3.5" />
-              <span>Tools</span>
-            </button>
-          </div>
-
-          {sidebarTab === 'layers' ? (
-            <>
-              {/* Search Layers Input */}
-              <div className="flex items-center gap-2 bg-slate-50 border border-slate-300 px-2.5 py-1.5 rounded-lg text-xs">
-                <Search className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                <input
-                  type="text"
-                  placeholder="Search layers..."
-                  value={layerSearch}
-                  onChange={(e) => setLayerSearch(e.target.value)}
-                  className="w-full bg-transparent border-none outline-none text-xs text-slate-800 placeholder-slate-400 font-medium"
-                />
-              </div>
-
-              {/* Layer List Accordions */}
-              <div className="space-y-3 text-xs">
-
-                {/* Accordion 1: AI Prospectivity Layers */}
-                <div className="border-b border-slate-100 pb-2">
-                  <button
-                    onClick={() => setAiLayersOpen(!aiLayersOpen)}
-                    className="w-full flex items-center justify-between font-extrabold text-[#003366] py-1 text-left"
-                  >
-                    <div className="flex items-center gap-2">
-                      <Layers className="w-3.5 h-3.5 text-[#003366]" />
-                      <span>AI Prospectivity Layers</span>
-                    </div>
-                    {aiLayersOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                  </button>
-
-                  {aiLayersOpen && (
-                    <div className="mt-1.5 space-y-1.5 pl-1 font-semibold text-slate-700">
-                      {filteredAiLayers.map(item => (
-                        <div 
-                          key={item.key}
-                          onClick={() => toggleLayer(item.key)} 
-                          className="flex items-center gap-2.5 cursor-pointer hover:text-[#003366] transition py-0.5"
-                        >
-                          {activeLayers[item.key] ? (
-                            <CheckSquare className="w-4 h-4 text-[#003366] shrink-0" />
-                          ) : (
-                            <Square className="w-4 h-4 text-slate-400 shrink-0" />
-                          )}
-                          <span className={activeLayers[item.key] ? "text-[#003366] font-bold" : "text-slate-700"}>
-                            {item.label}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Accordion 2: Reference Layers */}
-                <div className="border-b border-slate-100 pb-2">
-                  <button
-                    onClick={() => setRefLayersOpen(!refLayersOpen)}
-                    className="w-full flex items-center justify-between font-extrabold text-slate-700 py-1 text-left hover:text-[#003366]"
-                  >
-                    <div className="flex items-center gap-2">
-                      <Layers className="w-3.5 h-3.5 text-slate-500" />
-                      <span>Reference Layers</span>
-                    </div>
-                    {refLayersOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                  </button>
-                  {refLayersOpen && (
-                    <div className="mt-2">
-                      <select className="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs font-bold text-slate-800 outline-none cursor-pointer">
-                        <option>AOI & Boundaries</option>
-                        <option>Mining Lease Areas</option>
-                        <option>Administrative Zones</option>
-                      </select>
-                    </div>
-                  )}
-                </div>
-
-                {/* Accordion 3: Base Maps */}
-                <div className="pb-1">
-                  <button
-                    onClick={() => setBaseMapsOpen(!baseMapsOpen)}
-                    className="w-full flex items-center justify-between font-extrabold text-slate-700 py-1 text-left hover:text-[#003366]"
-                  >
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-3.5 h-3.5 text-slate-500" />
-                      <span>Base Maps</span>
-                    </div>
-                    {baseMapsOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                  </button>
-                </div>
-
-              </div>
-
-              {/* Add Custom Layer CTA */}
-              <button 
-                onClick={() => setIsAddLayerOpen(true)}
-                className="w-full py-2 bg-white hover:bg-slate-50 text-[#003366] font-extrabold rounded-lg text-xs transition border border-[#003366] flex items-center justify-center gap-1.5 shadow-xs"
+            
+            {/* Top Tabs: Layers vs Tools */}
+            <div className="grid grid-cols-2 gap-1.5 bg-slate-100 p-1 rounded-lg border border-slate-200">
+              <button
+                onClick={() => setSidebarTab('layers')}
+                className={`py-1.5 px-3 rounded-md font-extrabold text-xs transition flex items-center justify-center gap-1.5 ${
+                  sidebarTab === 'layers' 
+                    ? 'bg-[#003366] text-white shadow-xs' 
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
               >
-                <Plus className="w-3.5 h-3.5" />
-                <span>Add Custom Layer</span>
+                <Layers className="w-3.5 h-3.5" />
+                <span>Layers</span>
               </button>
-            </>
-          ) : (
-            /* Tools Sidebar Tab Content */
-            <div className="space-y-3 text-xs">
-              <div className="font-extrabold text-[#003366] border-b pb-1.5 flex items-center gap-1.5">
+              <button
+                onClick={() => setSidebarTab('tools')}
+                className={`py-1.5 px-3 rounded-md font-extrabold text-xs transition flex items-center justify-center gap-1.5 ${
+                  sidebarTab === 'tools' 
+                    ? 'bg-[#003366] text-white shadow-xs' 
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
                 <Wrench className="w-3.5 h-3.5" />
-                <span>GIS Spatial Utilities</span>
-              </div>
-
-              <button className="w-full p-2 rounded bg-slate-50 border border-slate-200 hover:bg-blue-50 text-slate-700 text-left flex items-center gap-2 font-semibold">
-                <Ruler className="w-4 h-4 text-[#003366]" />
-                <div>
-                  <div className="font-bold">Measure Distance & Area</div>
-                  <div className="text-[10px] text-slate-500">Calculate spatial length & perimeter</div>
-                </div>
-              </button>
-
-              <button className="w-full p-2 rounded bg-slate-50 border border-slate-200 hover:bg-blue-50 text-slate-700 text-left flex items-center gap-2 font-semibold">
-                <Compass className="w-4 h-4 text-[#003366]" />
-                <div>
-                  <div className="font-bold">Coordinate Converter</div>
-                  <div className="text-[10px] text-slate-500">EPSG:4326 to UTM 44N projection</div>
-                </div>
-              </button>
-
-              <button className="w-full p-2 rounded bg-slate-50 border border-slate-200 hover:bg-blue-50 text-slate-700 text-left flex items-center gap-2 font-semibold">
-                <Download className="w-4 h-4 text-[#003366]" />
-                <div>
-                  <div className="font-bold">Export GeoTIFF / GeoJSON</div>
-                  <div className="text-[10px] text-slate-500">Download prospectivity raster bounds</div>
-                </div>
+                <span>Tools</span>
               </button>
             </div>
-          )}
 
-        </div>
+            {sidebarTab === 'layers' ? (
+              <>
+                {/* Search Layers Input */}
+                <div className="flex items-center gap-2 bg-slate-50 border border-slate-300 px-2.5 py-1.5 rounded-lg text-xs">
+                  <Search className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  <input
+                    type="text"
+                    placeholder="Search layers..."
+                    value={layerSearch}
+                    onChange={(e) => setLayerSearch(e.target.value)}
+                    className="w-full bg-transparent border-none outline-none text-xs text-slate-800 placeholder-slate-400 font-medium"
+                  />
+                </div>
+
+                {/* Layer List Accordions */}
+                <div className="space-y-3 text-xs">
+                  {/* Accordion 1: AI Prospectivity Layers */}
+                  <div className="border-b border-slate-100 pb-2">
+                    <button
+                      onClick={() => setAiLayersOpen(!aiLayersOpen)}
+                      className="w-full flex items-center justify-between font-extrabold text-[#003366] py-1 text-left"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Layers className="w-3.5 h-3.5 text-[#003366]" />
+                        <span>AI Prospectivity Layers</span>
+                      </div>
+                      {aiLayersOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                    </button>
+
+                    {aiLayersOpen && (
+                      <div className="mt-1.5 space-y-1.5 pl-1 font-semibold text-slate-700">
+                        {filteredAiLayers.map(item => (
+                          <div 
+                            key={item.key}
+                            onClick={() => toggleLayer(item.key)} 
+                            className="flex items-center gap-2.5 cursor-pointer hover:text-[#003366] transition py-0.5"
+                          >
+                            {activeLayers[item.key] ? (
+                              <CheckSquare className="w-4 h-4 text-[#003366] shrink-0" />
+                            ) : (
+                              <Square className="w-4 h-4 text-slate-400 shrink-0" />
+                            )}
+                            <span className={activeLayers[item.key] ? "text-[#003366] font-bold" : "text-slate-700"}>
+                              {item.label}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Accordion 2: Reference Layers */}
+                  <div className="border-b border-slate-100 pb-2">
+                    <button
+                      onClick={() => setRefLayersOpen(!refLayersOpen)}
+                      className="w-full flex items-center justify-between font-extrabold text-slate-700 py-1 text-left hover:text-[#003366]"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Layers className="w-3.5 h-3.5 text-slate-500" />
+                        <span>Reference Layers</span>
+                      </div>
+                      {refLayersOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                    </button>
+                    {refLayersOpen && (
+                      <div className="mt-2">
+                        <select className="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs font-bold text-slate-800 outline-none cursor-pointer">
+                          <option>AOI & Boundaries</option>
+                          <option>Mining Lease Areas</option>
+                          <option>Administrative Zones</option>
+                        </select>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Accordion 3: Base Maps */}
+                  <div className="pb-1">
+                    <button
+                      onClick={() => setBaseMapsOpen(!baseMapsOpen)}
+                      className="w-full flex items-center justify-between font-extrabold text-slate-700 py-1 text-left hover:text-[#003366]"
+                    >
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-3.5 h-3.5 text-slate-500" />
+                        <span>Base Maps</span>
+                      </div>
+                      {baseMapsOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Add Custom Layer CTA */}
+                <button 
+                  onClick={() => setIsAddLayerOpen(true)}
+                  className="w-full py-2 bg-white hover:bg-slate-50 text-[#003366] font-extrabold rounded-lg text-xs transition border border-[#003366] flex items-center justify-center gap-1.5 shadow-xs"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Add Custom Layer</span>
+                </button>
+              </>
+            ) : (
+              /* Tools Sidebar Tab Content */
+              <div className="space-y-3 text-xs">
+                <div className="font-extrabold text-[#003366] border-b pb-1.5 flex items-center gap-1.5">
+                  <Wrench className="w-3.5 h-3.5" />
+                  <span>GIS Spatial Utilities</span>
+                </div>
+
+                <button className="w-full p-2 rounded bg-slate-50 border border-slate-200 hover:bg-blue-50 text-slate-700 text-left flex items-center gap-2 font-semibold">
+                  <Ruler className="w-4 h-4 text-[#003366]" />
+                  <div>
+                    <div className="font-bold">Measure Distance & Area</div>
+                    <div className="text-[10px] text-slate-500">Calculate spatial length & perimeter</div>
+                  </div>
+                </button>
+
+                <button className="w-full p-2 rounded bg-slate-50 border border-slate-200 hover:bg-blue-50 text-slate-700 text-left flex items-center gap-2 font-semibold">
+                  <Compass className="w-4 h-4 text-[#003366]" />
+                  <div>
+                    <div className="font-bold">Coordinate Converter</div>
+                    <div className="text-[10px] text-slate-500">EPSG:4326 to UTM 44N projection</div>
+                  </div>
+                </button>
+
+                <button className="w-full p-2 rounded bg-slate-50 border border-slate-200 hover:bg-blue-50 text-slate-700 text-left flex items-center gap-2 font-semibold">
+                  <Download className="w-4 h-4 text-[#003366]" />
+                  <div>
+                    <div className="font-bold">Export GeoTIFF / GeoJSON</div>
+                    <div className="text-[10px] text-slate-500">Download prospectivity raster bounds</div>
+                  </div>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* ================================================ */}
         {/* COLUMN 2: CENTER MAP & COMPACT KPI BAR           */}
         {/* ================================================ */}
-        <div className="lg:col-span-6 space-y-3">
-          
+        <div className={`lg:col-span-${(isLeftSidebarVisible ? 0 : 3) + (isRightSidebarVisible ? 0 : 3) + 6} space-y-3 relative`}>
+          {!isLeftSidebarVisible && (
+            <button 
+              onClick={() => setIsLeftSidebarVisible(true)}
+              className="absolute -left-4 top-3 bg-white border border-slate-300 p-1.5 rounded-r-md shadow-md z-10 hover:bg-slate-50 text-slate-500 hidden lg:block"
+              title="Show Sidebar"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          )}
+
+          {!isRightSidebarVisible && (
+            <button 
+              onClick={() => setIsRightSidebarVisible(true)}
+              className="absolute -right-4 top-3 bg-white border border-slate-300 p-1.5 rounded-l-md shadow-md z-10 hover:bg-slate-50 text-slate-500 hidden lg:block"
+              title="Show Target Inspector"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+          )}
+
           {/* Main Map Box */}
           <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs relative min-h-[480px]">
             <Map 
@@ -448,7 +552,15 @@ export const ExplorationMap: React.FC = () => {
                 lineaments: activeLayers.lineaments,
               }}
               selectedTarget={selectedTargetId}
+              selectedMineId={selectedMineId}
               onMarkerClick={(targetId) => setSelectedTargetId(targetId)}
+              onMineClick={(mine) => {
+                setSelectedMineId(mine.id);
+                setSelectedTargetId(mine.primaryTargetId);
+              }}
+              onResetOverview={() => {
+                setSelectedMineId(null);
+              }}
             />
           </div>
 
@@ -460,7 +572,7 @@ export const ExplorationMap: React.FC = () => {
               </div>
               <div>
                 <span className="text-[9px] text-slate-500 font-bold uppercase block leading-none">TOTAL AOI AREA</span>
-                <strong className="text-slate-900 font-mono text-sm font-extrabold mt-1 block">1,247 km²</strong>
+                <strong className="text-slate-900 font-mono text-sm font-extrabold mt-1 block">1,247 kmÂ²</strong>
               </div>
             </div>
 
@@ -470,7 +582,7 @@ export const ExplorationMap: React.FC = () => {
               </div>
               <div>
                 <span className="text-[9px] text-slate-500 font-bold uppercase block leading-none">HIGH & VERY HIGH</span>
-                <strong className="text-slate-900 font-mono text-sm font-extrabold mt-1 block">449 km² (36%)</strong>
+                <strong className="text-slate-900 font-mono text-sm font-extrabold mt-1 block">449 kmÂ² (36%)</strong>
               </div>
             </div>
 
@@ -500,7 +612,15 @@ export const ExplorationMap: React.FC = () => {
         {/* COLUMN 3: RIGHT SIDEBAR (TARGET INSPECTOR CARD)  */}
         {/* MATCHING media_1789639729431.png EXACTLY         */}
         {/* ================================================ */}
-        <div className="lg:col-span-3 space-y-3">
+        {isRightSidebarVisible && (
+          <div className="lg:col-span-3 space-y-3 relative">
+            <button 
+              onClick={() => setIsRightSidebarVisible(false)}
+              className="absolute -left-3 top-3 bg-[#091527] border border-slate-700 p-1 rounded-full shadow-md z-20 hover:bg-slate-800 text-slate-400 hidden lg:block"
+              title="Hide Target Inspector"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
 
           {/* TARGET INSPECTOR CARD */}
           <div className="bg-[#091527] text-white rounded-2xl border border-slate-800 p-4 shadow-2xl space-y-4 font-sans relative">
@@ -508,19 +628,19 @@ export const ExplorationMap: React.FC = () => {
             <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
               <div className="flex items-center gap-2">
                 <span className={`w-3 h-3 rounded-full animate-pulse shadow-md ${
-                  selectedTarget.status === 'Very High' ? 'bg-red-600 shadow-red-600/50' : 'bg-orange-500 shadow-orange-500/50'
+                  (selectedTarget?.status || selectedTarget?.priority_level) === 'Very High' ? 'bg-red-600 shadow-red-600/50' : 'bg-orange-500 shadow-orange-500/50'
                 }`} />
                 <h3 className="text-base font-bold font-serif text-white tracking-tight flex items-center gap-1.5">
-                  <span>{selectedTarget.name}</span>
+                  <span>{selectedTarget?.name || 'Target 1'}</span>
                 </h3>
               </div>
 
               <span className={`text-[10px] font-extrabold px-3 py-1 rounded-full border ${
-                selectedTarget.status === 'Very High'
+                (selectedTarget?.status || selectedTarget?.priority_level) === 'Very High'
                   ? 'bg-red-950/80 border-red-800 text-red-300'
                   : 'bg-orange-950/80 border-orange-800 text-orange-300'
               }`}>
-                {selectedTarget.status} Priority
+                {selectedTarget?.status || selectedTarget?.priority_level || 'Very High'} Priority
               </span>
             </div>
 
@@ -552,23 +672,33 @@ export const ExplorationMap: React.FC = () => {
               <div className="col-span-7 space-y-1.5 text-xs">
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400 text-[11px]">Location</span>
-                  <strong className="font-mono text-slate-100 text-[11px]">{selectedTarget.lat.toFixed(2)}° N, {selectedTarget.lng.toFixed(2)}° E</strong>
+                  <strong className="font-mono text-slate-100 text-[11px]">
+                    {(selectedTarget?.lat ?? selectedTarget?.latitude ?? 21.84).toFixed(2)}Â° N, {(selectedTarget?.lng ?? selectedTarget?.longitude ?? 80.72).toFixed(2)}Â° E
+                  </strong>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400 text-[11px]">Area</span>
-                  <strong className="font-mono text-slate-100 text-[11px]">{selectedTarget.area} km²</strong>
+                  <strong className="font-mono text-slate-100 text-[11px]">
+                    {selectedTarget?.area ?? selectedTarget?.area_sqkm ?? 12.8} kmÂ²
+                  </strong>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400 text-[11px]">Avg. Prospectivity Score</span>
-                  <strong className="font-mono text-slate-100 font-extrabold text-xs">{selectedTarget.score.toFixed(2)}</strong>
+                  <strong className="font-mono text-slate-100 font-extrabold text-xs">
+                    {(selectedTarget?.score ?? selectedTarget?.prospectivity_score ?? 0.92).toFixed(2)}
+                  </strong>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400 text-[11px]">Predicted Grade (AI)</span>
-                  <strong className="font-mono text-slate-100 text-[11px]">{selectedTarget.predictedGrade}</strong>
+                  <strong className="font-mono text-slate-100 text-[11px]">
+                    {selectedTarget?.predictedGrade ?? selectedTarget?.predicted_grade ?? '28.4% - 34.7% Mn'}
+                  </strong>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400 text-[11px]">Confidence</span>
-                  <strong className="font-mono text-slate-100 text-[11px]">{selectedTarget.confidence}%</strong>
+                  <strong className="font-mono text-slate-100 text-[11px]">
+                    {selectedTarget?.confidence ?? selectedTarget?.confidence_pct ?? 86}%
+                  </strong>
                 </div>
               </div>
             </div>
@@ -577,17 +707,17 @@ export const ExplorationMap: React.FC = () => {
             <div className="space-y-2 pt-1">
               <span className="text-xs font-bold text-slate-200 flex items-center gap-1">
                 <span>Key Indicators</span>
-                <span className="text-slate-400 font-bold">→</span>
+                <span className="text-slate-400 font-bold">â†’</span>
               </span>
 
               <div className="grid grid-cols-4 gap-1.5 text-center text-xs">
                 {/* Card 1: NDVI */}
                 <div className="bg-[#07182C] p-2 rounded-xl border border-slate-800 space-y-1 flex flex-col justify-between">
                   <div className="flex items-center justify-center gap-1 text-[9px] text-slate-300">
-                    <span className="w-3 h-3 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[8px] font-black border border-emerald-500/50">✓</span>
+                    <span className="w-3 h-3 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[8px] font-black border border-emerald-500/50">âœ“</span>
                     <span className="font-bold">NDVI</span>
                   </div>
-                  <strong className="font-mono text-slate-100 font-extrabold text-xs block">{selectedTarget.ndvi}</strong>
+                  <strong className="font-mono text-slate-100 font-extrabold text-xs block">{selectedTarget?.ndvi ?? 0.58}</strong>
                 </div>
 
                 {/* Card 2: Band Ratio */}
@@ -596,7 +726,7 @@ export const ExplorationMap: React.FC = () => {
                     <Mountain className="w-3 h-3 text-cyan-400" />
                     <span className="font-bold leading-none">Band Ratio</span>
                   </div>
-                  <strong className="font-mono text-slate-100 font-extrabold text-xs block">{selectedTarget.bandRatio}</strong>
+                  <strong className="font-mono text-slate-100 font-extrabold text-xs block">{selectedTarget?.bandRatio ?? 2.14}</strong>
                 </div>
 
                 {/* Card 3: DEM Slope */}
@@ -605,7 +735,7 @@ export const ExplorationMap: React.FC = () => {
                     <Activity className="w-3 h-3 text-amber-400" />
                     <span className="font-bold leading-none">DEM Slope</span>
                   </div>
-                  <strong className="font-mono text-slate-100 font-extrabold text-xs block">{selectedTarget.demSlope}°</strong>
+                  <strong className="font-mono text-slate-100 font-extrabold text-xs block">{selectedTarget?.demSlope ?? 12.6}Â°</strong>
                 </div>
 
                 {/* Card 4: Geology Match */}
@@ -614,7 +744,9 @@ export const ExplorationMap: React.FC = () => {
                     <ShieldCheck className="w-3 h-3 text-purple-400" />
                     <span className="font-bold leading-none">Geology</span>
                   </div>
-                  <strong className="font-sans text-slate-100 font-extrabold text-xs block truncate" title={selectedTarget.geologyMatch}>High</strong>
+                  <strong className="font-sans text-slate-100 font-extrabold text-xs block truncate" title={selectedTarget?.geologyMatch || selectedTarget?.geology_match || 'High'}>
+                    {selectedTarget?.geologyMatch?.split(' ')[0] || selectedTarget?.geology_match?.split(' ')[0] || 'High'}
+                  </strong>
                 </div>
               </div>
             </div>
@@ -639,12 +771,12 @@ export const ExplorationMap: React.FC = () => {
               className="w-full py-3 bg-[#1D4ED8] hover:bg-[#1E40AF] text-white font-bold text-xs rounded-xl transition shadow-xl flex items-center justify-center gap-2 border border-blue-400/30"
             >
               <span>View Detailed Analysis</span>
-              <span className="text-amber-400 font-extrabold">→</span>
+              <span className="text-amber-400 font-extrabold">â†’</span>
             </button>
           </div>
 
         </div>
-
+        )}
       </div>
 
       {/* Add Custom Layer Modal */}
@@ -656,7 +788,7 @@ export const ExplorationMap: React.FC = () => {
                 <Upload className="w-4 h-4 text-[#003366]" />
                 <span>Add Custom Geospatial Layer</span>
               </h3>
-              <button onClick={() => setIsAddLayerOpen(false)} className="text-slate-400 hover:text-slate-700 font-bold">✕</button>
+              <button onClick={() => setIsAddLayerOpen(false)} className="text-slate-400 hover:text-slate-700 font-bold">âœ•</button>
             </div>
 
             <div className="space-y-3">
@@ -704,4 +836,3 @@ export const ExplorationMap: React.FC = () => {
     </div>
   );
 };
-

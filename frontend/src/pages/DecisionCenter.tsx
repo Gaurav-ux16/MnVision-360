@@ -161,254 +161,245 @@ export const DecisionCenter: React.FC = () => {
         </div>
       )}
 
-      {/* Page Title Header */}
-      <div className="bg-gradient-to-r from-[#1B2170] via-[#313896] to-[#3B42A6] text-white p-6 rounded-2xl border border-[#2B308B] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      {errorMsg && (
+        <div className="bg-red-50 border-l-4 border-red-600 p-4 rounded-xl shadow-md flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <ShieldAlert className="w-6 h-6 text-red-600 shrink-0" />
+            <p className="text-xs font-bold text-red-900">{errorMsg}</p>
+          </div>
+          <button onClick={() => setErrorMsg(null)} className="text-red-700 hover:text-red-900 text-xs font-bold">
+            Dismiss
+          </button>
+        </div>
+      )}
+
+      {/* Header Banner */}
+      <div className="bg-gradient-to-r from-[#1B2170] via-[#2B308B] to-[#1B2170] text-white p-6 rounded-2xl border border-[#2B308B] shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-xs font-bold text-amber-300 uppercase tracking-wider">
-            <Zap className="w-4 h-4 text-amber-300 fill-amber-300" />
-            <span>MOIL PRESCRIPTIVE MINE OPTIMIZER ENGINE</span>
+            <ShieldCheck className="w-4 h-4 text-amber-300" />
+            <span>STAGE 11 — EXECUTIVE GOVERNANCE & DECISION SIGN-OFF</span>
           </div>
           <h1 className="text-2xl font-bold font-serif text-white mt-1">
             DECISION & GOVERNANCE CENTER
           </h1>
           <p className="text-xs text-blue-100/90 mt-1">
-            Mixed-Integer Constraint Solver evaluating block readiness, equipment availability, and crusher capacity
+            Immutable executive decision sign-off, end-to-end workflow evidence traceability, and security audit log
           </p>
         </div>
 
-        {/* Horizon Switcher */}
-        <div className="flex items-center gap-2 bg-[#1B2170]/80 backdrop-blur-sm p-1.5 rounded-full border border-white/20 shadow-inner">
-          {[7, 15, 30].map((hDays) => (
-            <button
-              key={hDays}
-              onClick={() => setSelectedHorizon(hDays)}
-              className={`px-4 py-1.5 rounded-full font-bold text-xs transition ${
-                selectedHorizon === hDays
-                  ? 'bg-white text-[#313896] shadow-sm'
-                  : 'text-blue-100 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              {hDays} Days
-            </button>
-          ))}
+        {/* Context Strip Badge */}
+        <div className="bg-white/10 backdrop-blur-md p-3.5 rounded-xl border border-white/15 text-xs font-mono space-y-1 shrink-0">
+          <div className="text-amber-300 font-bold">Decision ID: {wf.decisionId || 'DEC-PENDING'}</div>
+          <div className="text-blue-100 text-[11px]">Active Target: {targetId}</div>
+          <div className="text-blue-100 text-[11px]">Mine: {mineId} ({mineType})</div>
         </div>
       </div>
 
-      {/* SECTION 1: CURRENT RISK SUMMARY CARD */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm">
-          <span className="text-xs text-slate-500 font-semibold block">Target Production</span>
-          <strong className="text-xl font-bold text-[#313896] font-mono">
-            {selectedHorizon === 7 ? '2,800' : selectedHorizon === 15 ? '6,000' : '12,000'} MT
-          </strong>
-        </div>
-
-        <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm">
-          <span className="text-xs text-slate-500 font-semibold block">Predicted Output</span>
-          <strong className="text-xl font-bold text-[#313896] font-mono">
-            {selectedHorizon === 7 ? '2,450' : selectedHorizon === 15 ? '5,120' : '9,840'} MT
-          </strong>
-        </div>
-
-        <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm">
-          <span className="text-xs text-slate-500 font-semibold block">Expected Shortfall</span>
-          <strong className="text-xl font-bold text-red-600 font-mono">
-            -{selectedHorizon === 7 ? '350' : selectedHorizon === 15 ? '880' : '2,160'} MT
-          </strong>
-        </div>
-
-        <div className="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm flex items-center justify-between">
-          <div>
-            <span className="text-xs text-slate-500 font-semibold block">Operational Risk</span>
-            <span className="text-xs font-bold text-red-700 font-mono">
-              {selectedHorizon === 7 ? '68.5% Probability' : selectedHorizon === 15 ? '74.2% Probability' : '81.0% Probability'}
-            </span>
+      {/* SECTION 1: AUTHORITATIVE METRIC SUMMARY STRIP */}
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 font-sans text-xs">
+        <div className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm space-y-1">
+          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">TARGET PRODUCTION</span>
+          <div className="text-lg font-extrabold text-slate-900 font-mono">
+            {formatMetricVal(metrics.target_production_tonnes)}
           </div>
-          <span className="bg-red-600 text-white font-extrabold text-xs px-3 py-1 rounded-full shadow-sm">
-            {selectedHorizon === 7 ? 'MEDIUM' : 'HIGH'}
+          <span className="text-[10px] text-slate-400 font-mono">Monthly Target</span>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm space-y-1">
+          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">BASELINE FORECAST (PAGE 2)</span>
+          <div className="text-lg font-extrabold text-[#1B2170] font-mono">
+            {formatMetricVal(metrics.baseline_forecast_tonnes)}
+          </div>
+          <span className="text-[10px] text-red-600 font-mono font-bold">
+            Deficit: {metrics.baseline_shortfall_tonnes != null ? `-${formatMetricVal(metrics.baseline_shortfall_tonnes)}` : 'NOT AVAILABLE'}
+          </span>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm space-y-1">
+          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">PAGE 6 OPTIMIZED PLAN</span>
+          <div className="text-lg font-extrabold text-blue-900 font-mono">
+            {formatMetricVal(metrics.optimized_expected_production_tonnes)}
+          </div>
+          <span className="text-[10px] text-emerald-700 font-mono font-bold">Scenario: {parentScenarioId}</span>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm space-y-1">
+          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">PAGE 7 WHAT-IF RESULT</span>
+          <div className="text-lg font-extrabold text-purple-900 font-mono">
+            {formatMetricVal(metrics.whatif_predicted_production_tonnes)}
+          </div>
+          <span className="text-[10px] text-emerald-700 font-mono font-bold">Scenario: {whatifScenarioId}</span>
+        </div>
+
+        <div className="bg-emerald-50 border border-emerald-300 rounded-2xl p-4 shadow-sm space-y-1 text-emerald-950">
+          <span className="text-[10px] font-bold uppercase tracking-wider block text-emerald-800">REMAINING SHORTFALL</span>
+          <div className="text-lg font-extrabold font-mono text-emerald-700">
+            {formatMetricVal(metrics.remaining_shortfall_tonnes)}
+          </div>
+          <span className="text-[10px] font-bold font-mono text-emerald-800">
+            {metrics.remaining_shortfall_tonnes === 0 ? '100% Target Met' : 'Shortfall Tracking'}
           </span>
         </div>
       </div>
 
-      {/* SECTION 2: CONTEXTUAL SHAP ROOT CAUSES */}
-      <div className="bg-[#EBEFFA] border border-[#D0DCF5] text-[#313896] rounded-2xl p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
-        <div className="flex items-center gap-2">
-          <ShieldAlert className="w-5 h-5 text-amber-600 shrink-0" />
-          <div>
-            <span className="font-bold text-[#313896]">Contextual SHAP Guidance:</span>
-            <span className="text-slate-700 ml-1.5 font-sans">
-              Equipment downtime (EX-104) & Block B-09 readiness delays drive {selectedHorizon}-day deficit. Optimizer prioritizing alternate ready blocks and LHD redeployment.
-            </span>
+      {/* SECTION 2: END-TO-END WORKFLOW TRACEABILITY CHAIN */}
+      <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4">
+        <h2 className="text-base font-bold text-[#1B2170] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
+          <span>End-to-End Workflow Evidence & Traceability Chain</span>
+          <span className="text-xs font-mono text-[#1B2170] bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">Audit Verifiable</span>
+        </h2>
+
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-xs font-mono">
+          <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
+            <span className="text-[10px] text-slate-500 font-sans block font-bold">1. Target ID</span>
+            <strong className="text-[#1B2170]">{targetId}</strong>
+          </div>
+          <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
+            <span className="text-[10px] text-slate-500 font-sans block font-bold">2. Investigation ID</span>
+            <strong className="text-[#1B2170]">{wf.investigationId || 'INV-2026-001'}</strong>
+          </div>
+          <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
+            <span className="text-[10px] text-slate-500 font-sans block font-bold">3. Resource ID</span>
+            <strong className="text-[#1B2170]">{wf.resourceId || 'RES-BAL-001'}</strong>
+          </div>
+          <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
+            <span className="text-[10px] text-slate-500 font-sans block font-bold">4. Baseline Forecast ID</span>
+            <strong className="text-[#1B2170]">{forecastId}</strong>
+          </div>
+          <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
+            <span className="text-[10px] text-slate-500 font-sans block font-bold">5. Shortfall Alert ID</span>
+            <strong className="text-red-700">{shortfallId}</strong>
+          </div>
+          <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
+            <span className="text-[10px] text-slate-500 font-sans block font-bold">6. Corrective Actions</span>
+            <strong className="text-slate-800 font-sans">2 Actions Selected</strong>
+          </div>
+          <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
+            <span className="text-[10px] text-slate-500 font-sans block font-bold">7. MILP Scenario ID</span>
+            <strong className="text-blue-900">{parentScenarioId}</strong>
+          </div>
+          <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-xl space-y-1">
+            <span className="text-[10px] text-slate-500 font-sans block font-bold">8. What-If Scenario ID</span>
+            <strong className="text-purple-900">{whatifScenarioId}</strong>
+          </div>
+          <div className="p-3 bg-emerald-50 border border-emerald-300 rounded-xl space-y-1 col-span-2">
+            <span className="text-[10px] text-emerald-800 font-sans block font-bold">9. Decision ID</span>
+            <strong className="text-emerald-900">{wf.decisionId || 'DEC-2026-W88'} (Immutable)</strong>
           </div>
         </div>
-        <span className="text-[10px] font-mono text-[#313896] bg-white border border-[#D0DCF5] px-2.5 py-1 rounded-full shrink-0 shadow-sm font-semibold">
-          Tree SHAP Context Linked
-        </span>
       </div>
 
-      {/* SECTION 3: RECOMMENDED FEASIBLE CANDIDATE PLANS */}
-      <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h2 className="text-base font-bold text-[#313896] font-serif flex items-center gap-2">
-            <span>Candidate Recovery Plans (MILP Constraint Optimizer)</span>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* LEFT COLUMN: EXECUTIVE SIGN-OFF FORM */}
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4 font-sans">
+          <h2 className="text-base font-bold text-[#1B2170] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
+            <span>Executive Decision & Dispatch Sign-Off</span>
+            <UserCheck className="w-5 h-5 text-[#1B2170]" />
           </h2>
-          <div className="flex items-center gap-2">
-            {candidatePlans.length > 1 && (
-              <button
-                onClick={() => setCompareModalOpen(true)}
-                className="px-3.5 py-1.5 bg-[#EBEFFA] text-[#313896] hover:bg-[#D0DCF5] text-xs font-bold rounded-full transition border border-[#D0DCF5]"
+
+          {/* Authenticated Actor Display (Backend Derived) */}
+          <div className="p-3.5 bg-blue-50/70 border border-blue-200 rounded-xl flex items-center justify-between text-xs">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-full bg-[#1B2170] text-amber-300 font-bold flex items-center justify-center text-xs">
+                {currentActorName.charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <span className="font-bold text-slate-900 block">{currentActorName}</span>
+                <span className="text-[11px] text-slate-600 font-medium">Role: <strong className="text-[#1B2170]">{currentActorRole}</strong></span>
+              </div>
+            </div>
+            <span className="bg-white border border-blue-300 text-blue-900 px-2.5 py-1 rounded-full font-mono text-[10px] font-bold">
+              Authenticated JWT Actor
+            </span>
+          </div>
+
+          <form onSubmit={handleSignoff} className="space-y-4 text-xs">
+            <div>
+              <label className="block font-bold text-slate-700 mb-1">Decision Sign-Off Status *</label>
+              <select
+                value={decisionStatus}
+                onChange={(e) => setDecisionStatus(e.target.value as any)}
+                className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-slate-200 rounded-xl font-bold text-slate-900"
               >
-                {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4 text-orange-300" />}
+                <option value="APPROVED">APPROVED (Formal Executive Approval)</option>
+                <option value="DISPATCHED">DISPATCHED (Committed to Mine Dispatch Queue)</option>
+                <option value="REJECTED">REJECTED (Operational Plan Declined)</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block font-bold text-slate-700 mb-1">Executive Operational Justification & Dispatch Notes *</label>
+              <textarea
+                rows={4}
+                required
+                value={executiveNotes}
+                onChange={(e) => setExecutiveNotes(e.target.value)}
+                className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border border-slate-200 rounded-xl text-slate-900"
+              />
+            </div>
+
+            <div className="pt-2 flex justify-end">
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-7 py-3 bg-[#1B2170] hover:bg-[#121650] text-white font-bold text-xs rounded-full transition shadow-md flex items-center gap-2 border border-amber-400/40 disabled:opacity-50"
+              >
+                {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4 text-amber-300" />}
                 <span>RECORD EXECUTIVE DECISION & DISPATCH</span>
               </button>
-            )}
-            <span className="text-xs text-[#313896] font-mono bg-[#EBEFFA] px-2.5 py-1 rounded-full border border-[#D0DCF5]">{candidatePlans.length} Feasible Option(s)</span>
-          </div>
+            </div>
+          </form>
         </div>
 
-        {/* INFEASIBLE NOTICE (Requirement 11 Edge Case 7) */}
-        {isInfeasible ? (
-          <div className="bg-red-50 border border-red-300 p-6 rounded-2xl text-center space-y-2">
-            <ShieldAlert className="w-10 h-10 text-red-600 mx-auto" />
-            <h3 className="text-base font-bold text-red-900">
-              No feasible recovery plan found under current constraints.
-            </h3>
-            <p className="text-xs text-red-700 max-w-xl mx-auto">
-              All candidate blocks fail readiness requirements (Readiness Score &lt; 80%) or active equipment downtime exceeds operational limits. Relax constraints to run What-if analysis.
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {candidatePlans.map((plan) => (
-              <div 
-                key={plan.plan_id}
-                className="bg-[#F8FAFC] rounded-2xl border border-slate-200/80 p-5 space-y-4 hover:border-[#313896] transition shadow-sm flex flex-col justify-between"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
-                    <span className="font-serif font-bold text-base text-[#313896]">{plan.plan_name}</span>
-                    <span className={`font-extrabold text-[10px] px-2.5 py-0.5 rounded-full ${
-                      plan.feasibility === 'FEASIBLE'
-                        ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                        : 'bg-amber-100 text-amber-800 border border-amber-200'
+        {/* RIGHT COLUMN: RECENT DECISION SNAPSHOTS */}
+        <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4 font-sans">
+          <h3 className="text-base font-bold text-[#1B2170] font-serif border-b border-slate-100 pb-3 flex items-center justify-between">
+            <span>Recorded Decision Snapshots</span>
+            <Lock className="w-4 h-4 text-slate-500" />
+          </h3>
+
+          <div className="space-y-3">
+            {decisionHistory.length === 0 ? (
+              <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl text-center text-slate-500 text-xs">
+                No executive decisions recorded in current session yet.
+              </div>
+            ) : (
+              decisionHistory.map((dec) => (
+                <div key={dec.decision_id} className="p-3.5 bg-[#F8FAFC] border border-slate-200/80 rounded-xl text-xs space-y-2 font-mono">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-[#1B2170]">{dec.decision_id}</span>
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                      dec.decision_status === 'APPROVED' || dec.decision_status === 'DISPATCHED'
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-red-100 text-red-800'
                     }`}>
                       {dec.decision_status}
                     </span>
                   </div>
-
-                  {/* Actions List */}
-                  <div className="space-y-2 text-xs">
-                    <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Corrective Actions:</span>
-                    {plan.actions.map((act, idx) => (
-                      <div key={idx} className="p-2.5 bg-white rounded-xl border border-slate-200/80 text-slate-700 space-y-0.5 shadow-sm">
-                        <div className="font-bold text-[#313896] flex items-center justify-between">
-                          <span>{act.action_type}</span>
-                          <span className="text-emerald-700 font-mono">+{act.impact_tonnes} MT</span>
-                        </div>
-                        <p className="text-[11px] text-slate-600 leading-snug">{act.details}</p>
-                      </div>
-                    ))}
+                  <div className="text-[11px] text-slate-600 font-sans">
+                    Actor: <strong>{dec.actor.username}</strong> ({dec.actor.role})
                   </div>
-
-                  {/* Constraints Check Badges */}
-                  <div className="space-y-1.5 pt-1">
-                    <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Constraints Check:</span>
-                    <div className="space-y-1 text-[11px]">
-                      {plan.constraints_status.map((c, cIdx) => (
-                        <div key={cIdx} className="flex items-center justify-between text-slate-600 font-sans">
-                          <span>{c.constraint}</span>
-                          <span className={`font-bold px-2 py-0.5 rounded-full text-[10px] ${
-                            c.status === 'PASS' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
-                          }`}>
-                            {c.status}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Output Recovery Numbers */}
-                  <div className="p-3.5 bg-[#313896] text-white rounded-xl text-xs space-y-1 font-mono shadow-sm">
-                    <div className="flex justify-between">
-                      <span className="text-blue-200">Expected Recovery:</span>
-                      <strong className="text-emerald-300 font-bold">+{plan.expected_recovery_tonnes} MT</strong>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-blue-200">Remaining Shortfall:</span>
-                      <strong className="text-amber-300 font-bold">{plan.remaining_shortfall_tonnes} MT</strong>
-                    </div>
+                  <div className="text-[10px] text-slate-400">
+                    {new Date(dec.timestamp).toLocaleString()}
                   </div>
                 </div>
-
-                {/* Apply Button (Requires User Review - Requirement 10) */}
-                <div className="pt-3 border-t border-slate-200/80">
-                  <button
-                    onClick={() => setSelectedPlanModal(plan)}
-                    className="w-full py-2.5 bg-[#313896] hover:bg-[#282D7A] text-white font-bold text-xs rounded-full transition shadow-sm flex items-center justify-center gap-2"
-                  >
-                    <CheckCircle2 className="w-4 h-4 text-amber-300" />
-                    <span>Apply {plan.plan_id}</span>
-                  </button>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 
       </div>
 
-      {/* APPROVAL MODAL (Human-in-the-Loop Review - Requirement 10) */}
-      {selectedPlanModal && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl border border-slate-300 w-full max-w-lg overflow-hidden animate-scaleIn">
-            <div className="bg-gradient-to-r from-[#1B2170] via-[#313896] to-[#3B42A6] text-white p-4 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Zap className="w-5 h-5 text-amber-300 fill-amber-300" />
-                <h3 className="font-bold text-sm uppercase tracking-wide">
-                  Review & Approve Plan — {selectedPlanModal.plan_name}
-                </h3>
-              </div>
-              <button onClick={() => setSelectedPlanModal(null)} className="text-slate-400 hover:text-white">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="p-5 space-y-4 text-xs font-sans">
-              <div className="bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-2">
-                <strong className="text-[#0B192C] font-bold text-sm block">Summary of Actions:</strong>
-                <ul className="list-disc list-inside space-y-1 text-slate-700">
-                  {selectedPlanModal.actions.map((act, idx) => (
-                    <li key={idx}><strong className="text-blue-900">{act.action_type}:</strong> {act.details}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="p-3 bg-emerald-50 border border-emerald-300 rounded-lg text-emerald-900 font-mono font-bold flex justify-between">
-                <span>Expected Recovery Output:</span>
-                <span>+{selectedPlanModal.expected_recovery_tonnes} MT</span>
-              </div>
-
-              <p className="text-[11px] text-slate-500 italic">
-                * Operational actions require user approval before dispatching to MOIL command.
-              </p>
-
-              <div className="pt-2 flex items-center justify-end gap-3 border-t border-slate-200">
-                <button
-                  onClick={() => setSelectedPlanModal(null)}
-                  className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-bold hover:bg-slate-100 transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => handleApplyPlan(selectedPlanModal)}
-                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow transition flex items-center gap-1.5"
-                >
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>APPROVE & DISPATCH TO FIELD</span>
-                </button>
-              </div>
-            </div>
-          </div>
+      {/* SECTION 3: LIVE SECURITY & OPERATIONAL AUDIT STREAM */}
+      <div className="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4 font-sans">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <h2 className="text-base font-bold text-[#1B2170] font-serif flex items-center gap-2">
+            <Clock className="w-5 h-5 text-[#1B2170]" />
+            <span>Security & Operational Audit Stream (Live Event Log)</span>
+          </h2>
+          <span className="text-xs font-mono text-slate-500">{auditLogs.length} Event(s) Loaded</span>
         </div>
 
         <div className="overflow-x-auto">
@@ -430,7 +421,7 @@ export const DecisionCenter: React.FC = () => {
                   <td className="p-2.5 text-slate-500 shrink-0">{new Date(log.timestamp).toLocaleTimeString()}</td>
                   <td className="p-2.5 font-bold text-slate-900">{log.username}</td>
                   <td className="p-2.5 text-slate-600 font-sans">{log.role}</td>
-                  <td className="p-2.5 font-bold text-[#0B4F8A]">{log.action}</td>
+                  <td className="p-2.5 font-bold text-[#1B2170]">{log.action}</td>
                   <td className="p-2.5 text-slate-600 truncate max-w-[150px]">{log.resource}</td>
                   <td className="p-2.5">
                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${

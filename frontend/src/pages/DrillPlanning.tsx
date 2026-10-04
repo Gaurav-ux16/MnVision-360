@@ -188,7 +188,7 @@ export const DrillPlanning: React.FC = () => {
                     >
                       <span>Field Survey</span>
                       <ArrowRight className="w-3 h-3" />
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               ))}

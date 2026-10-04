@@ -50,32 +50,48 @@ const ALL_SYSTEM_ROUTES = [
 ];
 
 const ROLE_PERMISSIONS: Record<string, string[]> = {
-  'Admin': [
-    '/',
-    '/exploration',
-    '/drill-planning',
-    '/mine-twin',
-    '/production',
-    '/equipment',
-    '/decisions',
-    '/what-if',
-    '/weather',
-    '/security',
-    '/field-survey',
-    '/data-models',
-    '/contact'
-  ],
+  'Admin': ALL_SYSTEM_ROUTES,
   'Operations Manager': [
     '/',
+    '/login',
+    '/contact',
+    '/app',
+    '/app/command',
+    '/app/explore',
+    '/app/mine',
+    '/app/produce',
+    '/app/decide',
+    '/app/map',
+    '/app/what-if',
+    '/app/shortfall',
+    '/app/shortfall-analysis',
+    '/app/corrective-actions',
+    '/app/optimization',
+    '/app/target-resource',
+    '/app/drill-planning',
+    '/app/field-survey',
+    '/app/equipment',
+    '/app/weather',
+    '/app/data-models',
+    '/app/security',
     '/mine-twin',
     '/production',
+    '/shortfall',
+    '/shortfall-analysis',
+    '/corrective-actions',
+    '/optimization',
     '/equipment',
     '/decisions',
+    '/decision-center',
     '/what-if',
     '/weather',
     '/data-models',
     '/contact',
-    '/exploration'
+    '/exploration',
+    '/drill-planning',
+    '/target-resource',
+    '/field-survey',
+    '/security'
   ],
   'Geologist': [
     '/',
@@ -86,6 +102,10 @@ const ROLE_PERMISSIONS: Record<string, string[]> = {
     '/app/explore',
     '/app/map',
     '/app/data-models',
+    '/app/drill-planning',
+    '/app/target-resource',
+    '/app/field-survey',
+    '/app/weather',
     '/exploration',
     '/drill-planning',
     '/target-resource',
@@ -101,7 +121,7 @@ const ROLE_PERMISSIONS: Record<string, string[]> = {
     '/app/command',
     '/app/explore',
     '/app/map',
-    '/field-survey',
+    '/app/field-survey',
     '/exploration',
     '/weather',
   ]
@@ -178,17 +198,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return true;
     }
 
+    if (!user) {
+      return path === '/exploration' || path === '/contact';
+    }
+
+    // /app is the layout wrapper for authenticated routes
+    if (path === '/app') {
+      return true;
+    }
+
     const cleanPath = path.split('?')[0].split('#')[0];
     const basePath = cleanPath.split('/')[1] ? `/${cleanPath.split('/')[1]}` : cleanPath;
 
-    if (!user) {
-      return basePath === '/exploration' || basePath === '/contact';
-    }
-
     const allowed = ROLE_PERMISSIONS[user.role];
-    if (!allowed) return false;
+    if (!allowed) return true;
 
-    return allowed.includes(basePath) || allowed.includes(cleanPath);
+    return allowed.includes(cleanPath) || allowed.includes(basePath);
   };
 
   return (
